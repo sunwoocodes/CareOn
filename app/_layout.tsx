@@ -4,8 +4,7 @@ import 'react-native-reanimated';
 import '../global.css';
 
 import { useFonts } from 'expo-font';
-import { Manrope_700Bold } from '@expo-google-fonts/manrope';
-import { PlusJakartaSans_400Regular, PlusJakartaSans_500Medium } from '@expo-google-fonts/plus-jakarta-sans';
+// 기존 구글 폰트(Manrope, PlusJakartaSans) 임포트는 지웠습니다!
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 
@@ -15,10 +14,11 @@ SplashScreen.preventAutoHideAsync().catch(() => {
 });
 
 export default function RootLayout() {
+  // 🌟 1. 프리텐다드 폰트로 교체! (경로: ../assets/fonts/...)
   const [loaded, error] = useFonts({
-    'Manrope-Bold': Manrope_700Bold,
-    'PlusJakartaSans-Regular': PlusJakartaSans_400Regular,
-    'PlusJakartaSans-Medium': PlusJakartaSans_500Medium,
+    'Pretendard-Regular': require('../assets/fonts/Pretendard-Regular.ttf'),
+    'Pretendard-Bold': require('../assets/fonts/Pretendard-Bold.ttf'),
+    'Pretendard-ExtraBold': require('../assets/fonts/Pretendard-ExtraBold.ttf'),
   });
 
   const [isReady, setIsReady] = useState(false);
@@ -27,13 +27,13 @@ export default function RootLayout() {
     if (error) {
       console.error("폰트 로딩 중 에러 발생:", error);
       // 에러가 발생해도 앱 진입은 가능하게 처리
-      SplashScreen.hideAsync().catch(() => {});
+      SplashScreen.hideAsync().catch(() => { });
       setIsReady(true);
     }
 
     if (loaded) {
       console.log("폰트 로딩 완료");
-      SplashScreen.hideAsync().catch(() => {});
+      SplashScreen.hideAsync().catch(() => { });
       setIsReady(true);
     }
 
@@ -41,7 +41,7 @@ export default function RootLayout() {
     const timeout = setTimeout(() => {
       if (!isReady && !loaded) {
         console.warn("로딩 타임아웃: 스플래시 화면을 강제로 숨깁니다.");
-        SplashScreen.hideAsync().catch(() => {});
+        SplashScreen.hideAsync().catch(() => { });
         setIsReady(true);
       }
     }, 5000);
@@ -57,6 +57,7 @@ export default function RootLayout() {
   return (
     <>
       <Stack>
+        {/* 선우님이 설정해두신 스크린 목록 그대로 유지! */}
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="diagnosis-analysis" options={{ headerShown: false }} />
         <Stack.Screen name="diagnosis" options={{ headerShown: false }} />
@@ -68,4 +69,3 @@ export default function RootLayout() {
     </>
   );
 }
-

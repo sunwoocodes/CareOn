@@ -59,9 +59,11 @@ module.exports = {
         "macro-fat": "#EC4899",
       },
       fontFamily: {
-        "headline": ["Manrope-Bold"],
-        "body": ["PlusJakartaSans-Regular"],
-        "label": ["PlusJakartaSans-Medium"],
+        // 🌟 프리텐다드 폰트로 교체 완료!
+        "sans": ["Pretendard-Regular"],       // 앱 기본 글씨체
+        "body": ["Pretendard-Regular"],       // 본문용 
+        "label": ["Pretendard-Bold"],         // 버튼, 라벨 등 약간 강조할 때
+        "headline": ["Pretendard-ExtraBold"], // 가장 큰 제목(타이틀)용
       }
     },
   },
