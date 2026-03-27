@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+
+<html class="light" lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CareOn - Diet Log</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Plus+Jakarta_Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-surface-variant": "#434655",
+              "secondary-fixed": "#d3e4fe",
+              "on-primary-fixed-variant": "#003ea8",
+              "surface-container": "#eceef0",
+              "error-container": "#ffdad6",
+              "surface-bright": "#f7f9fb",
+              "outline": "#737686",
+              "on-tertiary-fixed": "#002117",
+              "inverse-primary": "#b4c5ff",
+              "tertiary": "#00614b",
+              "tertiary-fixed": "#64fbce",
+              "secondary": "#505f76",
+              "outline-variant": "#c3c6d7",
+              "on-tertiary-fixed-variant": "#00513e",
+              "on-secondary-fixed": "#0b1c30",
+              "on-background": "#191c1e",
+              "secondary-fixed-dim": "#b7c8e1",
+              "on-secondary": "#ffffff",
+              "on-primary": "#ffffff",
+              "primary-fixed": "#dbe1ff",
+              "inverse-on-surface": "#eff1f3",
+              "error": "#ba1a1a",
+              "on-error-container": "#93000a",
+              "background": "#f7f9fb",
+              "on-primary-fixed": "#00174b",
+              "tertiary-container": "#007c60",
+              "tertiary-fixed-dim": "#3fdeb3",
+              "surface-tint": "#0053db",
+              "on-tertiary-container": "#b7ffe3",
+              "on-tertiary": "#ffffff",
+              "surface-dim": "#d8dadc",
+              "surface-container-lowest": "#ffffff",
+              "primary-fixed-dim": "#b4c5ff",
+              "on-error": "#ffffff",
+              "primary": "#004ac6",
+              "inverse-surface": "#2d3133",
+              "surface-variant": "#e0e3e5",
+              "surface-container-high": "#e6e8ea",
+              "primary-container": "#2563eb",
+              "on-primary-container": "#eeefff",
+              "on-secondary-fixed-variant": "#38485d",
+              "surface-container-low": "#f2f4f6",
+              "surface": "#f7f9fb",
+              "surface-container-highest": "#e0e3e5",
+              "secondary-container": "#d0e1fb",
+              "on-secondary-container": "#54647a",
+              "on-surface": "#191c1e",
+              "macro-carb": "#FFD700",
+              "macro-protein": "#2563EB",
+              "macro-fat": "#EC4899"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Plus Jakarta Sans"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "0.5rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .font-headline { font-family: 'Manrope', sans-serif; }
+        body {
+          min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#f7f9fb]/70 dark:bg-[#191c1e]/70 backdrop-blur-3xl shadow-[0_12px_32px_-4px_rgba(25,28,30,0.06)]">
+<div class="flex items-center px-6 h-16 w-full justify-between">
+<div class="flex items-center gap-4">
+<button class="text-[#2563EB] dark:text-[#4385ff] active:scale-95 duration-200">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="font-headline font-bold text-lg tracking-tight">식단 상세 기록</h1>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-headline font-extrabold text-[#2563EB]">CareOn</span>
+</div>
+</div>
+</header>
+<main class="pt-20 px-6 max-w-2xl mx-auto space-y-8">
+<!-- Weekly Calendar Section -->
+<section class="mt-4">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-headline font-bold text-lg text-on-surface">2024년 5월</h3>
+<span class="material-symbols-outlined text-secondary text-xl">calendar_month</span>
+</div>
+<div class="flex justify-between">
+<div class="flex flex-col items-center gap-2 group cursor-pointer">
+<span class="text-[11px] font-bold text-secondary">월</span>
+<div class="w-10 h-10 rounded-2xl flex items-center justify-center bg-surface-container-low text-on-surface font-headline font-bold text-sm">12</div>
+<div class="w-6 h-6 rounded-full bg-secondary-container/50 flex items-center justify-center">
+<span class="text-[10px] font-extrabold text-on-secondary-container">82</span>
+</div>
+</div>
+<div class="flex flex-col items-center gap-2 group cursor-pointer">
+<span class="text-[11px] font-bold text-secondary">화</span>
+<div class="w-10 h-10 rounded-2xl flex items-center justify-center bg-surface-container-low text-on-surface font-headline font-bold text-sm">13</div>
+<div class="w-6 h-6 rounded-full bg-secondary-container/50 flex items-center justify-center">
+<span class="text-[10px] font-extrabold text-on-secondary-container">75</span>
+</div>
+</div>
+<div class="flex flex-col items-center gap-2 group cursor-pointer">
+<span class="text-[11px] font-bold text-primary">수</span>
+<div class="w-10 h-10 rounded-2xl flex items-center justify-center bg-primary text-white shadow-lg shadow-primary/30 font-headline font-bold text-sm">14</div>
+<div class="w-6 h-6 rounded-full bg-primary/30 flex items-center justify-center ring-2 ring-primary/10">
+<span class="text-[10px] font-extrabold text-primary">92</span>
+</div>
+</div>
+<div class="flex flex-col items-center gap-2 group cursor-pointer">
+<span class="text-[11px] font-bold text-secondary">목</span>
+<div class="w-10 h-10 rounded-2xl flex items-center justify-center bg-surface-container-low text-on-surface font-headline font-bold text-sm">15</div>
+<div class="w-6 h-6 rounded-full bg-secondary-container/50 flex items-center justify-center">
+<span class="text-[10px] font-extrabold text-on-secondary-container">88</span>
+</div>
+</div>
+<div class="flex flex-col items-center gap-2 group cursor-pointer">
+<span class="text-[11px] font-bold text-secondary">금</span>
+<div class="w-10 h-10 rounded-2xl flex items-center justify-center bg-surface-container-low text-on-surface font-headline font-bold text-sm">16</div>
+<div class="w-6 h-6 rounded-full bg-surface-container flex items-center justify-center">
+<span class="text-[10px] font-bold text-secondary opacity-50">--</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Greeting Section -->
+<section>
+<h2 class="text-on-surface font-headline font-extrabold text-2xl leading-tight">
+                안녕하세요, 선우님!<br/>
+<span class="text-secondary opacity-80 text-lg font-medium">오늘의 영양 상태를 한눈에 확인해보세요.</span>
+</h2>
+</section>
+<!-- Main Insight Card -->
+<section class="bg-surface-container-lowest rounded-2xl p-6 shadow-[0_12px_32px_-4px_rgba(25,28,30,0.06)] overflow-hidden relative border border-outline-variant/10">
+<div class="flex items-center justify-between">
+<div class="space-y-2">
+<p class="text-secondary font-semibold text-sm">오늘의 식단 점수</p>
+<div class="flex items-baseline gap-1">
+<span class="text-4xl font-headline font-extrabold text-primary">92</span>
+<span class="text-xl font-bold text-on-surface">점</span>
+</div>
+<div class="inline-flex items-center gap-1.5 bg-tertiary-container/10 px-3 py-1 rounded-full">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span>
+<span class="text-on-tertiary-fixed-variant text-xs font-bold">매우 우수함</span>
+</div>
+</div>
+<div class="relative w-28 h-28 flex items-center justify-center">
+<!-- Gauge Overlays -->
+<svg class="w-full h-full -rotate-90">
+<!-- Background -->
+<circle class="text-surface-container" cx="56" cy="56" fill="transparent" r="48" stroke="currentColor" stroke-width="12"></circle>
+<!-- Thinner Gauge (Calorie Intake: 1,070 / 2,100 ≈ 51%) -->
+<circle class="text-primary/20" cx="56" cy="56" fill="transparent" r="42" stroke="currentColor" stroke-dasharray="263.89" stroke-dashoffset="129.3" stroke-linecap="round" stroke-width="6"></circle>
+<!-- Main Gauge (Diet Score: 92%) -->
+<circle class="text-primary" cx="56" cy="56" fill="transparent" r="48" stroke="currentColor" stroke-dasharray="301.59" stroke-dashoffset="24.12" stroke-linecap="round" stroke-width="12"></circle>
+</svg>
+<span class="absolute text-primary font-headline font-bold text-xl">92%</span>
+</div>
+</div>
+<div class="mt-6 pt-6 border-t border-outline-variant/15 flex justify-between">
+<div class="text-center">
+<p class="text-[10px] text-secondary font-bold uppercase tracking-wider mb-1">칼로리</p>
+<p class="text-on-surface font-bold text-sm">1,070 / 2,100</p>
+</div>
+<div class="text-center border-l border-outline-variant/15 pl-6">
+<p class="text-[10px] text-secondary font-bold uppercase tracking-wider mb-1">남은 칼로리</p>
+<p class="text-primary font-bold text-sm">1,030 kcal</p>
+</div>
+</div>
+</section>
+<!-- Timeline Section -->
+<section class="space-y-6">
+<div class="flex items-center justify-between">
+<h3 class="font-headline font-bold text-xl text-on-surface">오늘의 타임라인</h3>
+<button class="text-primary text-sm font-semibold">전체보기</button>
+</div>
+<!-- Breakfast -->
+<div class="relative pl-10">
+<div class="absolute left-[11px] top-8 bottom-0 w-[2px] bg-surface-container"></div>
+<div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-primary-container flex items-center justify-center ring-4 ring-background">
+<span class="material-symbols-outlined text-[14px] text-white">wb_twilight</span>
+</div>
+<div class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm border border-outline-variant/10">
+<div class="flex flex-col md:flex-row">
+<div class="w-full md:w-32 h-32 flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="close-up of fresh avocado chicken salad with cherry tomatoes and greens in a white bowl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYrJ74jNztfKIjQEMjB_vk-saDD4PFK3AVKRxSrO4z-b8j8TBy687MJunpmnxYB0VNpnVFCYlCkHoEDoDva3OCKWLxpD6WCdlFJZysBTRXR1dDQXKS6zlDZkP4K-q5X8aP3y_VAjOg1O2RB4mnnj5ekytbhIVDVphqjKhXzTskVdCb_Dwk-rtFRymxDLWWwaMWLDq-GqrOF_PZg8XwpRU98hF5xqI34pOlUlzH8WdIpqIPmz27HYv0TEQUrpfQGSTFIl3BacoRX2D3"/>
+</div>
+<div class="p-4 flex-grow space-y-3">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-xs text-secondary font-medium">08:30 AM · 아침</p>
+<h4 class="text-on-surface font-bold text-lg">닭가슴살 아보카도 샐러드</h4>
+</div>
+<span class="text-primary font-headline font-bold text-lg">420 kcal</span>
+</div>
+<div class="grid grid-cols-3 gap-3">
+<div class="space-y-1">
+<div class="flex justify-between text-[10px] font-bold">
+<span class="text-secondary">탄수화물</span>
+<span class="text-on-surface">25g</span>
+</div>
+<div class="h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-macro-carb" style="width: 40%"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-[10px] font-bold">
+<span class="text-secondary">단백질</span>
+<span class="text-on-surface">38g</span>
+</div>
+<div class="h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-macro-protein" style="width: 75%"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-[10px] font-bold">
+<span class="text-secondary">지방</span>
+<span class="text-on-surface">18g</span>
+</div>
+<div class="h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-macro-fat" style="width: 50%"></div>
+</div>
+</div>
+</div>
+<div class="flex gap-2">
+<span class="bg-surface-container px-2 py-0.5 rounded-lg text-[10px] font-bold text-on-secondary-container">저탄고지</span>
+<span class="bg-tertiary-container/10 px-2 py-0.5 rounded-lg text-[10px] font-bold text-on-tertiary-fixed-variant">고단백</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Lunch -->
+<div class="relative pl-10">
+<div class="absolute left-[11px] top-8 bottom-0 w-[2px] bg-surface-container"></div>
+<div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-primary-container flex items-center justify-center ring-4 ring-background">
+<span class="material-symbols-outlined text-[14px] text-white">light_mode</span>
+</div>
+<div class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm border border-outline-variant/10">
+<div class="flex flex-col md:flex-row">
+<div class="w-full md:w-32 h-32 flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="authentic korean beef bulgogi rice bowl with colorful vegetables and sesame seeds" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrpYtY0KGWGHto9AsdQjM83Ark0VD_1B4dk-gaB-gCBHQjyJzU1ycqfce-hh_5CPTo9QOhWcurigmhsrPHot_ny97-uP9PUJK1mgQTjfIQLJ8I25EtRAJPw6UgIP30PSjAU84KE0E7bawf3iJfqTavnHUn2JPGk7NzayKFqEhu3DxX6HPn86tJ2cKHvUcMaoj2QKfTA-j5z6S5bdcu9LN-sobJNdSlrqROF1LECIaaj5dJcDPf7ZuJJxxdkrrGmzkvGqeB2uln7_S2"/>
+</div>
+<div class="p-4 flex-grow space-y-3">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-xs text-secondary font-medium">12:45 PM · 점심</p>
+<h4 class="text-on-surface font-bold text-lg">불고기 덮밥</h4>
+</div>
+<span class="text-primary font-headline font-bold text-lg">650 kcal</span>
+</div>
+<div class="grid grid-cols-3 gap-3">
+<div class="space-y-1">
+<div class="flex justify-between text-[10px] font-bold">
+<span class="text-secondary">탄수화물</span>
+<span class="text-on-surface">82g</span>
+</div>
+<div class="h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-macro-carb" style="width: 80%"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-[10px] font-bold">
+<span class="text-secondary">단백질</span>
+<span class="text-on-surface">28g</span>
+</div>
+<div class="h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-macro-protein" style="width: 55%"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-[10px] font-bold">
+<span class="text-secondary">지방</span>
+<span class="text-on-surface">22g</span>
+</div>
+<div class="h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-macro-fat" style="width: 60%"></div>
+</div>
+</div>
+</div>
+<div class="flex gap-2">
+<span class="bg-surface-container px-2 py-0.5 rounded-lg text-[10px] font-bold text-on-secondary-container">균형 잡힌</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Dinner Scheduled -->
+<div class="relative pl-10">
+<div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-surface-container flex items-center justify-center ring-4 ring-background">
+<span class="material-symbols-outlined text-[14px] text-secondary">bedtime</span>
+</div>
+<div class="bg-surface-container-low rounded-2xl p-6 border-2 border-dashed border-outline-variant/30 flex flex-col items-center justify-center text-center space-y-3">
+<p class="text-secondary font-semibold">저녁 식사 예정</p>
+<button class="bg-primary hover:bg-primary-container text-white px-5 py-2.5 rounded-full flex items-center gap-2 transition-all active:scale-95 shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined">add_a_photo</span>
+<span class="font-bold text-sm">식단 기록하기</span>
+</button>
+<p class="text-[11px] text-on-surface-variant/60 font-medium">오후 07:00 예정</p>
+</div>
+</div>
+</section>
+<!-- Stats Bento Section -->
+<section class="grid grid-cols-2 gap-4 pb-8">
+<div class="bg-primary/5 p-5 rounded-2xl space-y-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">water_drop</span>
+<p class="text-secondary text-xs font-bold">수분 섭취</p>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="text-xl font-headline font-bold text-on-surface">1.2</span>
+<span class="text-xs text-secondary font-bold">/ 2.0L</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 60%"></div>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant/10 p-5 rounded-2xl space-y-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">monitoring</span>
+<p class="text-secondary text-xs font-bold">나트륨/당류 현황</p>
+</div>
+<div class="space-y-2">
+<div class="space-y-1">
+<div class="flex justify-between items-center text-[10px] font-bold">
+<span class="text-on-surface">나트륨</span>
+<span class="text-error font-extrabold uppercase">Warning</span>
+</div>
+<div class="h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-error" style="width: 85%"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between items-center text-[10px] font-bold">
+<span class="text-on-surface">당류</span>
+<span class="text-tertiary font-extrabold uppercase">Safe</span>
+</div>
+<div class="h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-tertiary" style="width: 32%"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full rounded-t-[24px] z-50 bg-white/70 dark:bg-[#1c1f21]/70 backdrop-blur-3xl shadow-[0_-12px_32px_-4px_rgba(25,28,30,0.06)]">
+<div class="flex justify-around items-center h-20 px-4 pb-safe w-full">
+<button class="flex flex-col items-center justify-center text-[#54647a] dark:text-[#aab4be] px-4 py-1.5 hover:bg-[#f2f4f6] dark:hover:bg-[#2c2f32] active:scale-90 duration-300 ease-out">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-body font-medium text-[11px]">홈</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-[#2563EB]/10 text-[#2563EB] dark:text-[#4385ff] rounded-2xl px-4 py-1.5 active:scale-90 duration-300 ease-out">
+<span class="material-symbols-outlined" data-icon="edit_note">edit_note</span>
+<span class="font-body font-medium text-[11px]">기록</span>
+</button>
+<button class="flex flex-col items-center justify-center text-[#54647a] dark:text-[#aab4be] px-4 py-1.5 hover:bg-[#f2f4f6] dark:hover:bg-[#2c2f32] active:scale-90 duration-300 ease-out">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="font-body font-medium text-[11px]">지도</span>
+</button>
+<button class="flex flex-col items-center justify-center text-[#54647a] dark:text-[#aab4be] px-4 py-1.5 hover:bg-[#f2f4f6] dark:hover:bg-[#2c2f32] active:scale-90 duration-300 ease-out">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-body font-medium text-[11px]">커뮤니티</span>
+</button>
+<button class="flex flex-col items-center justify-center text-[#54647a] dark:text-[#aab4be] px-4 py-1.5 hover:bg-[#f2f4f6] dark:hover:bg-[#2c2f32] active:scale-90 duration-300 ease-out">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-body font-medium text-[11px]">내 정보</span>
+</button>
+</div>
+</nav>
+</body></html>

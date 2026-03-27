@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+
+<html class="light" lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-tertiary-fixed-variant": "#00513e",
+              "error-container": "#ffdad6",
+              "secondary-fixed": "#d3e4fe",
+              "surface-tint": "#0053db",
+              "surface-container-lowest": "#ffffff",
+              "inverse-primary": "#b4c5ff",
+              "inverse-on-surface": "#eff1f3",
+              "primary": "#004ac6",
+              "on-error": "#ffffff",
+              "on-tertiary-fixed": "#002117",
+              "on-secondary-container": "#54647a",
+              "on-tertiary-container": "#b7ffe3",
+              "background": "#f8fafc",
+              "on-secondary": "#ffffff",
+              "error": "#dc2626",
+              "warning-main": "#f97316",
+              "secondary-container": "#e2e8f0",
+              "primary-container": "#2563eb",
+              "surface-container-highest": "#e2e8f0",
+              "on-primary-container": "#eeefff",
+              "on-surface": "#0f172a",
+              "on-primary": "#ffffff",
+              "secondary": "#64748b",
+              "on-tertiary": "#ffffff",
+              "outline-variant": "#e2e8f0",
+              "tertiary-fixed-dim": "#3fdeb3",
+              "on-primary-fixed-variant": "#003ea8",
+              "secondary-fixed-dim": "#b7c8e1",
+              "on-surface-variant": "#475569",
+              "surface-container-high": "#f1f5f9",
+              "primary-fixed": "#dbe1ff",
+              "on-background": "#0f172a",
+              "on-primary-fixed": "#00174b",
+              "on-error-container": "#93000a",
+              "tertiary": "#059669",
+              "primary-fixed-dim": "#b4c5ff",
+              "on-secondary-fixed-variant": "#38485d",
+              "surface-variant": "#f1f5f9",
+              "surface-container-low": "#f8fafc",
+              "tertiary-fixed": "#64fbce",
+              "surface-container": "#f1f5f9",
+              "outline": "#94a3b8",
+              "on-secondary-fixed": "#0b1c30",
+              "inverse-surface": "#1e293b",
+              "tertiary-container": "#007c60",
+              "surface-dim": "#e2e8f0",
+              "surface": "#ffffff",
+              "surface-bright": "#ffffff"
+            },
+            fontFamily: {
+              "headline": ["Manrope", "sans-serif"],
+              "body": ["Plus Jakarta Sans", "sans-serif"],
+              "label": ["Plus Jakarta Sans", "sans-serif"]
+            },
+            borderRadius: {
+              "DEFAULT": "0.5rem",
+              "lg": "0.75rem",
+              "xl": "1rem",
+              "2xl": "1.5rem",
+              "3xl": "2rem",
+              "full": "9999px"
+            },
+            boxShadow: {
+              'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 10px -2px rgba(0, 0, 0, 0.03)',
+              'card': '0 10px 30px -5px rgba(0, 0, 0, 0.04), 0 4px 12px -3px rgba(0, 0, 0, 0.02)',
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .gauge-conic-warning {
+            background: conic-gradient(#f1f5f9 0% 15%, #f97316 85% 100%);
+        }
+        body {
+            min-height: 100dvh;
+            line-height: 1.5;
+            letter-spacing: -0.01em;
+            -webkit-font-smoothing: antialiased;
+        }
+        .mask-image-radial {
+            mask-image: radial-gradient(circle, transparent 59%, black 61%);
+            -webkit-mask-image: radial-gradient(circle, transparent 59%, black 61%);
+        }
+        .overlap-container {
+            position: relative;
+            width: 48px;
+            height: 32px;
+        }
+        .overlap-circle {
+            position: absolute;
+            width: 28px;
+            height: 28px;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body class="bg-background font-body text-on-surface selection:bg-primary/10">
+<!-- Top App Bar -->
+<header class="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-xl border-b border-slate-100 flex items-center justify-between px-4 py-4">
+<div class="flex items-center gap-3">
+<button class="hover:bg-slate-100 active:scale-90 transition-all p-2 rounded-full">
+<span class="material-symbols-outlined text-on-surface">arrow_back</span>
+</button>
+<h1 class="font-headline font-bold text-lg tracking-tight">분석 결과 리포트</h1>
+</div>
+<div class="w-10"></div>
+</header>
+<main class="pt-24 pb-40 px-5 max-w-xl mx-auto space-y-8">
+<!-- Hero Section: AI Diagnosis Result -->
+<section class="bg-white rounded-3xl p-8 space-y-8 shadow-card border border-slate-100/50 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-48 h-48 bg-warning-main/5 rounded-full -mr-24 -mt-24 blur-3xl"></div>
+<div class="text-center space-y-3 relative">
+<span class="inline-flex px-3 py-1 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px] uppercase tracking-wider">AI Comprehensive Analysis</span>
+<h2 class="text-3xl font-headline font-extrabold tracking-tight text-on-surface">역류성 식도염 의심</h2>
+<p class="text-secondary text-sm font-medium px-4">위산이 식도로 역류하여 염증을 유발하는 상태가 감지되었습니다.</p>
+</div>
+<!-- Score Gauge -->
+<div class="flex flex-col items-center justify-center relative">
+<div class="relative w-56 h-56 flex items-center justify-center">
+<div class="absolute inset-0 rounded-full border-[12px] border-transparent gauge-conic-warning mask-image-radial"></div>
+<div class="absolute inset-[11px] rounded-full border border-slate-50 bg-white shadow-inner"></div>
+<div class="text-center z-10 flex flex-col items-center">
+<div class="flex items-baseline justify-center">
+<span class="text-6xl font-headline font-extrabold text-on-surface tracking-tighter">85</span>
+<span class="text-2xl font-bold ml-0.5 text-secondary">%</span>
+</div>
+<span class="text-warning-main font-bold text-sm mt-1 tracking-wide">높은 가능성</span>
+</div>
+</div>
+<div class="w-64 mt-6 flex justify-between items-center px-4">
+<div class="flex flex-col items-center gap-1.5">
+<div class="w-1.5 h-1.5 rounded-full bg-slate-200"></div>
+<span class="text-[10px] font-bold text-slate-400">낮음</span>
+</div>
+<div class="flex flex-col items-center gap-1.5">
+<div class="w-1.5 h-1.5 rounded-full bg-warning-main"></div>
+<span class="text-[10px] font-bold text-warning-main">높음</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Diet-Symptom Correlation -->
+<section class="bg-white rounded-3xl p-6 space-y-6 shadow-card border border-slate-100/50">
+<h3 class="text-lg font-headline font-bold text-on-surface">식단 및 증상 상관관계</h3>
+<div class="bg-error/5 p-4 rounded-2xl border border-error/10 flex gap-3">
+<span class="material-symbols-outlined text-error text-xl" style="font-variation-settings: 'FILL' 1;">warning</span>
+<p class="text-[13px] font-semibold text-error leading-snug">
+                오후 8시에 섭취한 <span class="underline decoration-2 underline-offset-2">매운 라면</span>이 증상 악화의 핵심 원인으로 추정됩니다.
+            </p>
+</div>
+<div class="relative h-44 mt-4">
+<!-- Timeline Grid -->
+<div class="absolute inset-x-2 top-0 bottom-8 flex justify-between">
+<div class="w-px h-full bg-slate-100"></div>
+<div class="w-px h-full bg-slate-100"></div>
+<div class="w-px h-full bg-primary/10"></div>
+<div class="w-px h-full bg-primary/10"></div>
+<div class="w-px h-full bg-primary/10"></div>
+</div>
+<!-- Spline Chart -->
+<svg class="absolute inset-x-2 top-0 h-36 w-[calc(100%-16px)] overflow-visible" preserveaspectratio="none" viewbox="0 0 100 100">
+<path class="spline-path" d="M 0,85 C 15,85 25,80 30,75 C 40,65 50,55 55,45 C 65,30 75,10 80,5 C 90,-2 95,12 100,18" fill="none" stroke="url(#line-grad)" stroke-linecap="round" stroke-width="4"></path>
+<defs>
+<lineargradient id="line-grad" x1="0%" x2="100%" y1="0%" y2="0%">
+<stop offset="0%" stop-color="#cbd5e1"></stop>
+<stop offset="50%" stop-color="#3b82f6"></stop>
+<stop offset="100%" stop-color="#1d4ed8"></stop>
+</lineargradient>
+</defs>
+</svg>
+<!-- Food Event Marker -->
+<div class="absolute left-[55%] -translate-x-1/2 top-4 flex flex-col items-center">
+<div class="bg-white shadow-soft rounded-full w-9 h-9 flex items-center justify-center text-xl border border-slate-100 mb-1 z-10">🍜</div>
+<div class="w-px h-24 border-l border-dashed border-primary/30"></div>
+</div>
+<!-- X-Axis Labels -->
+<div class="absolute bottom-0 inset-x-2 flex justify-between items-center text-[10px] font-bold text-slate-400">
+<span>18:00</span>
+<span>19:00</span>
+<span class="text-primary bg-primary/5 px-2 py-0.5 rounded-full">20:00</span>
+<span class="text-primary bg-primary/5 px-2 py-0.5 rounded-full">21:00</span>
+<span class="text-primary bg-primary/5 px-2 py-0.5 rounded-full">22:00</span>
+</div>
+</div>
+<p class="text-[11px] text-center text-slate-400 font-medium">식사 1시간 경과 시점부터 통증 수치가 급격히 상승함</p>
+</section>
+<!-- Why Section -->
+<section class="space-y-4">
+<h3 class="text-lg font-headline font-bold px-1">분석 근거 (Why?)</h3>
+<div class="space-y-3">
+<div class="bg-slate-50/80 rounded-3xl p-6 space-y-4 border border-slate-100">
+<h4 class="text-[13px] font-bold text-slate-500 flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-lg" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                    증상 일치 항목
+                </h4>
+<div class="grid gap-2">
+<div class="flex items-center justify-between text-sm font-semibold p-4 bg-white rounded-2xl shadow-soft border border-slate-50">
+<span>가슴 쓰림 및 타는 듯한 통증</span>
+<span class="material-symbols-outlined text-tertiary text-sm">check</span>
+</div>
+<div class="flex items-center justify-between text-sm font-semibold p-4 bg-white rounded-2xl shadow-soft border border-slate-50">
+<span>목에 무언가 걸린 듯한 이물감</span>
+<span class="material-symbols-outlined text-tertiary text-sm">check</span>
+</div>
+</div>
+</div>
+<details class="group bg-slate-50/80 rounded-3xl border border-slate-100 overflow-hidden">
+<summary class="flex items-center justify-between p-6 cursor-pointer list-none">
+<h4 class="text-[13px] font-bold text-slate-400 flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400 text-lg">cancel</span>
+                        일치하지 않는 항목
+                    </h4>
+<span class="material-symbols-outlined text-slate-400 group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="px-6 pb-6 pt-0 space-y-2">
+<div class="flex items-center justify-between text-sm font-medium p-4 bg-white/50 rounded-2xl text-slate-400 border border-slate-100/50">
+<span>마른 기침 및 쉰 목소리</span>
+<span class="material-symbols-outlined text-sm">close</span>
+</div>
+</div>
+</details>
+</div>
+</section>
+<!-- Care Tips -->
+<section class="bg-blue-600 rounded-3xl p-6 space-y-5 shadow-lg shadow-blue-900/10">
+<h3 class="text-lg font-headline font-bold text-white flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+            오늘의 관리 솔루션
+        </h3>
+<div class="grid grid-cols-2 gap-3">
+<div class="bg-white/10 backdrop-blur-md p-4 rounded-2xl flex flex-col gap-2 border border-white/10">
+<span class="text-2xl">🌙</span>
+<span class="text-sm font-bold text-white">야식 피하기</span>
+<p class="text-[11px] text-blue-100 leading-snug">취침 3시간 전 공복 유지가 가장 중요합니다.</p>
+</div>
+<div class="bg-white/10 backdrop-blur-md p-4 rounded-2xl flex flex-col gap-2 border border-white/10">
+<span class="text-2xl">👕</span>
+<span class="text-sm font-bold text-white">복압 낮추기</span>
+<p class="text-[11px] text-blue-100 leading-snug">허리를 조이는 옷은 역류를 유발합니다.</p>
+</div>
+</div>
+</section>
+<!-- Smart Medication Safety Check Section -->
+<section class="space-y-4">
+<div class="flex items-center justify-between px-1">
+<h3 class="text-lg font-headline font-bold text-on-surface">스마트 복약 안전 체크</h3>
+<span class="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full font-bold">LIVE CHECK</span>
+</div>
+<div class="space-y-4">
+<!-- Recommended Ingredient Card -->
+<div class="bg-white rounded-[24px] p-6 shadow-card border border-slate-100">
+<div class="flex justify-between items-start mb-4">
+<div class="space-y-1">
+<span class="text-[11px] font-bold text-primary uppercase tracking-wider">추천 성분 및 의약품</span>
+<h4 class="text-xl font-headline font-extrabold text-on-surface leading-tight">알긴산나트륨<br/><span class="text-slate-400 font-medium text-sm">(Sodium Alginate)</span></h4>
+</div>
+<div class="w-16 h-16 bg-blue-50/50 rounded-2xl flex items-center justify-center border border-blue-100 p-1 overflow-hidden">
+<!-- Replacement with 3D Gel Icon/Emoji representing mucosal protection -->
+<span class="text-4xl filter drop-shadow-sm">💧</span>
+</div>
+</div>
+<div class="flex flex-wrap gap-1.5">
+<span class="bg-slate-100 text-slate-600 text-[11px] font-bold px-3 py-1.5 rounded-full">위산 역류 억제</span>
+<span class="bg-slate-100 text-slate-600 text-[11px] font-bold px-3 py-1.5 rounded-full">위 점막 보호</span>
+<span class="bg-slate-100 text-slate-600 text-[11px] font-bold px-3 py-1.5 rounded-full">빠른 완화</span>
+</div>
+</div>
+<!-- Medication Interaction Warning Card -->
+<div class="bg-white rounded-[24px] overflow-hidden shadow-card border border-slate-100">
+<div class="p-5 border-b border-slate-50">
+<div class="flex items-center justify-between mb-4">
+<h4 class="text-[13px] font-bold text-slate-500">나의 복약 상호작용</h4>
+<span class="bg-error text-white text-[11px] font-black px-3 py-1 rounded-full flex items-center gap-1">
+                            복용 금지 <span class="text-[14px]">🚫</span>
+</span>
+</div>
+<!-- Overlap Diagram Added -->
+<div class="flex items-center gap-4 mb-4">
+<div class="flex-1 flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-100 relative">
+<div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-xl shadow-sm z-10">💊</div>
+<div>
+<p class="text-[10px] text-slate-400 font-bold leading-none mb-1">현재 복용 중인 약</p>
+<p class="text-[14px] font-bold text-on-surface">테네리아정 <span class="text-slate-500 font-medium">(당뇨약)</span></p>
+</div>
+<!-- Overlap Diagram Icon -->
+<div class="absolute right-[-14px] top-1/2 -translate-y-1/2 z-20 overlap-container">
+<div class="overlap-circle bg-error text-white border-2 border-white left-0" style="opacity: 0.9;">
+<span class="material-symbols-outlined text-[14px]">close</span>
+</div>
+<div class="overlap-circle bg-primary text-white border-2 border-white right-0" style="opacity: 0.9;">
+<span class="material-symbols-outlined text-[14px]">bolt</span>
+</div>
+</div>
+</div>
+<div class="flex-none w-12 h-12 rounded-2xl bg-primary/5 flex items-center justify-center border border-primary/10 ml-2">
+<span class="text-2xl">💧</span>
+</div>
+</div>
+</div>
+<div class="bg-error/5 p-5">
+<div class="flex gap-3 mb-4">
+<div class="mt-0.5">
+<span class="material-symbols-outlined text-error text-xl" style="font-variation-settings: 'FILL' 1;">report_problem</span>
+</div>
+<div class="space-y-1">
+<p class="text-[13px] font-bold text-error leading-snug">성분 중복 및 부작용 위험</p>
+<p class="text-[12px] text-error/80 leading-relaxed font-semibold">
+                                현재 복용 중인 테네리아정의 주성분인 테네리글립틴과 알긴산나트륨 병용 시 약물 흡수율이 떨어질 수 있습니다. 반드시 주치의와 상담 후 복용을 결정하세요.
+                            </p>
+</div>
+</div>
+<!-- Action Button Added -->
+<button class="w-full bg-white border border-error/30 text-error font-bold py-3 px-4 rounded-xl text-sm transition-all active:scale-[0.98] hover:bg-error/5 flex items-center justify-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[18px]">chat_bubble</span>
+                        약사에게 대체약 문의하기
+                    </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Other Possibilities -->
+<section class="space-y-4 pt-2">
+<h3 class="text-[12px] font-bold text-slate-400 px-1 uppercase tracking-widest">기타 가능성 질환</h3>
+<div class="space-y-3">
+<div class="flex items-center justify-between p-5 bg-white rounded-2xl shadow-soft border border-slate-100 transition-active active:scale-[0.98]">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center border border-slate-100">
+<span class="material-symbols-outlined text-primary text-xl">fluid_med</span>
+</div>
+<div>
+<span class="block font-bold text-on-surface">급성 위염</span>
+<span class="text-[11px] text-slate-400">위 점막의 일시적 염증</span>
+</div>
+</div>
+<div class="text-right">
+<span class="text-lg font-headline font-extrabold text-slate-600">65%</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-5 bg-white rounded-2xl shadow-soft border border-slate-100 transition-active active:scale-[0.98]">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center border border-slate-100">
+<span class="material-symbols-outlined text-primary text-xl">body_system</span>
+</div>
+<div>
+<span class="block font-bold text-on-surface">기능성 소화불량</span>
+<span class="text-[11px] text-slate-400">상복부 거북함 및 팽만감</span>
+</div>
+</div>
+<div class="text-right">
+<span class="text-lg font-headline font-extrabold text-slate-600">42%</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Action Buttons with Optimized UX -->
+<div class="space-y-4 pt-4">
+<!-- Emergency SOS -->
+<button class="w-full bg-error hover:bg-red-700 text-white font-extrabold py-5 px-6 rounded-2xl shadow-xl shadow-red-500/20 transition-all flex items-center justify-center gap-3 active:scale-[0.98] mt-4">
+<span class="material-symbols-outlined animate-pulse" style="font-variation-settings: 'FILL' 1;">emergency</span>
+<span class="text-lg">응급 SOS / 119 연결</span>
+</button>
+<!-- Search Buttons -->
+<div class="grid grid-cols-2 gap-3">
+<button class="bg-white border border-slate-200 hover:bg-slate-50 text-slate-800 font-bold py-4 rounded-2xl shadow-soft transition-all flex flex-col items-center gap-1.5 active:scale-95">
+<span class="material-symbols-outlined text-primary text-2xl">local_hospital</span>
+<span class="text-[13px]">주변 병원</span>
+</button>
+<button class="bg-white border border-slate-200 hover:bg-slate-50 text-slate-800 font-bold py-4 rounded-2xl shadow-soft transition-all flex flex-col items-center gap-1.5 active:scale-95">
+<span class="material-symbols-outlined text-primary text-2xl">pill</span>
+<span class="text-[13px]">주변 약국</span>
+</button>
+</div>
+</div>
+<!-- Disclaimer & KFDA Reference -->
+<footer class="pt-4 pb-16 text-center space-y-2">
+<p class="text-[10px] text-slate-400 font-medium opacity-80">
+            식품의약품안전처(KFDA) DUR 데이터를 기반으로 분석되었습니다
+        </p>
+<p class="text-[10px] text-slate-400 leading-relaxed px-10 opacity-70">
+            본 서비스는 AI 모델의 분석 결과이며 의학적 판단을 대체할 수 없습니다. 증상이 지속될 경우 반드시 전문 의료진과 상담하십시오.
+        </p>
+</footer>
+</main>
+<!-- Bottom Navigation -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-8 pt-3 bg-white/90 backdrop-blur-2xl border-t border-slate-100 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
+<a class="flex flex-col items-center justify-center text-slate-400 px-4 py-2 hover:text-primary transition-all active:scale-90" href="#">
+<span class="material-symbols-outlined mb-1">home</span>
+<span class="font-headline text-[10px] font-medium">홈</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary/5 text-primary rounded-2xl px-5 py-2 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span class="font-headline text-[10px] font-bold">기록</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 px-4 py-2 hover:text-primary transition-all active:scale-90" href="#">
+<span class="material-symbols-outlined mb-1">map</span>
+<span class="font-headline text-[10px] font-medium">지도</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 px-4 py-2 hover:text-primary transition-all active:scale-90" href="#">
+<span class="material-symbols-outlined mb-1">group</span>
+<span class="font-headline text-[10px] font-medium">커뮤니티</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 px-4 py-2 hover:text-primary transition-all active:scale-90" href="#">
+<span class="material-symbols-outlined mb-1">person</span>
+<span class="font-headline text-[10px] font-medium">내 정보</span>
+</a>
+</nav>
+</body></html>

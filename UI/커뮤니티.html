@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-lowest": "#ffffff",
+              "on-tertiary": "#ffffff",
+              "inverse-on-surface": "#eff1f3",
+              "on-error": "#ffffff",
+              "secondary-fixed": "#d3e4fe",
+              "secondary-container": "#d0e1fb",
+              "tertiary-fixed-dim": "#3fdeb3",
+              "surface": "#f7f9fb",
+              "background": "#f7f9fb",
+              "on-surface-variant": "#434655",
+              "error": "#ba1a1a",
+              "surface-container-highest": "#e0e3e5",
+              "on-secondary": "#ffffff",
+              "surface-tint": "#0053db",
+              "tertiary-container": "#007c60",
+              "on-secondary-fixed-variant": "#38485d",
+              "tertiary-fixed": "#64fbce",
+              "primary-container": "#2563eb",
+              "on-surface": "#191c1e",
+              "surface-variant": "#e0e3e5",
+              "error-container": "#ffdad6",
+              "surface-bright": "#f7f9fb",
+              "on-secondary-container": "#54647a",
+              "on-tertiary-fixed-variant": "#00513e",
+              "primary-fixed": "#dbe1ff",
+              "on-secondary-fixed": "#0b1c30",
+              "on-primary-container": "#eeefff",
+              "on-primary-fixed-variant": "#003ea8",
+              "inverse-primary": "#b4c5ff",
+              "secondary": "#505f76",
+              "primary": "#004ac6",
+              "tertiary": "#00614b",
+              "surface-container-low": "#f2f4f6",
+              "surface-container-high": "#e6e8ea",
+              "secondary-fixed-dim": "#b7c8e1",
+              "outline": "#737686",
+              "surface-container": "#eceef0",
+              "on-error-container": "#93000a",
+              "on-background": "#191c1e",
+              "primary-fixed-dim": "#b4c5ff",
+              "outline-variant": "#c3c6d7",
+              "inverse-surface": "#2d3133",
+              "on-primary": "#ffffff",
+              "on-tertiary-fixed": "#002117",
+              "on-primary-fixed": "#00174b",
+              "surface-dim": "#d8dadc",
+              "on-tertiary-container": "#b7ffe3"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Plus Jakarta Sans"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body { font-family: 'Plus Jakarta Sans', sans-serif; }
+      .editorial-header { font-family: 'Manrope', sans-serif; }
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      .verified-badge {
+        background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+        box-shadow: inset 0 1px 1px rgba(255,255,255,0.8), 0 2px 4px rgba(37,99,235,0.1);
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#f7f9fb]/80 backdrop-blur-md flex justify-between items-center px-6 py-4">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-blue-600" data-icon="menu">menu</span>
+<h1 class="text-2xl font-extrabold text-blue-600 tracking-tighter editorial-header">CareOn</h1>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-blue-600" data-icon="search">search</span>
+</div>
+</header>
+<main class="pt-20 px-6 max-w-2xl mx-auto">
+<!-- Editorial Section Heading -->
+<section class="mb-8">
+<h2 class="text-4xl font-extrabold editorial-header tracking-tight text-on-surface mb-2">커뮤니티</h2>
+<p class="text-secondary font-medium">실시간으로 나누는 건강한 이야기</p>
+</section>
+<!-- Category Horizontal Grid -->
+<section class="flex gap-4 overflow-x-auto no-scrollbar pb-4 mb-8">
+<!-- Free Talk Card -->
+<div class="flex-shrink-0 w-44 bg-blue-50/80 p-5 rounded-3xl border border-blue-100/50 transition-transform active:scale-95">
+<div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-primary" data-icon="forum">forum</span>
+</div>
+<h3 class="font-bold text-lg mb-1 text-on-surface">자유게시판</h3>
+<p class="text-xs text-primary font-bold">1시간 내 15개 새 글</p>
+</div>
+<!-- Reviews Card -->
+<div class="flex-shrink-0 w-44 bg-emerald-50/80 p-5 rounded-3xl border border-emerald-100/50 transition-transform active:scale-95">
+<div class="w-10 h-10 bg-tertiary/10 rounded-xl flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-tertiary" data-icon="rate_review">rate_review</span>
+</div>
+<h3 class="font-bold text-lg mb-1 text-on-surface">병원 후기</h3>
+<p class="text-xs text-tertiary font-bold">지금 8명 열람 중</p>
+</div>
+<!-- Tips Card -->
+<div class="flex-shrink-0 w-44 bg-amber-50/80 p-5 rounded-3xl border border-amber-100/50 transition-transform active:scale-95">
+<div class="w-10 h-10 bg-secondary/10 rounded-xl flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-secondary" data-icon="lightbulb">lightbulb</span>
+</div>
+<h3 class="font-bold text-lg mb-1 text-on-surface">꿀팁 공유</h3>
+<p class="text-xs text-secondary font-bold">오늘 24개 인기 정보</p>
+</div>
+</section>
+<!-- Feed List -->
+<div class="space-y-6">
+<!-- Post 1: Review Type -->
+<article class="bg-surface-container-lowest rounded-[2.5rem] overflow-hidden p-6 shadow-[0_20px_48px_-12px_rgba(0,74,198,0.08)] relative border border-white">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="w-11 h-11 rounded-2xl bg-surface-container-high overflow-hidden border border-surface-container">
+<img class="w-full h-full object-cover" data-alt="professional female doctor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVqwbLNJG2FVxSv46ZlWoncXyitkFKVkzBLvsV3xt6Mj1yTTjcGkgJxybNP4OzZjPaPEmpChN_r39SlBXK5hMkp4AfIKBrDLcNT4lz5tKIwBcYfuw_HyNXObzAPkClHihGP6Twvfe550T_xav01xiKe0ey7V388dRJqJYr42QGKM6b3A5IYC3A-U99EWO4kCl0wL5ZnOV9UlJV51EEVJLPiBMIcFawq1z1oceClCpIwhU4RcGjV_O_ak828B3Xkt2r8BZxc4FgqScg"/>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="font-bold text-on-surface">강남지킴이</span>
+<span class="verified-badge text-blue-600 text-[10px] px-2.5 py-1 rounded-full flex items-center gap-1 font-extrabold border border-blue-200/50">
+<span class="material-symbols-outlined text-[12px]" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+                                    Verified Patient
+                                </span>
+</div>
+<span class="text-[11px] text-secondary font-medium">방금 전 · 병원 후기</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-300" data-icon="more_horiz">more_horiz</span>
+</div>
+<h4 class="text-xl font-extrabold mb-2 tracking-tight">강남 세브란스 정형외과 재활 후기입니다</h4>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-4">수술 후 3개월 차 재활 운동 시작했어요. 선생님들이 너무 친절하시고 장비가 새거라 좋네요. 특히 도수치료 프로그램이 정말 체계적입니다.</p>
+<div class="flex flex-wrap gap-2 mb-5">
+<span class="text-[11px] bg-blue-50 text-blue-700 px-3.5 py-1.5 rounded-full font-bold border border-blue-100">#재활성공</span>
+<span class="text-[11px] bg-blue-50 text-blue-700 px-3.5 py-1.5 rounded-full font-bold border border-blue-100">#병원추천</span>
+</div>
+<div class="rounded-3xl overflow-hidden mb-5 aspect-video relative group">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="modern hospital hallway" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9wUkQQsHczrswWd_fqURmxjt-i00554E1W4DwpIaA0BISJnZty90Gmvv3l2fqTuyxvtC-ZSdd6BeuCf0EyFk2dqSHjsESil4PitWw7Km-JLxgSCLGcVETVJcnGQH8cpYXRIzU5qIkiQz6hMymG85uwn7BTnH-96mwkvUquOgrWvFyFgdOQCedeQMuBkxqYG20YMO9QZLj1NiYzVhqKL4zmH1sHpn3bkA2cjuVXomrOiGyDEsqIPfzud6-KDp_Aesb4y0vRIAF1XgH"/>
+</div>
+<div class="flex gap-2 mb-6">
+<button class="flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-2.5 rounded-2xl text-[11px] font-bold border border-blue-100 transition-colors hover:bg-blue-100">
+<span class="material-symbols-outlined text-sm" data-icon="map">location_on</span>
+                        강남세브란스병원
+                    </button>
+<button class="flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-2.5 rounded-2xl text-[11px] font-bold border border-blue-100 transition-colors hover:bg-blue-100">
+<span class="material-symbols-outlined text-sm" data-icon="pill">medical_services</span>
+                        처방 정보
+                    </button>
+</div>
+<div class="flex items-center gap-6 pt-4 border-t border-surface-container-low">
+<button class="flex items-center gap-1.5 text-blue-600 group transition-all active:scale-90">
+<span class="material-symbols-outlined transition-all group-active:scale-125" data-icon="favorite" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="text-sm font-bold">도움돼요</span>
+<span class="text-sm font-medium opacity-60 ml-0.5">24</span>
+</button>
+<button class="flex items-center gap-1.5 text-secondary font-medium">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+<span class="text-sm">댓글</span>
+<span class="text-sm opacity-60 ml-0.5">12</span>
+</button>
+</div>
+</article>
+<!-- Post 2: Tips Type -->
+<article class="bg-surface-container-lowest rounded-[2.5rem] overflow-hidden p-6 shadow-[0_20px_48px_-12px_rgba(0,74,198,0.08)] relative border border-white">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="w-11 h-11 rounded-2xl bg-surface-container-high overflow-hidden border border-surface-container">
+<img class="w-full h-full object-cover" data-alt="young man portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC93cnvK_2twVS1SwtuYswZohadY4-314WoYg2tAfc3uJ2t4lLpumm2eiEPkQCtUWBdWDXiSTAJL1o21XLLyNwb2KHpebfCRGGArgZ0oN1l1t84G-MBsp-dCdABrnASnmoUdqC6qvY2hZzHSod5BbV8T7OMzoR8hggfJtCxCyCF432J8EgD3BHOydZjSYXq1qn0qtqYBYbzLFtcTZJtPda3Ld995vjrDj5mbZZy5ihE3BLNnwVqxn9riw83VNeQqVI1Iel2MLhUvUQb"/>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="font-bold text-on-surface">건강요정</span>
+</div>
+<span class="text-[11px] text-secondary font-medium">15분 전 · 꿀팁 공유</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-300" data-icon="more_horiz">more_horiz</span>
+</div>
+<h4 class="text-xl font-extrabold mb-2 tracking-tight">약봉투 버리지 말고 이렇게 관리하세요!</h4>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-4">처방받은 약들 종류가 많아지면 헷갈리기 쉽잖아요. 저는 약봉투 사진 찍어서 이 앱에 기록해두니까 너무 편하더라구요. 여러분만의 팁도 있나요?</p>
+<div class="flex flex-wrap gap-2 mb-5">
+<span class="text-[11px] bg-blue-50 text-blue-700 px-3.5 py-1.5 rounded-full font-bold border border-blue-100">#복약꿀팁</span>
+<span class="text-[11px] bg-blue-50 text-blue-700 px-3.5 py-1.5 rounded-full font-bold border border-blue-100">#약관리</span>
+</div>
+<div class="rounded-3xl overflow-hidden mb-5 aspect-video">
+<img class="w-full h-full object-cover" data-alt="pharmacy medicine envelopes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfdbga0abvGp1nFQTprpy66pfr8BSoSQoqpGHcfZtUVMUQcs01u3CsoNC2gsOcftlwO6UHxLkLdzKdBqtYNlcnOv1orjLS89pFO9MZjStEnnSj5Rqhiecdy_FFIk4rhRhCctXZIcGV6CcacksBJLZikdSrra_8U7hyzBgOvc42zDfd2dhKle8ub1JbfLdk8ngeUaCcnhMXB7At2eB-ImQn5Vwe0RCiDxn1lD3MHmAttO2dOIMuFcAahGETg-uLLqX-0MS7xf1irewN"/>
+</div>
+<div class="flex items-center gap-6 pt-4 border-t border-surface-container-low">
+<button class="flex items-center gap-1.5 text-blue-600 group transition-all active:scale-90">
+<span class="material-symbols-outlined" data-icon="favorite" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="text-sm font-bold">도움돼요</span>
+<span class="text-sm font-medium opacity-60 ml-0.5">56</span>
+</button>
+<button class="flex items-center gap-1.5 text-secondary font-medium">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+<span class="text-sm">댓글</span>
+<span class="text-sm opacity-60 ml-0.5">8</span>
+</button>
+</div>
+</article>
+<!-- Post 3: Optimized Image Grid -->
+<article class="bg-surface-container-lowest rounded-[2.5rem] overflow-hidden p-6 shadow-[0_20px_48px_-12px_rgba(0,74,198,0.08)] relative mb-8 border border-white">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="w-11 h-11 rounded-2xl bg-surface-container-high overflow-hidden border border-surface-container">
+<img class="w-full h-full object-cover" data-alt="smiling young woman" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVn9UfJhkwX4UG3mOOah9UjH4cixyDbMA_rpkex8nWy0ynUzo1MHsFYAMmDQEpKsZkGiJFJsCHPYww_4pWY1F7FMJCq1ygtokwawawVLtYLbcdGHIBpKit8sr6CgmHNZALlukBOdbllWiBDFFgo6M7YRAvnzaXnDzy8sKwE00SCp02JArWB35nyJ_g1cCQ_BFWDaxr0u2n9p1U_0FikaXYfmruAoMYXTwx8Ar86uS2NPCRNaN0lBSjC5LcMEv10Dr0ZOcyWweQNHEh"/>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="font-bold text-on-surface">식단고수</span>
+<span class="verified-badge text-blue-600 text-[10px] px-2.5 py-1 rounded-full flex items-center gap-1 font-extrabold border border-blue-200/50">
+<span class="material-symbols-outlined text-[12px]" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+                                    Verified Patient
+                                </span>
+</div>
+<span class="text-[11px] text-secondary font-medium">32분 전 · 자유게시판</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-300" data-icon="more_horiz">more_horiz</span>
+</div>
+<h4 class="text-xl font-extrabold mb-2 tracking-tight">오늘의 클린 식단 인증!</h4>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-4">병원에서 염분 조절하라고 해서 시작했는데 생각보다 맛있네요. 아보카도랑 구운 연어 조합 최고입니다. 다들 오늘 뭐 드셨나요?</p>
+<div class="flex flex-wrap gap-2 mb-5">
+<span class="text-[11px] bg-blue-50 text-blue-700 px-3.5 py-1.5 rounded-full font-bold border border-blue-100">#건강식단</span>
+<span class="text-[11px] bg-blue-50 text-blue-700 px-3.5 py-1.5 rounded-full font-bold border border-blue-100">#관리의중요성</span>
+</div>
+<!-- Optimized Image Grid (2 photos: 1:1 Side by Side) -->
+<div class="grid grid-cols-2 gap-2.5 mb-5 h-64">
+<div class="rounded-3xl overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="healthy meal bowl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7RCz7226KS0gRE4rgfvM6jX_NefrGKmxx2Ei4q6hKg-XhPY6hDMDE3h7Ajif8Y8yM_HZ105zfG2Ocv4iRVu5Ltx0kNxig1qLswExk_YRkwW5HoGWxMaCKt8f7KrBR4cFB4-dwxBtjf7ROTihZGDFEFaqISd1zzvqZJdoGa2zj1GQGn2lgStdcBVk1xNdCWGEt7dWWBUGTfNFTZrHT-z518AH1N_WdEpGRpUMdbhTcR9NYHRgkuVcic1F5T2Wet2ZvDNWgOleRS-vE"/>
+</div>
+<div class="rounded-3xl overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="person doing yoga" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCP8Sl_dSOoyH0nq3AsbAnDKLUsSOUvskndaCWwvsZQaZrI8wtjfOYmVP0eirt22YHen3aYnd70LrL9OyGmhoQHdVpaT0gSG3a09C9iC1B-cTLhkkkROD8a7G9UxgtLqBLaCX_YMe4feVAVB5kB0SvU6OKBNrA22ffAkCd_Eh-lUOb_nYNiJ8jl9KdeXkFpRDdiIKNm2S5Ym3ll3Sm3MEGLrIpevcojgTu1h0KDoB0jB_ikLKGzqVJOsOSPY-PkaPrt2RUyaLrid3m9"/>
+</div>
+</div>
+<div class="flex items-center gap-6 pt-4 border-t border-surface-container-low">
+<button class="flex items-center gap-1.5 text-blue-600 group transition-all active:scale-90">
+<span class="material-symbols-outlined" data-icon="favorite" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="text-sm font-bold">도움돼요</span>
+<span class="text-sm font-medium opacity-60 ml-0.5">102</span>
+</button>
+<button class="flex items-center gap-1.5 text-secondary font-medium">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+<span class="text-sm">댓글</span>
+<span class="text-sm opacity-60 ml-0.5">31</span>
+</button>
+</div>
+</article>
+</div>
+</main>
+<!-- FAB with Deep Shadow -->
+<button class="fixed right-6 bottom-28 w-16 h-16 bg-gradient-to-br from-primary to-blue-700 text-white rounded-[1.5rem] shadow-[0_16px_36px_-6px_rgba(0,74,198,0.4)] flex items-center justify-center transition-transform active:scale-90 hover:scale-105 z-50">
+<span class="material-symbols-outlined text-3xl" data-icon="edit_square">edit_square</span>
+</button>
+<!-- Toast Mockup Container (Hidden by default, used for interaction concept) -->
+<div class="hidden fixed bottom-32 left-1/2 -translate-x-1/2 bg-slate-900/90 text-white px-6 py-3 rounded-full text-sm font-bold shadow-2xl z-[100] animate-bounce" id="interaction-toast">
+        도움이 되었습니다!
+    </div>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-8 pt-4 bg-white/80 backdrop-blur-2xl shadow-[0_-12px_40px_-4px_rgba(0,0,0,0.05)] rounded-t-[2.5rem] border-t border-white/50">
+<!-- 홈 -->
+<a class="flex flex-col items-center justify-center text-slate-400 px-4 py-2 text-xs font-medium" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="home">home</span>
+            홈
+        </a>
+<!-- 기록 -->
+<a class="flex flex-col items-center justify-center text-slate-400 px-4 py-2 text-xs font-medium" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="edit_note">edit_note</span>
+            기록
+        </a>
+<!-- 지도 -->
+<a class="flex flex-col items-center justify-center text-slate-400 px-4 py-2 text-xs font-medium" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="map">map</span>
+            지도
+        </a>
+<!-- 커뮤니티 (Active) -->
+<a class="flex flex-col items-center justify-center text-blue-600 bg-blue-50 rounded-2xl px-5 py-2 text-xs font-bold" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="group" style="font-variation-settings: 'FILL' 1;">group</span>
+            커뮤니티
+        </a>
+<!-- 내 정보 -->
+<a class="flex flex-col items-center justify-center text-slate-400 px-4 py-2 text-xs font-medium" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="person">person</span>
+            내 정보
+        </a>
+</nav>
+</body></html>

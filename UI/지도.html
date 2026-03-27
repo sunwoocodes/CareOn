@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#004ac6",
+              "outline-variant": "#c3c6d7",
+              "background": "#f7f9fb",
+              "on-error": "#ffffff",
+              "surface-bright": "#f7f9fb",
+              "primary-container": "#2563eb",
+              "on-secondary-container": "#54647a",
+              "surface-container-lowest": "#ffffff",
+              "on-primary-container": "#eeefff",
+              "on-error-container": "#93000a",
+              "surface-variant": "#e0e3e5",
+              "on-secondary-fixed": "#0b1c30",
+              "primary-fixed": "#dbe1ff",
+              "surface-container-low": "#f2f4f6",
+              "secondary-fixed-dim": "#b7c8e1",
+              "on-tertiary-fixed-variant": "#00513e",
+              "on-primary-fixed": "#00174b",
+              "on-primary-fixed-variant": "#003ea8",
+              "inverse-surface": "#2d3133",
+              "on-surface": "#191c1e",
+              "error": "#ba1a1a",
+              "tertiary-fixed": "#64fbce",
+              "on-secondary-fixed-variant": "#38485d",
+              "surface-container-high": "#e6e8ea",
+              "surface-tint": "#0053db",
+              "tertiary-container": "#007c60",
+              "surface-container-highest": "#e0e3e5",
+              "inverse-primary": "#b4c5ff",
+              "error-container": "#ffdad6",
+              "tertiary-fixed-dim": "#3fdeb3",
+              "primary-fixed-dim": "#b4c5ff",
+              "on-secondary": "#ffffff",
+              "tertiary": "#00614b",
+              "on-tertiary-container": "#b7ffe3",
+              "on-background": "#191c1e",
+              "secondary-container": "#d0e1fb",
+              "outline": "#737686",
+              "secondary-fixed": "#d3e4fe",
+              "inverse-on-surface": "#eff1f3",
+              "surface-dim": "#d8dadc",
+              "on-tertiary-fixed": "#002117",
+              "surface-container": "#eceef0",
+              "secondary": "#505f76",
+              "on-tertiary": "#ffffff",
+              "on-surface-variant": "#434655",
+              "surface": "#f7f9fb",
+              "on-primary": "#ffffff"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Plus Jakarta Sans"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Editorial Asymmetry and Layout Spacing */
+        .editorial-spacing { padding-top: 5.5rem; padding-bottom: 7rem; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface">
+<!-- TopAppBar -->
+<header class="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl flex justify-between items-center px-6 h-16 w-full fixed top-0 z-50 shadow-sm dark:shadow-none">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-blue-600 dark:text-blue-400" data-icon="bubble_chart">bubble_chart</span>
+<h1 class="font-headline text-2xl font-bold tracking-tighter text-blue-600 dark:text-blue-400">CareOn</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-slate-100/50 dark:hover:bg-slate-800/50 transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined text-slate-500 dark:text-slate-400" data-icon="notifications">notifications</span>
+</button>
+</div>
+</header>
+<!-- Map Canvas Container -->
+<main class="relative w-full h-screen overflow-hidden">
+<!-- Filter Bar (Overlay on Map) -->
+<div class="fixed top-20 left-0 w-full z-40 px-4">
+<div class="flex gap-2 overflow-x-auto hide-scrollbar pb-2">
+<!-- Active Filter -->
+<button class="flex items-center gap-1 bg-primary text-on-primary px-4 py-2 rounded-full shadow-lg text-sm font-semibold whitespace-nowrap active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-lg" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                    영업 중
+                </button>
+<!-- Inactive Filters -->
+<button class="bg-surface-container-lowest/90 backdrop-blur text-on-surface-variant px-4 py-2 rounded-full shadow-sm text-sm font-medium border border-outline-variant/10 whitespace-nowrap hover:bg-surface-container-high transition-colors">
+                    주차 가능
+                </button>
+<button class="bg-surface-container-lowest/90 backdrop-blur text-on-surface-variant px-4 py-2 rounded-full shadow-sm text-sm font-medium border border-outline-variant/10 whitespace-nowrap hover:bg-surface-container-high transition-colors">
+                    전문의 진료
+                </button>
+<button class="bg-surface-container-lowest/90 backdrop-blur text-on-surface-variant px-4 py-2 rounded-full shadow-sm text-sm font-medium border border-outline-variant/10 whitespace-nowrap hover:bg-surface-container-high transition-colors">
+                    심야 약국
+                </button>
+</div>
+</div>
+<!-- Fullscreen Map Representation -->
+<div class="absolute inset-0 z-0 bg-surface-container">
+<img class="w-full h-full object-cover grayscale-[20%] contrast-[95%]" data-alt="clean minimal vector map showing city streets and blocks in light grey and white tones with subtle shadows" data-location="Seoul" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIS2epgkRnUBqWr0lIjo-i5vuLZuf_rJxNw-NE-ZVdgcG4uDs9d93bi-KkzyOxWgt49iQRm7nYLWxcWZV60XNooyOQCik4xqHGN6U3A1Z0tg1HOcBSHwYECcJrqItVfP00vr29x0OEW_Tyvv1nRbxaIsbCrG0TnXvtHnGw4JMkMvT_WgPsok6I9jfnYv4WjjE8EtHLaEZFknLiWwOm-kOn_DtNjVhBLSMxoZycpDSG83jdNElclpb8C4GXXD0axbOmWeKYI792wNbY"/>
+<!-- Custom Markers -->
+<!-- Marker 1: Selected Pharmacy -->
+<div class="absolute top-[45%] left-[55%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+<div class="bg-primary text-on-primary p-2.5 rounded-2xl shadow-[0_8px_24px_rgba(0,74,198,0.3)] border-2 border-white animate-bounce">
+<span class="material-symbols-outlined" data-icon="local_pharmacy" style="font-variation-settings: 'FILL' 1;">local_pharmacy</span>
+</div>
+<div class="mt-2 bg-white/90 backdrop-blur px-3 py-1 rounded-lg shadow-sm border border-outline-variant/20">
+<p class="text-[11px] font-bold text-primary">케어온 약국</p>
+</div>
+</div>
+<!-- Marker 2: Medical Center -->
+<div class="absolute top-[30%] left-[30%] flex flex-col items-center opacity-80">
+<div class="bg-white text-primary p-2 rounded-2xl shadow-md border border-outline-variant/20">
+<span class="material-symbols-outlined" data-icon="medical_services">medical_services</span>
+</div>
+</div>
+<!-- Marker 3: Another Pharmacy -->
+<div class="absolute top-[60%] left-[20%] flex flex-col items-center opacity-80">
+<div class="bg-white text-primary p-2 rounded-2xl shadow-md border border-outline-variant/20">
+<span class="material-symbols-outlined" data-icon="local_pharmacy">local_pharmacy</span>
+</div>
+</div>
+</div>
+<!-- Floating Action Button (Contextual) -->
+<div class="fixed bottom-48 right-6 z-40 flex flex-col gap-3">
+<button class="w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high active:scale-90 transition-all">
+<span class="material-symbols-outlined" data-icon="my_location">my_location</span>
+</button>
+<button class="w-12 h-12 bg-primary text-on-primary rounded-2xl shadow-[0_12px_32px_rgba(0,0,0,0.06)] flex items-center justify-center hover:shadow-xl active:scale-90 transition-all">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+</div>
+<!-- Selected Pharmacy Bottom Sheet -->
+<section class="fixed bottom-20 left-0 w-full z-40 px-4 pb-4">
+<div class="bg-white/80 backdrop-blur-2xl rounded-[32px] shadow-[0_-4px_40px_rgba(0,0,0,0.06)] overflow-hidden">
+<!-- AD Section (Special Styling) -->
+<div class="bg-blue-50/60 dark:bg-blue-900/10 px-6 py-3 flex items-center justify-between border-b border-blue-100/30">
+<div class="flex items-center gap-2">
+<span class="bg-blue-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-sm tracking-widest">[AD]</span>
+<p class="text-xs font-semibold text-blue-700">추천: 24시간 연중무휴 약국</p>
+</div>
+<span class="material-symbols-outlined text-blue-400 text-sm" data-icon="info">info</span>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<div class="space-y-1">
+<div class="flex items-center gap-2">
+<h2 class="font-headline text-xl font-extrabold tracking-tight">케어온 약국</h2>
+<div class="bg-tertiary-container/10 px-2 py-0.5 rounded-full flex items-center gap-1">
+<div class="w-1.5 h-1.5 bg-tertiary rounded-full animate-pulse"></div>
+<span class="text-[10px] font-bold text-on-tertiary-fixed-variant uppercase">영업중</span>
+</div>
+</div>
+<p class="text-sm text-on-secondary-container font-medium">서울특별시 강남구 테헤란로 427</p>
+<div class="flex items-center gap-3 mt-2">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm text-amber-400" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-sm font-bold">4.8</span>
+<span class="text-xs text-on-secondary-container/60">(124)</span>
+</div>
+<div class="w-1 h-1 bg-outline-variant/40 rounded-full"></div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm text-on-secondary-container" data-icon="near_me">near_me</span>
+<span class="text-sm font-medium text-on-secondary-container">120m</span>
+</div>
+</div>
+</div>
+<div class="w-16 h-16 rounded-2xl overflow-hidden bg-surface-container shadow-inner">
+<img class="w-full h-full object-cover" data-alt="clean modern pharmacy interior with white shelves and organized medical supplies in bright natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAD2CvpudhDgARnghMjM7g_toCBqe6uNICNgGXSPatkaAPjPdeIl0uy8hl2UFmnUeHBigU_YL86JUgiqRg3ha3JepWcVxhLWepbRROekh12q-LFOMkDf8GtCPWAFKeCXcvsBezQPSPFnzXnj8AOt_FiYqZQ9goKzH8zoqFwNFReNhdUNgs-jAJ-A65ksjOIomuA_O8zb0RXfcReWXp_r1-KfIKDa9nsa20QDUgKz3G4ipHtSX3q9u4wrnXAvo5y0REd-p79ihJEv5N5"/>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="grid grid-cols-2 gap-3">
+<button class="flex items-center justify-center gap-2 bg-surface-container-highest text-on-secondary-container py-3.5 rounded-2xl font-bold hover:bg-surface-variant transition-colors active:scale-[0.98]">
+<span class="material-symbols-outlined" data-icon="call">call</span>
+                            전화하기
+                        </button>
+<button class="flex items-center justify-center gap-2 bg-primary text-white py-3.5 rounded-2xl font-bold shadow-[0_8px_20px_rgba(0,74,198,0.2)] hover:opacity-90 transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined" data-icon="directions">directions</span>
+                            길찾기
+                        </button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full h-20 z-50 flex justify-around items-center px-4 pb-safe bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl rounded-t-[24px] shadow-[0_-4px_24px_rgba(0,0,0,0.04)]">
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-blue-500 dark:hover:text-blue-300 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-plus-jakarta text-[10px] font-medium mt-1">홈</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-blue-500 dark:hover:text-blue-300 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="edit_note">edit_note</span>
+<span class="font-plus-jakarta text-[10px] font-medium mt-1">기록</span>
+</a>
+<!-- ACTIVE: 지도 -->
+<a class="flex flex-col items-center justify-center text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 rounded-2xl px-3 py-1 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="map" style="font-variation-settings: 'FILL' 1;">map</span>
+<span class="font-plus-jakarta text-[10px] font-medium mt-1">지도</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-blue-500 dark:hover:text-blue-300 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-plus-jakarta text-[10px] font-medium mt-1">커뮤니티</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-blue-500 dark:hover:text-blue-300 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-plus-jakarta text-[10px] font-medium mt-1">내 정보</span>
+</a>
+</nav>
+</body></html>

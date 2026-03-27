@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-fixed-dim": "#b4c5ff",
+              "on-secondary-container": "#54647a",
+              "tertiary": "#00614b",
+              "tertiary-fixed": "#64fbce",
+              "surface-bright": "#f7f9fb",
+              "on-secondary-fixed": "#0b1c30",
+              "on-error": "#ffffff",
+              "surface": "#f7f9fb",
+              "primary-container": "#2563eb",
+              "tertiary-fixed-dim": "#3fdeb3",
+              "surface-container-high": "#e6e8ea",
+              "on-tertiary-container": "#b7ffe3",
+              "on-surface": "#191c1e",
+              "on-secondary-fixed-variant": "#38485d",
+              "secondary-container": "#d0e1fb",
+              "on-tertiary-fixed-variant": "#00513e",
+              "on-tertiary": "#ffffff",
+              "error-container": "#ffdad6",
+              "inverse-primary": "#b4c5ff",
+              "on-primary": "#ffffff",
+              "surface-container-highest": "#e0e3e5",
+              "secondary-fixed-dim": "#b7c8e1",
+              "tertiary-container": "#007c60",
+              "surface-dim": "#d8dadc",
+              "primary": "#004ac6",
+              "secondary-fixed": "#d3e4fe",
+              "surface-container-low": "#f2f4f6",
+              "on-tertiary-fixed": "#002117",
+              "surface-variant": "#e0e3e5",
+              "on-background": "#191c1e",
+              "on-surface-variant": "#434655",
+              "error": "#ba1a1a",
+              "outline": "#737686",
+              "primary-fixed": "#dbe1ff",
+              "on-primary-fixed": "#00174b",
+              "on-error-container": "#93000a",
+              "secondary": "#505f76",
+              "inverse-surface": "#2d3133",
+              "surface-tint": "#0053db",
+              "surface-container": "#eceef0",
+              "outline-variant": "#c3c6d7",
+              "on-primary-container": "#eeefff",
+              "inverse-on-surface": "#eff1f3",
+              "on-secondary": "#ffffff",
+              "background": "#f7f9fb",
+              "surface-container-lowest": "#ffffff",
+              "on-primary-fixed-variant": "#003ea8"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Plus Jakarta Sans"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .headline-lg { font-size: 2rem; line-height: 2.25rem; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        
+        /* Glassmorphism Refraction Effect */
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface selection:bg-primary-fixed-dim">
+<!-- TopAppBar -->
+<header class="fixed top-0 z-50 w-full flex justify-between items-center px-6 py-4 bg-white/70 dark:bg-slate-900/70 backdrop-blur-3xl">
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="w-10 h-10 rounded-full bg-slate-200 overflow-hidden ring-2 ring-white shadow-sm">
+<img alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBV2tFwQbfvb8VZJd-Z-X8l-ohCO8-s2-MOEcBRXLHIzAZ_u2wPScfRWRtQxtYektYUe4enP1YgYrO84tizKLbedzeOeFpf91hRCHoNsWBIE7SDKyoooSwro4xkB6-6qLsZOMy-VfH6cmyt_odctvORtzcQ5d0tX5T0eWE39mPAuRQdW0zJw6wl3LNj8cWC_s2G6pP8ue7CqBtox6XouRiB9p_MFOGdFiDtebA3N9BHDhGrk8wbjNyDvzRNxLQhzVffgpuSbFbc2JB"/>
+</div>
+<!-- Professional Identity Badge -->
+<div class="absolute -bottom-1 -right-1 bg-blue-600 text-white w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow-sm" title="Software Engineer">
+<span class="material-symbols-outlined text-[10px] !font-bold" data-icon="terminal">terminal</span>
+</div>
+</div>
+<div class="flex flex-col -space-y-1">
+<span class="text-xl font-extrabold text-blue-700 dark:text-blue-500 font-headline tracking-tight">CareOn</span>
+<span class="text-[10px] font-bold text-secondary uppercase tracking-widest opacity-60">Software Engineer</span>
+</div>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-slate-500 dark:text-slate-400" data-icon="settings">settings</span>
+</button>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-2xl mx-auto space-y-8">
+<!-- Welcome Message -->
+<section class="mt-4 mb-8">
+<h1 class="font-headline headline-lg font-extrabold tracking-tight text-on-surface leading-tight max-w-[80%]">
+            선우님, 오늘도 건강한 하루를 응원합니다.
+        </h1>
+</section>
+<!-- Top Profile & Reward Dashboard -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-5">
+<!-- Points Card (Enhanced Glassmorphism) -->
+<div class="glass-card relative overflow-hidden rounded-[28px] bg-gradient-to-br from-primary via-primary to-blue-700 p-6 text-on-primary shadow-[0_20px_40px_-8px_rgba(0,74,198,0.25)] aspect-[4/3] flex flex-col justify-between border border-white/20">
+<div class="z-10">
+<p class="text-sm font-medium text-white/70 mb-1">나의 리워드 포인트</p>
+<h2 class="text-4xl font-extrabold font-headline tracking-tight">24,500 P</h2>
+</div>
+<div class="z-10 flex justify-between items-end">
+<button class="px-5 py-2.5 bg-white/20 backdrop-blur-xl rounded-full text-sm font-semibold hover:bg-white/30 border border-white/20 transition-all active:scale-95">
+                    상세보기
+                </button>
+<div class="w-12 h-12 flex items-center justify-center rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-inner">
+<span class="material-symbols-outlined text-3xl opacity-60" data-icon="account_balance_wallet">account_balance_wallet</span>
+</div>
+</div>
+<!-- Glassmorphism Elements -->
+<div class="absolute -top-12 -right-12 w-48 h-48 bg-white/20 rounded-full blur-[60px]"></div>
+<div class="absolute top-1/2 left-0 w-32 h-32 bg-blue-400/20 rounded-full blur-[40px] -translate-y-1/2"></div>
+</div>
+<!-- Health Badges Column (3D Styles) -->
+<div class="flex flex-col gap-4">
+<div class="bg-surface-container-lowest rounded-[28px] p-5 flex flex-col justify-center gap-4 h-full shadow-sm border border-slate-100">
+<h3 class="text-xs font-extrabold text-secondary/40 px-1 uppercase tracking-wider">획득한 헬스 뱃지</h3>
+<div class="flex justify-around items-center">
+<!-- Badge 1: Active -->
+<div class="flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-tertiary-container/30 to-tertiary/10 flex items-center justify-center shadow-[inset_0_2px_4px_rgba(255,255,255,0.5),0_4px_12px_rgba(0,97,75,0.1)] border border-tertiary/20">
+<span class="material-symbols-outlined text-tertiary drop-shadow-sm" data-icon="military_tech" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">Top Recorder</span>
+</div>
+<!-- Badge 2: Active -->
+<div class="flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-primary-container/20 to-primary/10 flex items-center justify-center shadow-[inset_0_2px_4px_rgba(255,255,255,0.5),0_4px_12px_rgba(0,74,198,0.1)] border border-primary/20">
+<span class="material-symbols-outlined text-primary drop-shadow-sm" data-icon="restaurant" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">Healthy Eater</span>
+</div>
+<!-- Badge 3: Inactive (30% Opacity/Greyscale) -->
+<div class="flex flex-col items-center gap-2 grayscale opacity-30">
+<div class="w-14 h-14 rounded-2xl bg-slate-100 flex items-center justify-center border border-slate-200">
+<span class="material-symbols-outlined text-slate-400" data-icon="bolt">bolt</span>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">Consistency King</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Weekly Health Insight -->
+<section class="bg-surface-container-low rounded-[32px] p-7 space-y-8 shadow-sm border border-slate-100/50">
+<div class="flex justify-between items-center">
+<h3 class="font-headline text-xl font-bold tracking-tight">주간 레포트 프리뷰</h3>
+<span class="text-sm text-primary font-bold hover:underline cursor-pointer">전체 보기</span>
+</div>
+<!-- Chart with Tooltip -->
+<div class="flex items-end justify-between h-36 px-2 relative">
+<div class="flex flex-col items-center gap-2">
+<div class="w-3 bg-surface-container-highest rounded-full h-16"></div>
+<span class="text-[10px] font-medium text-secondary">월</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-3 bg-surface-container-highest rounded-full h-20"></div>
+<span class="text-[10px] font-medium text-secondary">화</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-3 bg-surface-container-highest rounded-full h-14"></div>
+<span class="text-[10px] font-medium text-secondary">수</span>
+</div>
+<!-- Thursday Active -->
+<div class="flex flex-col items-center gap-2 relative">
+<!-- Tooltip Bubble -->
+<div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[10px] font-bold px-2 py-1 rounded-lg shadow-xl mb-1 flex flex-col items-center">
+                    88점
+                    <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-slate-900 rotate-45"></div>
+</div>
+<div class="w-3 bg-primary rounded-full h-28 shadow-[0_8px_16px_rgba(0,74,198,0.3)]"></div>
+<span class="text-[10px] font-bold text-primary">목</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-3 bg-surface-container-highest rounded-full h-24"></div>
+<span class="text-[10px] font-medium text-secondary">금</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-3 bg-surface-container-highest rounded-full h-18"></div>
+<span class="text-[10px] font-medium text-secondary">토</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-3 bg-surface-container-highest rounded-full h-12"></div>
+<span class="text-[10px] font-medium text-secondary">일</span>
+</div>
+</div>
+<!-- Insight Box -->
+<div class="bg-tertiary-container/10 p-5 rounded-2xl flex items-start gap-4 border border-tertiary-container/20">
+<div class="w-10 h-10 rounded-full bg-tertiary/10 flex items-center justify-center shrink-0 border border-tertiary/10">
+<span class="material-symbols-outlined text-tertiary text-xl" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<div class="flex-1">
+<p class="text-on-tertiary-fixed-variant text-sm font-bold leading-relaxed">
+                    이번 주 수면의 질이 지난주보다 15% 향상되었어요!
+                    <a class="inline-block ml-1 text-primary hover:text-blue-700 font-bold transition-colors" href="#">AI 코치의 조언 더보기 &gt;</a>
+</p>
+<p class="text-tertiary text-xs mt-1.5 opacity-70">규칙적인 취침 시간이 큰 도움이 된 것 같아요.</p>
+</div>
+</div>
+</section>
+<!-- Activity Statistics -->
+<section class="space-y-4">
+<h3 class="font-headline text-lg font-bold tracking-tight px-1">활동 통계</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Record Counts -->
+<div class="bg-surface-container-lowest p-6 rounded-[28px] shadow-sm border border-slate-100">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="edit_calendar">edit_calendar</span>
+<span class="text-2xl font-black font-headline text-primary">156회</span>
+</div>
+<p class="text-sm font-bold text-on-surface mb-3">누적 기록 횟수</p>
+<div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[78%]"></div>
+</div>
+<p class="text-[10px] text-secondary mt-2">목표 200회까지 44회 남음</p>
+</div>
+<!-- Consecutive Days -->
+<div class="bg-surface-container-lowest p-6 rounded-[28px] shadow-sm border border-slate-100">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-error text-3xl" data-icon="local_fire_department">local_fire_department</span>
+<span class="text-2xl font-black font-headline text-error">12일</span>
+</div>
+<p class="text-sm font-bold text-on-surface mb-3">연속 기록 일수</p>
+<div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-error w-[60%]"></div>
+</div>
+<p class="text-[10px] text-secondary mt-2">최고 기록: 21일</p>
+</div>
+</div>
+</section>
+<!-- Settings List -->
+<section class="space-y-2">
+<h3 class="font-headline text-xs font-extrabold text-secondary opacity-40 px-2 pt-4 uppercase tracking-[0.2em]">환경설정</h3>
+<div class="bg-surface-container-lowest rounded-[32px] overflow-hidden divide-y divide-slate-50 border border-slate-100 shadow-sm">
+<button class="w-full flex justify-between items-center px-6 py-5 hover:bg-slate-50 transition-colors group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors" data-icon="person_outline">person_outline</span>
+<span class="text-base font-semibold">계정 정보</span>
+</div>
+<span class="material-symbols-outlined text-slate-300 !font-extralight text-lg" data-icon="chevron_right">chevron_right</span>
+</button>
+<button class="w-full flex justify-between items-center px-6 py-5 hover:bg-slate-50 transition-colors group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors" data-icon="notifications">notifications</span>
+<span class="text-base font-semibold">알림 설정</span>
+</div>
+<span class="material-symbols-outlined text-slate-300 !font-extralight text-lg" data-icon="chevron_right">chevron_right</span>
+</button>
+<button class="w-full flex justify-between items-center px-6 py-5 hover:bg-slate-50 transition-colors group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors" data-icon="lock_open">lock_open</span>
+<span class="text-base font-semibold">개인정보 보호</span>
+</div>
+<span class="material-symbols-outlined text-slate-300 !font-extralight text-lg" data-icon="chevron_right">chevron_right</span>
+</button>
+<button class="w-full flex justify-between items-center px-6 py-5 hover:bg-slate-50 transition-colors group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors" data-icon="help">help</span>
+<span class="text-base font-semibold">고객센터 / FAQ</span>
+</div>
+<span class="material-symbols-outlined text-slate-300 !font-extralight text-lg" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</section>
+<!-- Logout CTA -->
+<div class="flex justify-center pt-4">
+<button class="text-sm font-bold text-slate-400 hover:text-error transition-colors px-6 py-3 rounded-full hover:bg-error/5">로그아웃</button>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-8 pt-3 bg-white/80 dark:bg-slate-900/80 backdrop-blur-3xl rounded-t-[32px] z-50 shadow-[0_-12px_32px_rgba(25,28,30,0.08)]">
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-2 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined mb-1 text-2xl" data-icon="home">home</span>
+<span class="font-headline text-[10px] font-bold">홈</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-2 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined mb-1 text-2xl" data-icon="edit_note">edit_note</span>
+<span class="font-headline text-[10px] font-bold">기록</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-2 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined mb-1 text-2xl" data-icon="map">map</span>
+<span class="font-headline text-[10px] font-bold">지도</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-2 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined mb-1 text-2xl" data-icon="group">group</span>
+<span class="font-headline text-[10px] font-bold">커뮤니티</span>
+</a>
+<!-- ACTIVE TAB WITH NOTIFICATION DOT -->
+<a class="flex flex-col items-center justify-center bg-primary/10 text-primary rounded-[20px] px-6 py-2 transition-all shadow-sm" href="#">
+<div class="relative">
+<span class="material-symbols-outlined mb-0.5 text-2xl" data-icon="person" style="font-variation-settings: 'FILL' 1, 'wght' 400;">person</span>
+<!-- Red Notification Dot -->
+<div class="absolute -top-0.5 -right-0.5 w-2 h-2 bg-error rounded-full ring-2 ring-white"></div>
+</div>
+<span class="font-headline text-[10px] font-extrabold">내 정보</span>
+</a>
+</nav>
+</body></html>

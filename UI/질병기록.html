@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+
+<html class="light" lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>증상 상세 분석 - CareOn</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "outline-variant": "#c3c6d7",
+              "on-tertiary-container": "#b7ffe3",
+              "on-primary": "#ffffff",
+              "secondary-fixed": "#d3e4fe",
+              "on-error": "#ffffff",
+              "primary-fixed": "#dbe1ff",
+              "on-tertiary-fixed-variant": "#00513e",
+              "on-primary-fixed": "#00174b",
+              "surface-container-high": "#e6e8ea",
+              "on-background": "#191c1e",
+              "inverse-primary": "#b4c5ff",
+              "tertiary-fixed": "#64fbce",
+              "primary": "#004ac6",
+              "secondary-fixed-dim": "#b7c8e1",
+              "on-error-container": "#93000a",
+              "outline": "#737686",
+              "on-primary-container": "#eeefff",
+              "surface-container-highest": "#e0e3e5",
+              "inverse-on-surface": "#eff1f3",
+              "tertiary-fixed-dim": "#3fdeb3",
+              "on-tertiary": "#ffffff",
+              "surface-tint": "#0053db",
+              "surface-container": "#eceef0",
+              "surface-bright": "#f7f9fb",
+              "secondary-container": "#d0e1fb",
+              "surface-container-low": "#f2f4f6",
+              "on-secondary-container": "#54647a",
+              "on-surface": "#191c1e",
+              "on-secondary-fixed": "#0b1c30",
+              "secondary": "#505f76",
+              "primary-container": "#2563eb",
+              "on-secondary-fixed-variant": "#38485d",
+              "background": "#f7f9fb",
+              "tertiary-container": "#007c60",
+              "surface-dim": "#d8dadc",
+              "surface-variant": "#e0e3e5",
+              "surface-container-lowest": "#ffffff",
+              "surface": "#f7f9fb",
+              "error": "#ba1a1a",
+              "tertiary": "#00614b",
+              "on-surface-variant": "#434655",
+              "inverse-surface": "#2d3133",
+              "on-primary-fixed-variant": "#003ea8",
+              "primary-fixed-dim": "#b4c5ff",
+              "on-secondary": "#ffffff",
+              "error-container": "#ffdad6",
+              "on-tertiary-fixed": "#002117"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Plus Jakarta Sans"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      body {
+        min-height: max(884px, 100dvh);
+      }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 bg-[#f7f9fb]/70 dark:bg-[#191c1e]/70 backdrop-blur-3xl">
+<div class="flex items-center justify-between px-6 h-16 w-full max-w-screen-xl mx-auto">
+<button class="text-blue-600 dark:text-blue-400 active:scale-95 duration-200 hover:bg-slate-100 dark:hover:bg-slate-800 p-2 rounded-full">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="font-headline font-bold text-lg tracking-tight text-on-surface">증상 상세 분석</h1>
+<button class="text-slate-500 dark:text-slate-400 active:scale-95 duration-200 hover:bg-slate-100 dark:hover:bg-slate-800 p-2 rounded-full">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</header>
+<main class="pt-24 pb-48 px-6 max-w-screen-xl mx-auto">
+<!-- Personalized Greeting -->
+<section class="mb-10">
+<h2 class="font-headline text-3xl font-extrabold tracking-tight mb-2 leading-tight">
+                선우님,<br/>
+                지금까지의 기록이에요
+            </h2>
+<p class="text-secondary text-sm opacity-70">분석된 결과와 추천 복약 정보를 확인하세요.</p>
+</section>
+<!-- Main Timeline Section -->
+<div class="grid grid-cols-1 gap-6 mb-12">
+<!-- Selected Card: Timeline Item 1 -->
+<div class="bg-surface-container-lowest rounded-[24px] p-6 shadow-[0_4px_24px_rgba(0,0,0,0.04)] border-2 border-primary relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 blur-3xl"></div>
+<div class="flex justify-between items-start mb-4">
+<span class="text-secondary-fixed-dim text-xs font-bold px-3 py-1 bg-secondary-fixed/30 rounded-full">5월 14일 오후 2:30</span>
+<span class="flex items-center gap-1.5 px-3 py-1 bg-primary text-on-primary rounded-full text-xs font-bold">
+<span class="material-symbols-outlined text-[14px] animate-pulse" style="font-variation-settings: 'FILL' 1;">edit_note</span>
+                        리뷰 작성 대기
+                    </span>
+</div>
+<h3 class="font-headline text-xl font-bold mb-4">역류성 식도염 의심</h3>
+<div class="space-y-4">
+<div class="p-4 bg-surface-container-high rounded-xl">
+<p class="text-xs text-secondary mb-1">추천 약품</p>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">pill</span>
+<span class="font-bold text-on-surface">제산제 A (겔포스-M)</span>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-4 border-t border-outline-variant/10">
+<button class="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-800 rounded-full text-xs font-bold hover:bg-blue-100 transition-colors">
+<span class="material-symbols-outlined text-sm">receipt_long</span>
+                        약국 영수증 인증하고 포인트 받기
+                    </button>
+</div>
+</div>
+<!-- Review Section (Moved under selected card) -->
+<section class="mb-6">
+<div class="flex items-end justify-between mb-6">
+<div>
+<span class="text-[10px] font-bold text-primary tracking-widest uppercase mb-1 block">Feedback</span>
+<h2 class="font-headline text-2xl font-bold">약국 및 복약 리뷰</h2>
+<p class="text-sm text-secondary mt-1">5월 14일 진료에 대한 후기를 남겨주세요</p>
+</div>
+<span class="text-xs text-secondary opacity-50">인증 후 작성 가능</span>
+</div>
+<div class="space-y-6">
+<!-- Pharmacy Rating Card -->
+<div class="bg-surface-container-low rounded-[24px] p-6 bg-slate-50/50">
+<div class="space-y-4">
+<div class="pt-2 mb-4">
+<div class="w-full h-px bg-slate-200 mb-6"></div>
+<p class="text-base font-extrabold text-on-surface-variant">[약국 서비스 리뷰 ⭐]</p>
+</div>
+<div class="flex gap-2">
+<button class="w-12 h-12 rounded-full bg-surface-container-lowest flex items-center justify-center text-secondary-fixed-dim hover:text-primary transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</button>
+<button class="w-12 h-12 rounded-full bg-surface-container-lowest flex items-center justify-center text-secondary-fixed-dim hover:text-primary transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</button>
+<button class="w-12 h-12 rounded-full bg-surface-container-lowest flex items-center justify-center text-secondary-fixed-dim hover:text-primary transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</button>
+<button class="w-12 h-12 rounded-full bg-surface-container-lowest flex items-center justify-center text-secondary-fixed-dim hover:text-primary transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</button>
+<button class="w-12 h-12 rounded-full bg-surface-container-lowest flex items-center justify-center text-secondary-fixed-dim hover:text-primary transition-colors">
+<span class="material-symbols-outlined">star</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Medication Feedback Card -->
+<div class="bg-surface-container-low rounded-[24px] p-6 space-y-8">
+<div class="space-y-4">
+<div class="pt-2 mb-4">
+<div class="w-full h-px bg-slate-200 mb-6"></div>
+<p class="text-base font-extrabold text-on-surface-variant">[복약 효능 피드백 😊]</p>
+</div>
+<!-- Symptom Improvement -->
+<div class="space-y-3">
+<p class="text-[11px] font-bold text-secondary uppercase tracking-tight">증상 개선 정도</p>
+<div class="grid grid-cols-3 gap-2 p-1 bg-surface-container-highest/30 rounded-xl">
+<button class="py-3 text-xs font-bold rounded-lg bg-primary text-on-primary shadow-sm">좋아짐</button>
+<button class="py-3 text-xs font-bold rounded-lg text-secondary hover:bg-surface-container-lowest transition-colors">그대로임</button>
+<button class="py-3 text-xs font-bold rounded-lg text-secondary hover:bg-surface-container-lowest transition-colors">나빠짐</button>
+</div>
+</div>
+<!-- Effectiveness Icons -->
+<div class="space-y-3">
+<p class="text-[11px] font-bold text-secondary uppercase tracking-tight">나에게 잘 맞았나요?</p>
+<div class="grid grid-cols-3 gap-3">
+<button class="flex flex-col items-center gap-2 p-4 bg-surface-container-lowest rounded-2xl border-2 border-transparent hover:border-tertiary/30 transition-all active:scale-95 group">
+<span class="material-symbols-outlined text-3xl text-secondary opacity-40 group-hover:text-tertiary">sentiment_satisfied</span>
+<span class="text-xs font-bold text-secondary">좋아요</span>
+</button>
+<button class="flex flex-col items-center gap-2 p-4 bg-surface-container-lowest rounded-2xl border-2 border-transparent hover:border-secondary-fixed-dim/30 transition-all active:scale-90 group">
+<span class="material-symbols-outlined text-3xl text-secondary opacity-40 group-hover:text-secondary-fixed-dim">sentiment_neutral</span>
+<span class="text-xs font-bold text-secondary">보통이에요</span>
+</button>
+<button class="flex flex-col items-center gap-2 p-4 bg-surface-container-lowest rounded-2xl border-2 border-transparent hover:border-error/30 transition-all active:scale-95 group">
+<span class="material-symbols-outlined text-3xl text-secondary opacity-40 group-hover:text-error">sentiment_dissatisfied</span>
+<span class="text-xs font-bold text-secondary">별로예요</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Side Effects Section -->
+<div class="pt-6 border-t border-outline-variant/10 space-y-4">
+<p class="text-sm font-bold text-on-surface-variant">부작용 여부</p>
+<div class="flex gap-3">
+<button class="flex-1 py-4 bg-surface-container-lowest border-2 border-transparent rounded-2xl text-secondary font-bold text-sm">없음</button>
+<button class="flex-1 py-4 bg-surface-container-lowest border-2 border-error rounded-2xl text-error font-bold text-sm bg-error/5">있음</button>
+</div>
+<!-- Emergency Response UI -->
+<div class="mt-4 p-5 bg-error/5 rounded-[24px] border border-error/10">
+<p class="text-sm font-bold text-on-surface-variant mb-3">어떤 부작용인가요?</p>
+<div class="flex flex-wrap gap-2 mb-4">
+<button class="px-4 py-2 bg-white border border-outline-variant rounded-full text-xs font-semibold text-secondary">발진</button>
+<button class="px-4 py-2 bg-error text-white border border-error rounded-full text-xs font-semibold">어지러움</button>
+<button class="px-4 py-2 bg-white border border-outline-variant rounded-full text-xs font-semibold text-secondary">구토</button>
+<button class="px-4 py-2 bg-white border border-outline-variant rounded-full text-xs font-semibold text-secondary">기타</button>
+</div>
+<div class="flex items-start gap-2 text-error">
+<span class="material-symbols-outlined text-base mt-0.5">warning</span>
+<p class="text-[12px] font-bold leading-relaxed">
+                                        경고: 증상이 심할 경우 즉시 복용을 중단하고 전문의와 상담하세요.
+                                    </p>
+</div>
+<div class="mt-5 pt-4 border-t border-error/10">
+<button class="w-full py-3 bg-error text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-sm active:scale-[0.98]">
+<span class="material-symbols-outlined text-sm">location_on</span>
+                                        내 주변 내과/응급실 찾기 →
+                                    </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-10 px-2">
+<button class="w-full py-4 bg-primary text-on-primary rounded-2xl font-bold text-base shadow-lg shadow-primary/20 active:scale-[0.98] transition-all duration-200">리뷰 제출하고 +100P 받기</button>
+</div>
+</section>
+<!-- Completed Card: Timeline Item 2 -->
+<div class="bg-surface-container-lowest rounded-[24px] p-6 border border-outline-variant/30 flex flex-col gap-6">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="text-xs font-medium text-secondary opacity-60">5월 10일 오전 10:15</span>
+<span class="flex items-center gap-1 px-3 py-1 bg-surface-container-high text-secondary-fixed-variant rounded-full text-xs font-bold">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                            리뷰 작성 완료
+                        </span>
+</div>
+<h3 class="font-headline text-lg font-bold mb-3">급성 편도염 초기</h3>
+<div class="flex gap-2 mb-4">
+<span class="px-3 py-1 bg-surface-container-low rounded-lg text-xs font-medium text-on-surface-variant">침 삼킬 때 통증</span>
+<span class="px-3 py-1 bg-surface-container-low rounded-lg text-xs font-medium text-on-surface-variant">미열</span>
+</div>
+<div class="bg-surface-container-low rounded-xl p-4">
+<p class="text-[10px] text-secondary mb-1 uppercase tracking-wider font-bold">Recommended Care</p>
+<p class="text-sm font-semibold text-on-surface">인후염 소염제 B 및 충분한 수분 섭취</p>
+</div>
+</div>
+<div class="pt-4 border-t border-outline-variant/20">
+<button class="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-100/30 text-secondary rounded-full text-xs font-bold transition-all border border-blue-200/20 grayscale opacity-60 cursor-default">
+<span class="material-symbols-outlined text-sm">verified</span>
+                        영수증 인증 완료
+                    </button>
+</div>
+</div>
+</div>
+<!-- Medical Disclaimer -->
+<footer class="mt-16 mb-8 text-center">
+<p class="text-[11px] text-secondary opacity-50 px-8 leading-relaxed">
+                본 분석 결과는 참고용이며 전문의의 진단을 대신할 수 없습니다.
+            </p>
+</footer>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 rounded-t-[24px] bg-white/80 dark:bg-slate-950/80 backdrop-blur-3xl shadow-[0_-12px_32px_-4px_rgba(25,28,30,0.06)]">
+<div class="flex justify-around items-center px-4 pb-8 pt-3">
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 py-2 px-4 hover:opacity-80 transition-opacity active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-body text-[10px] font-medium mt-1">홈</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-[20px] py-2 px-5 hover:opacity-80 transition-opacity active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">history_edu</span>
+<span class="font-body text-[10px] font-bold mt-1">기록</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 py-2 px-4 hover:opacity-80 transition-opacity active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="font-body text-[10px] font-medium mt-1">지도</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 py-2 px-4 hover:opacity-80 transition-opacity active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">forum</span>
+<span class="font-body text-[10px] font-medium mt-1">커뮤니티</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 py-2 px-4 hover:opacity-80 transition-opacity active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-body text-[10px] font-medium mt-1">내 정보</span>
+</a>
+</div>
+</nav>
+</body></html>

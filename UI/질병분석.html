@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "inverse-surface": "#2d3133",
+              "primary-container": "#2563eb",
+              "on-secondary-fixed-variant": "#38485d",
+              "surface-dim": "#d8dadc",
+              "secondary-fixed-dim": "#b7c8e1",
+              "inverse-primary": "#b4c5ff",
+              "on-primary": "#ffffff",
+              "surface-container-high": "#e6e8ea",
+              "primary-fixed": "#dbe1ff",
+              "inverse-on-surface": "#eff1f3",
+              "on-error": "#ffffff",
+              "surface-container-low": "#f2f4f6",
+              "on-error-container": "#93000a",
+              "outline-variant": "#c3c6d7",
+              "on-tertiary-container": "#b7ffe3",
+              "error": "#ba1a1a",
+              "surface-container-highest": "#e0e3e5",
+              "on-surface": "#191c1e",
+              "primary": "#004ac6",
+              "on-primary-fixed": "#00174b",
+              "error-container": "#ffdad6",
+              "surface": "#f7f9fb",
+              "on-primary-fixed-variant": "#003ea8",
+              "secondary": "#505f76",
+              "on-tertiary": "#ffffff",
+              "on-secondary-fixed": "#0b1c30",
+              "surface-tint": "#0053db",
+              "surface-variant": "#e0e3e5",
+              "tertiary-fixed-dim": "#3fdeb3",
+              "secondary-fixed": "#d3e4fe",
+              "tertiary": "#00614b",
+              "on-primary-container": "#eeefff",
+              "secondary-container": "#d0e1fb",
+              "primary-fixed-dim": "#b4c5ff",
+              "on-secondary-container": "#54647a",
+              "on-secondary": "#ffffff",
+              "background": "#f7f9fb",
+              "surface-container": "#eceef0",
+              "surface-bright": "#f7f9fb",
+              "tertiary-fixed": "#64fbce",
+              "on-surface-variant": "#434655",
+              "on-background": "#191c1e",
+              "on-tertiary-fixed-variant": "#00513e",
+              "on-tertiary-fixed": "#002117",
+              "surface-container-lowest": "#ffffff",
+              "outline": "#737686",
+              "tertiary-container": "#007c60"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Plus Jakarta Sans"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1.5rem", "3xl": "2rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .pain-slider::-webkit-slider-runnable-track {
+        background: linear-gradient(to right, #007c60 0%, #facc15 50%, #ba1a1a 100%);
+        height: 8px;
+        border-radius: 4px;
+      }
+      .pain-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 24px;
+        height: 24px;
+        background: #ffffff;
+        border: 4px solid #004ac6;
+        border-radius: 50%;
+        margin-top: -8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      .hide-scrollbar::-webkit-scrollbar { display: none; }
+      body {
+        min-height: max(884px, 100dvh);
+      }
+      .body-part {
+        transition: fill 0.2s ease;
+        cursor: pointer;
+      }
+      .body-part:hover {
+        fill: #2563EB;
+        fill-opacity: 0.1;
+      }
+      .body-part.selected {
+        fill: #2563EB;
+        fill-opacity: 0.25;
+      }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-xl flex items-center justify-between px-6 py-4 border-b border-surface-container">
+<div class="flex items-center gap-4">
+<button class="active:scale-95 duration-200 transition-colors hover:bg-slate-100 p-2 rounded-full">
+<span class="material-symbols-outlined text-blue-600">arrow_back</span>
+</button>
+<h1 class="font-headline font-bold text-2xl tracking-tighter text-blue-600">CareOn</h1>
+</div>
+<button class="active:scale-95 duration-200 transition-colors hover:bg-slate-100 p-2 rounded-full">
+<span class="material-symbols-outlined text-blue-600">help</span>
+</button>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-2xl mx-auto space-y-8">
+<!-- Personalized Greeting -->
+<section class="space-y-4">
+<h2 class="font-headline text-3xl font-bold tracking-tight text-on-surface leading-tight">
+                선우님,<br/>어디가 불편하세요?
+            </h2>
+<div class="relative group">
+<div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline">search</span>
+</div>
+<input class="w-full bg-surface-container-high border-none rounded-2xl py-4 pl-12 pr-4 focus:ring-2 focus:ring-primary/40 transition-all placeholder:text-outline" placeholder="증상을 검색해보세요 (예: 두통, 속쓰림)" type="text"/>
+</div>
+</section>
+<!-- Body Map Visualization -->
+<section class="relative bg-surface-container-low rounded-3xl p-6 overflow-hidden aspect-[4/5] flex flex-col items-center justify-center border border-outline-variant/10">
+<!-- Background Mesh Pattern -->
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#004ac6 1px, transparent 1px); background-size: 32px 32px;"></div>
+<div class="absolute top-4 right-4 flex flex-col gap-2 z-10">
+<button class="bg-surface-container-lowest shadow-sm p-3 rounded-2xl hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-primary">zoom_in</span>
+</button>
+<button class="bg-surface-container-lowest shadow-sm p-3 rounded-2xl hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-secondary">3d_rotation</span>
+</button>
+</div>
+<!-- Enhanced Human Silhouette (Neutral Standing Pose) -->
+<div class="relative w-full h-full max-w-[300px] flex items-center justify-center">
+<svg class="w-full h-full drop-shadow-sm" viewbox="0 0 240 540" xmlns="http://www.w3.org/2000/svg">
+<!-- Base Silhouette Background (Static - Grey) -->
+<g fill="#e0e3e5">
+<!-- Head -->
+<path d="M120 15 C140 15 155 30 155 50 C155 70 140 85 120 85 C100 85 85 70 85 50 C85 30 100 15 120 15"></path>
+<!-- Torso & Shoulders -->
+<path d="M85 90 L155 90 C175 90 185 105 185 125 L180 260 L120 270 L60 260 L55 125 C55 105 65 90 85 90"></path>
+<!-- Left Arm -->
+<path d="M55 125 L40 280 C38 300 50 305 55 285 L65 140"></path>
+<path d="M40 285 L35 400 C33 420 45 420 50 400 L55 285"></path>
+<!-- Right Arm -->
+<path d="M185 125 L200 280 C202 300 190 305 185 285 L175 140"></path>
+<path d="M200 285 L205 400 C207 420 195 420 190 400 L185 285"></path>
+<!-- Legs -->
+<path d="M70 265 L115 265 L110 400 L105 520 L80 520 L85 400 Z"></path> <!-- Left Leg -->
+<path d="M125 265 L170 265 L155 400 L160 520 L135 520 L130 400 Z"></path> <!-- Right Leg -->
+</g>
+<!-- Interactive Body Parts Overlays -->
+<!-- Head -->
+<circle class="body-part" cx="120" cy="50" fill="transparent" r="35"></circle>
+<!-- Chest (Selected/Active) -->
+<path class="body-part selected" d="M85 90 L155 90 L155 180 L85 180 Z" fill="#2563EB" fill-opacity="0.25"></path>
+<!-- Pulse indicator on Heart -->
+<circle class="animate-pulse" cx="120" cy="135" fill="#2563EB" r="6"></circle>
+<!-- Arms -->
+<path class="body-part" d="M55 125 L35 400 L55 400 L65 125 Z" fill="transparent"></path> <!-- Left Arm Group -->
+<path class="body-part" d="M185 125 L205 400 L185 400 L175 125 Z" fill="transparent"></path> <!-- Right Arm Group -->
+<!-- Abdomen -->
+<path class="body-part" d="M85 180 L155 180 L160 265 L80 265 Z" fill="transparent"></path>
+<!-- Legs -->
+<path class="body-part" d="M70 265 L115 265 L105 520 L80 520 Z" fill="transparent"></path> <!-- Left Leg Group -->
+<path class="body-part" d="M125 265 L170 265 L160 520 L135 520 Z" fill="transparent"></path> <!-- Right Leg Group -->
+</svg>
+<!-- Dynamic Labels -->
+<div class="absolute top-[8%] left-[68%] bg-surface-container-lowest px-3 py-1.5 rounded-xl shadow-lg flex items-center gap-2 border border-outline-variant/30 opacity-60">
+<span class="text-xs font-bold text-on-surface">머리</span>
+</div>
+<div class="absolute top-[28%] left-[5%] bg-white px-4 py-2 rounded-2xl shadow-xl flex items-center gap-2 border border-primary/20 scale-105 transition-transform z-20">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-sm font-bold text-on-surface">가슴/심장</span>
+</div>
+<div class="absolute top-[48%] right-[2%] bg-surface-container-lowest px-3 py-1.5 rounded-xl shadow-md flex items-center gap-2 border border-outline-variant/20 opacity-80">
+<span class="text-xs font-bold text-on-surface">팔/어깨</span>
+</div>
+</div>
+<!-- Bottom Status Label -->
+<div class="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur px-4 py-2 rounded-full border border-primary/20 shadow-sm flex items-center gap-2">
+<span class="w-2.5 h-2.5 bg-primary-container rounded-full animate-pulse"></span>
+<span class="text-sm font-bold text-primary-container">가슴 영역 선택됨</span>
+</div>
+</section>
+<!-- Contextual Area Tabs -->
+<section class="space-y-4">
+<div class="flex gap-2 overflow-x-auto hide-scrollbar">
+<button class="bg-primary text-on-primary px-5 py-2.5 rounded-full text-sm font-bold flex-shrink-0">가슴</button>
+<button class="bg-surface-container-highest text-secondary px-5 py-2.5 rounded-full text-sm font-medium flex-shrink-0">머리</button>
+<button class="bg-surface-container-highest text-secondary px-5 py-2.5 rounded-full text-sm font-medium flex-shrink-0">팔/어깨</button>
+<button class="bg-surface-container-low text-outline-variant px-5 py-2.5 rounded-full text-sm font-medium flex-shrink-0 border border-outline-variant/20">
+<span class="material-symbols-outlined text-base">add</span>
+</button>
+</div>
+<!-- Symptom Chips -->
+<div class="flex flex-wrap gap-2">
+<button class="bg-primary-container text-on-primary-container px-4 py-2 rounded-xl text-sm font-semibold transition-all">통증</button>
+<button class="bg-primary-container text-on-primary-container px-4 py-2 rounded-xl text-sm font-semibold transition-all">압박감</button>
+<button class="bg-surface-container-lowest text-on-surface px-4 py-2 rounded-xl text-sm font-medium border border-outline-variant/30 hover:bg-surface-container transition-all">답답함</button>
+<button class="bg-surface-container-lowest text-on-surface px-4 py-2 rounded-xl text-sm font-medium border border-outline-variant/30 hover:bg-surface-container transition-all">호흡곤란</button>
+<button class="bg-surface-container-lowest text-on-surface px-4 py-2 rounded-xl text-sm font-medium border border-outline-variant/30 hover:bg-surface-container transition-all">저림</button>
+</div>
+</section>
+<!-- Pain Intensity Slider -->
+<section class="bg-surface-container-low rounded-3xl p-6 space-y-6">
+<div class="flex justify-between items-end">
+<label class="text-sm font-bold text-secondary uppercase tracking-wider">통증 강도</label>
+<div class="relative">
+<div class="bg-primary text-white px-3 py-1 rounded-lg text-lg font-bold after:content-[''] after:absolute after:top-full after:left-1/2 after:-translate-x-1/2 after:border-8 after:border-transparent after:border-t-primary">
+                        7
+                    </div>
+</div>
+</div>
+<input class="pain-slider w-full h-2 bg-transparent appearance-none cursor-pointer" max="10" min="1" type="range" value="7"/>
+<div class="flex justify-between text-xs font-semibold text-outline px-1">
+<span>거의 없음</span>
+<span>매우 심함</span>
+</div>
+</section>
+<!-- Time Selection -->
+<section class="space-y-4">
+<h3 class="text-sm font-bold text-secondary uppercase tracking-wider">언제부터 시작되었나요?</h3>
+<div class="grid grid-cols-2 gap-3">
+<button class="p-4 rounded-2xl bg-surface-container-lowest border border-outline-variant/20 text-left hover:border-primary transition-all group">
+<span class="block text-sm font-bold text-on-surface">방금 전</span>
+<span class="text-xs text-secondary">최근 1시간 이내</span>
+</button>
+<button class="p-4 rounded-2xl bg-primary text-on-primary text-left shadow-lg shadow-primary/20">
+<span class="block text-sm font-bold">1~2일 전</span>
+<span class="text-xs opacity-80">어제 또는 오늘 새벽</span>
+</button>
+<button class="p-4 rounded-2xl bg-surface-container-lowest border border-outline-variant/20 text-left hover:border-primary transition-all">
+<span class="block text-sm font-bold text-on-surface">3~7일 전</span>
+<span class="text-xs text-secondary">일주일 이내</span>
+</button>
+<button class="p-4 rounded-2xl bg-surface-container-lowest border border-outline-variant/20 text-left hover:border-primary transition-all">
+<span class="block text-sm font-bold text-on-surface">1주 이상</span>
+<span class="text-xs text-secondary">만성적인 불편함</span>
+</button>
+</div>
+</section>
+<footer class="pt-8 pb-12 space-y-6 border-t border-outline-variant/10 mt-8">
+<!-- Security Notice -->
+<div class="flex items-center justify-center gap-2 bg-surface-container-low/50 py-3 rounded-2xl text-[#2563EB]">
+<span class="material-symbols-outlined text-sm font-variation-settings-['FILL'_1]">lock</span>
+<p class="text-xs font-medium">선우님의 건강 데이터는 <span class="text-[#2563EB] font-bold">암호화</span> 기술로 안전하게 보호됩니다</p>
+</div>
+<!-- Medical Disclaimer -->
+<div class="space-y-2 px-2">
+<p class="text-[10px] leading-relaxed text-outline text-center">
+            본 서비스는 증상에 대한 참고용 정보를 제공하며, 실제 의사의 진단을 대신할 수 없습니다. <br class="hidden sm:block"/>
+            위급 상황 발생 시 즉시 <span class="font-bold">119</span> 또는 가까운 응급실을 방문하시기 바랍니다.
+        </p>
+</div>
+</footer></main>
+<!-- Floating Action Button -->
+<button class="fixed bottom-28 right-6 w-14 h-14 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center active:scale-90 transition-transform duration-200 z-40">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+</button>
+<!-- Sticky Action Button -->
+<div class="fixed bottom-0 w-full bg-white/80 backdrop-blur-xl px-6 pt-4 pb-8 z-50 border-t border-surface-container">
+<button class="w-full bg-primary-container text-white py-4 rounded-2xl font-bold text-lg shadow-lg shadow-primary/20 active:scale-[0.98] transition-all">
+            AI 분석 시작하기
+        </button>
+</div>
+<script>
+        // Simple script to handle part selection for demonstration
+        document.querySelectorAll('.body-part').forEach(part => {
+            part.addEventListener('click', () => {
+                document.querySelectorAll('.body-part').forEach(p => p.classList.remove('selected'));
+                part.classList.add('selected');
+            });
+        });
+    </script>
+</body></html>

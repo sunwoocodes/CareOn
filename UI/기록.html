@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CareOn - 기록</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-tertiary": "#ffffff",
+              "on-surface": "#191c1e",
+              "error-container": "#ffdad6",
+              "surface-container-high": "#e6e8ea",
+              "on-error": "#ffffff",
+              "surface": "#f7f9fb",
+              "secondary-container": "#d0e1fb",
+              "inverse-primary": "#b4c5ff",
+              "on-tertiary-fixed-variant": "#00513e",
+              "on-error-container": "#93000a",
+              "background": "#f7f9fb",
+              "tertiary-container": "#007c60",
+              "surface-container-highest": "#e0e3e5",
+              "outline-variant": "#c3c6d7",
+              "on-secondary": "#ffffff",
+              "on-secondary-fixed-variant": "#38485d",
+              "surface-container-lowest": "#ffffff",
+              "error": "#ba1a1a",
+              "surface-variant": "#e0e3e5",
+              "primary-container": "#2563eb",
+              "primary-fixed": "#dbe1ff",
+              "on-primary-fixed": "#00174b",
+              "secondary": "#505f76",
+              "on-primary": "#ffffff",
+              "on-primary-fixed-variant": "#003ea8",
+              "inverse-surface": "#2d3133",
+              "surface-dim": "#d8dadc",
+              "on-tertiary-fixed": "#002117",
+              "on-secondary-container": "#54647a",
+              "tertiary": "#00614b",
+              "surface-container-low": "#f2f4f6",
+              "surface-container": "#eceef0",
+              "surface-tint": "#0053db",
+              "on-surface-variant": "#434655",
+              "primary-fixed-dim": "#b4c5ff",
+              "outline": "#737686",
+              "tertiary-fixed-dim": "#3fdeb3",
+              "primary": "#004ac6",
+              "on-background": "#191c1e",
+              "secondary-fixed": "#d3e4fe",
+              "inverse-on-surface": "#eff1f3",
+              "tertiary-fixed": "#64fbce",
+              "on-primary-container": "#eeefff",
+              "secondary-fixed-dim": "#b7c8e1",
+              "on-tertiary-container": "#b7ffe3",
+              "surface-bright": "#f7f9fb",
+              "on-secondary-fixed": "#0b1c30",
+              "warning-orange": "#f97316"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Plus Jakarta Sans"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "1.5rem", "2xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        vertical-align: middle;
+      }
+      .glass-header {
+        background: rgba(247, 249, 251, 0.8);
+        backdrop-filter: blur(24px);
+      }
+      .glass-nav {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(24px);
+      }
+      body {
+        background-color: #f7f9fb;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-on-surface antialiased">
+<!-- Top AppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 py-4 max-w-screen-xl mx-auto glass-header">
+<div class="flex items-center gap-3">
+<img alt="User Profile" class="w-10 h-10 rounded-full border-2 border-primary/10" data-alt="Close up portrait of a friendly young professional man with a kind smile, clean background, soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKIYUaZkWjbRMwCbvNHNtG2QbQ0mxVZcgRKPie9xeeHfBP9aW07sK_V_pz8lH68msiE7y9ONQT-larp8n610WAWXAvXhId8xjHIXfBJW1dZnh9R_Ux5h318RV846R6XgqRkqDpB0aR5XQRSAMQ0UWS5UwD5WNTVq2MZXAZwzoqre9OXfJogibAF98L5VM9eYVqTB0oxczEQaYpYc4zhbUHB0tdsQ_aXLrl8n8IuR-uuF7k9qIO_kK9mYwuMHbnOuuEiynT3CECiUZh"/>
+<span class="font-headline text-slate-900 font-semibold tracking-tight">선우님, 오늘 컨디션은 최고예요!</span>
+</div>
+<button class="p-2 rounded-full hover:bg-slate-100 transition-colors active:scale-95">
+<span class="material-symbols-outlined text-slate-900" data-icon="notifications">notifications</span>
+</button>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-md mx-auto space-y-8">
+<!-- Quick Actions (Vertical Cards) -->
+<section class="grid grid-cols-1 gap-4">
+<!-- Dietary Record -->
+<div class="relative overflow-hidden bg-gradient-to-br from-primary to-primary-container p-6 rounded-2xl shadow-lg group">
+<div class="flex justify-between items-start mb-8">
+<div>
+<h3 class="text-white text-xl font-bold font-headline mb-1">식단 기록</h3>
+<p class="text-primary-fixed/80 text-sm">오늘의 영양 밸런스를 체크하세요</p>
+</div>
+<div class="bg-white/20 p-2 rounded-xl backdrop-blur-md">
+<span class="material-symbols-outlined text-white" data-icon="restaurant">restaurant</span>
+</div>
+</div>
+<div class="flex justify-between items-center">
+<button class="bg-white text-primary font-bold px-5 py-2.5 rounded-xl flex items-center gap-2 active:scale-95 transition-transform">
+                        기록하기
+                        <span class="material-symbols-outlined text-[18px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<!-- Decorative element -->
+<div class="absolute -right-4 -bottom-4 opacity-10">
+<span class="material-symbols-outlined text-[120px]" data-icon="lunch_dining">lunch_dining</span>
+</div>
+</div>
+<!-- Symptom Record -->
+<div class="relative overflow-hidden bg-gradient-to-br from-tertiary to-tertiary-container p-6 rounded-2xl shadow-lg group">
+<div class="flex justify-between items-start mb-8">
+<div>
+<h3 class="text-white text-xl font-bold font-headline mb-1">증상 기록</h3>
+<p class="text-tertiary-fixed/80 text-sm">몸의 작은 변화도 놓치지 마세요</p>
+</div>
+<div class="bg-white/20 p-2 rounded-xl backdrop-blur-md">
+<span class="material-symbols-outlined text-white" data-icon="vital_signs">vital_signs</span>
+</div>
+</div>
+<div class="flex justify-between items-center">
+<button class="bg-white text-tertiary font-bold px-5 py-2.5 rounded-xl flex items-center gap-2 active:scale-95 transition-transform">
+                        기록하기
+                        <span class="material-symbols-outlined text-[18px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<!-- Decorative element -->
+<div class="absolute -right-4 -bottom-4 opacity-10">
+<span class="material-symbols-outlined text-[120px]" data-icon="medical_services">medical_services</span>
+</div>
+</div>
+</section>
+<!-- Wellness Insight Section -->
+<section class="bg-surface-container-lowest p-6 rounded-2xl">
+<div class="flex items-center justify-between mb-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="auto_awesome" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<h2 class="text-lg font-bold font-headline text-slate-900">Wellness Insight</h2>
+</div>
+</div>
+<div class="space-y-6">
+<!-- Carbohydrates -->
+<div class="space-y-2">
+<div class="flex justify-between text-sm font-medium">
+<span class="text-secondary">탄수화물</span>
+<span class="text-on-surface">65g <span class="text-slate-400">/ 120g</span></span>
+</div>
+<div class="h-2.5 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary-container rounded-full" style="width: 54%;"></div>
+</div>
+</div>
+<!-- Protein -->
+<div class="space-y-2">
+<div class="flex justify-between text-sm font-medium">
+<span class="text-secondary">단백질</span>
+<span class="text-on-surface">45g <span class="text-slate-400">/ 80g</span></span>
+</div>
+<div class="h-2.5 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-tertiary-container rounded-full" style="width: 56%;"></div>
+</div>
+</div>
+<!-- Fat -->
+<div class="space-y-2">
+<div class="flex justify-between text-sm font-medium">
+<span class="text-secondary">지방</span>
+<span class="text-on-surface">22g <span class="text-slate-400">/ 50g</span></span>
+</div>
+<div class="h-2.5 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-warning-orange/80 rounded-full" style="width: 44%;"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Today's Mission Section -->
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<h2 class="text-lg font-bold font-headline text-slate-900">오늘의 기록 미션</h2>
+<a class="text-sm font-medium text-slate-400 hover:text-primary transition-colors" href="#">전체보기</a>
+</div>
+<div class="space-y-3">
+<!-- Mission 1 -->
+<div class="flex items-center justify-between p-4 bg-surface-container-low rounded-2xl group hover:bg-white hover:shadow-sm transition-all">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-500">
+<span class="material-symbols-outlined" data-icon="bedtime">bedtime</span>
+</div>
+<div>
+<p class="font-semibold text-slate-900">수면 기록하기</p>
+<p class="text-xs text-primary font-medium tracking-tight">+50P 적립</p>
+</div>
+</div>
+<button class="bg-warning-orange text-white text-sm font-bold px-4 py-2 rounded-xl active:scale-95 transition-transform">
+                        기록
+                    </button>
+</div>
+<!-- Mission 2 -->
+<div class="flex items-center justify-between p-4 bg-surface-container-low rounded-2xl group hover:bg-white hover:shadow-sm transition-all">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-500">
+<span class="material-symbols-outlined" data-icon="fitness_center">fitness_center</span>
+</div>
+<div>
+<p class="font-semibold text-slate-900">운동 기록하기</p>
+<p class="text-xs text-primary font-medium tracking-tight">+50P 적립</p>
+</div>
+</div>
+<button class="bg-warning-orange text-white text-sm font-bold px-4 py-2 rounded-xl active:scale-95 transition-transform">
+                        기록
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 glass-nav rounded-t-[24px] shadow-[0_-12px_32px_-4px_rgba(25,28,30,0.06)]">
+<a class="flex flex-col items-center justify-center text-slate-400 px-4 py-2 hover:text-blue-500 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label text-[11px] font-medium tracking-wide">홈</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#2563EB] bg-blue-50 rounded-2xl px-4 py-2 scale-100 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="edit_note" style="font-variation-settings: 'FILL' 1;">edit_note</span>
+<span class="font-label text-[11px] font-bold tracking-wide">기록</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 px-4 py-2 hover:text-blue-500 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="font-label text-[11px] font-medium tracking-wide">지도</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 px-4 py-2 hover:text-blue-500 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="forum">forum</span>
+<span class="font-label text-[11px] font-medium tracking-wide">커뮤니티</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 px-4 py-2 hover:text-blue-500 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label text-[11px] font-medium tracking-wide">내 정보</span>
+</a>
+</nav>
+</body></html>
