@@ -1,50 +1,122 @@
-# Welcome to your Expo app 👋
+# CareOn 📱
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+> **Personal Health Management Mobile App** — Track your diet, symptoms, activities, and connect with a community, all in one place.
 
-## Get started
+---
 
-1. Install dependencies
+## 📌 About
 
-   ```bash
-   npm install
-   ```
+CareOn is a mobile healthcare app that helps users manage their daily health data in one unified platform.  
+It provides diet logging, symptom checking, health score tracking, and community features to support a healthier lifestyle.
 
-2. Start the app
+---
 
-   ```bash
-   npx expo start
-   ```
+## ✨ Features
 
-In the output, you'll find options to open the app in a
+### 🏠 Home
+- Daily **health score** visualization with an animated circular progress chart
+- Nutrition balance insights (carbs / protein / fat ratio)
+- Today's activity timeline
+- Quick access to diet logging and symptom check
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### 🍽️ Diet
+- Meal logging by category: Breakfast / Lunch / Dinner / Snack
+- Nutrient intake tracking
+- Diet history log
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### 📋 Record
+- Daily health data entry and management
 
-## Get a fresh project
+### 🩺 Diagnosis
+- Symptom input and self-check flow
+- Diagnosis analysis result screen (`diagnosis-analysis`)
+- Diagnosis history log screen (`diagnosis-log`)
 
-When you're ready, run:
+### 🗺️ Map
+- Search nearby medical facilities and view locations
+
+### 💬 Community
+- Browse health-related posts
+- Post detail view with comments (`community/[id]`)
+
+### 👤 Profile
+- User information and personal health settings
+
+---
+
+## 🛠️ Tech Stack
+
+| Category | Technology |
+|----------|------------|
+| **Framework** | [Expo](https://expo.dev) ~54 + React Native 0.81 |
+| **Language** | TypeScript 5.9 |
+| **Routing** | Expo Router (file-based routing) |
+| **Styling** | [NativeWind](https://www.nativewind.dev/) v4 (Tailwind CSS for React Native) |
+| **Backend / DB** | [Supabase](https://supabase.com/) (Auth + Database) |
+| **Animation** | React Native Animated API, `react-native-reanimated` v4 |
+| **UI Components** | `@expo/vector-icons` (MaterialIcons), `expo-linear-gradient`, `expo-blur` |
+| **Navigation** | `@react-navigation/bottom-tabs` + `@react-navigation/native` |
+| **Graphics** | `react-native-svg` (circular charts, etc.) |
+| **Fonts** | Manrope, Plus Jakarta Sans (`@expo-google-fonts`) |
+| **Haptics** | `expo-haptics` |
+
+---
+
+## 🚀 Getting Started
+
+### 1. Install dependencies
 
 ```bash
-npm run reset-project
+npm install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 2. Start the app
 
-## Learn more
+```bash
+npx expo start
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+Available runtime options:
+- **Expo Go** app (iOS / Android)
+- **Android Emulator**
+- **iOS Simulator**
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+---
 
-## Join the community
+## 📁 Project Structure
 
-Join our community of developers creating universal apps.
+```
+careon-mobile/
+├── app/
+│   ├── (tabs)/                 # Bottom tab navigation screens
+│   │   ├── index.tsx           # Home
+│   │   ├── record.tsx          # Health Record
+│   │   ├── map.tsx             # Map
+│   │   ├── community.tsx       # Community
+│   │   └── profile.tsx         # Profile
+│   ├── community/
+│   │   └── [id].tsx            # Post detail
+│   ├── diet.tsx                # Diet logging
+│   ├── diagnosis.tsx           # Symptom diagnosis
+│   ├── diagnosis-analysis.tsx  # Diagnosis result
+│   ├── diagnosis-log.tsx       # Diagnosis history
+│   └── _layout.tsx
+├── components/
+│   ├── TopBar.tsx              # Shared top bar
+│   ├── BottomNav.tsx           # Shared bottom navigation
+│   └── supabase.ts             # Supabase client
+├── constants/
+├── hooks/
+└── assets/
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+---
+
+## 🔧 Environment Variables
+
+Create a `.env` file in the root directory and configure your Supabase credentials:
+
+```env
+EXPO_PUBLIC_SUPABASE_URL=your-supabase-url
+EXPO_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+```
