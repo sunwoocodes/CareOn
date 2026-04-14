@@ -1,14 +1,55 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import React, { useState } from 'react';
+import { LayoutAnimation, Platform, ScrollView, Text, TextInput, TouchableOpacity, UIManager, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Svg, { G, Path, Circle } from 'react-native-svg';
+import Svg, { Circle, Path, Rect } from 'react-native-svg';
 import TopBar from '../components/TopBar';
+
+if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
 
 export default function DiagnosisAnalysis() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+
+  const [selectedParts, setSelectedParts] = useState<string[]>(['chest']);
+
+  const togglePart = (part: string) => {
+    LayoutAnimation.configureNext({
+      duration: 300,
+      create: { type: LayoutAnimation.Types.easeInEaseOut, property: LayoutAnimation.Properties.opacity },
+      update: { type: LayoutAnimation.Types.easeInEaseOut },
+      delete: { type: LayoutAnimation.Types.easeOut, property: LayoutAnimation.Properties.opacity },
+    });
+    setSelectedParts(prev =>
+      prev.includes(part) ? prev.filter(p => p !== part) : [...prev, part]
+    );
+  };
+
+  const partNames: Record<string, string> = {
+    head: '머리',
+    chest: '가슴/심장',
+    abdomen: '복부',
+    left_upper_arm: '왼쪽 위팔',
+    left_elbow: '왼쪽 팔꿈치',
+    left_forearm: '왼쪽 아래팔',
+    left_hand: '왼손',
+    right_upper_arm: '오른쪽 위팔',
+    right_elbow: '오른쪽 팔꿈치',
+    right_forearm: '오른쪽 아래팔',
+    right_hand: '오른손',
+    left_thigh: '왼쪽 허벅지',
+    right_thigh: '오른쪽 허벅지',
+    left_knee: '왼쪽 무릎',
+    right_knee: '오른쪽 무릎',
+    left_calf: '왼쪽 종아리',
+    right_calf: '오른쪽 종아리',
+    left_foot: '왼쪽 발',
+    right_foot: '오른쪽 발'
+  };
 
   return (
     <View className="flex-1 bg-slate-50 overflow-hidden">
@@ -58,24 +99,65 @@ export default function DiagnosisAnalysis() {
 
           <View className="relative w-full h-[360px] max-w-[300px] flex items-center justify-center">
             <Svg className="w-full h-full" viewBox="0 0 240 540">
-              <G fill="#e0e3e5">
-                <Path d="M120 15 C140 15 155 30 155 50 C155 70 140 85 120 85 C100 85 85 70 85 50 C85 30 100 15 120 15" />
-                <Path d="M85 90 L155 90 C175 90 185 105 185 125 L180 260 L120 270 L60 260 L55 125 C55 105 65 90 85 90" />
-                <Path d="M55 125 L40 280 C38 300 50 305 55 285 L65 140" />
-                <Path d="M40 285 L35 400 C33 420 45 420 50 400 L55 285" />
-                <Path d="M185 125 L200 280 C202 300 190 305 185 285 L175 140" />
-                <Path d="M200 285 L205 400 C207 420 195 420 190 400 L185 285" />
-                <Path d="M70 265 L115 265 L110 400 L105 520 L80 520 L85 400 Z" />
-                <Path d="M125 265 L170 265 L155 400 L160 520 L135 520 L130 400 Z" />
-              </G>
-              <Circle cx="120" cy="50" fill="transparent" r="35" />
-              <Path d="M85 90 L155 90 L155 180 L85 180 Z" fill="#2563EB" fillOpacity="0.3" />
-              <Circle cx="120" cy="135" fill="#2563EB" r="6" />
-              <Path d="M55 125 L35 400 L55 400 L65 125 Z" fill="transparent" />
-              <Path d="M185 125 L205 400 L185 400 L175 125 Z" fill="transparent" />
-              <Path d="M85 180 L155 180 L160 265 L80 265 Z" fill="transparent" />
-              <Path d="M70 265 L115 265 L105 520 L80 520 Z" fill="transparent" />
-              <Path d="M125 265 L170 265 L160 520 L135 520 Z" fill="transparent" />
+              {/* Head */}
+              <Circle cx="120" cy="70" r="32" fill={selectedParts.includes('head') ? '#2563eb' : '#e2e8f0'} onPress={() => togglePart('head')} />
+
+              {/* Chest */}
+              <Path d="M 98 125 L 142 125 A 20 20 0 0 1 162 145 L 162 200 L 78 200 L 78 145 A 20 20 0 0 1 98 125 Z" fill={selectedParts.includes('chest') ? '#2563eb' : '#e2e8f0'} onPress={() => togglePart('chest')} />
+
+              {/* Abdomen */}
+              <Rect x="78" y="200" width="84" height="80" rx="10" fill={selectedParts.includes('abdomen') ? '#2563eb' : '#e2e8f0'} onPress={() => togglePart('abdomen')} />
+
+              {/* === 왼쪽 팔 분할 === */}
+              {/* Left Upper Arm */}
+              <Rect x="42" y="132" width="24" height="50" rx="12" fill={selectedParts.includes('left_upper_arm') ? '#2563eb' : '#e2e8f0'} onPress={() => togglePart('left_upper_arm')} />
+
+              {/* Left Elbow */}
+              <Rect x="42" y="182" width="24" height="20" rx="8" fill={selectedParts.includes('left_elbow') ? '#2563eb' : '#e2e8f0'} onPress={() => togglePart('left_elbow')} />
+
+              {/* Left Forearm */}
+              <Rect x="42" y="202" width="24" height="45" rx="12" fill={selectedParts.includes('left_forearm') ? '#2563eb' : '#e2e8f0'} onPress={() => togglePart('left_forearm')} />
+
+              {/* Left Hand */}
+              <Rect x="40" y="247" width="28" height="20" rx="6" fill={selectedParts.includes('left_hand') ? '#2563eb' : '#e2e8f0'} onPress={() => togglePart('left_hand')} />
+
+              {/* === 오른쪽 팔 분할 === */}
+              {/* Right Upper Arm */}
+              <Rect x="174" y="132" width="24" height="50" rx="12" fill={selectedParts.includes('right_upper_arm') ? '#2563eb' : '#e2e8f0'} onPress={() => togglePart('right_upper_arm')} />
+
+              {/* Right Elbow */}
+              <Rect x="174" y="182" width="24" height="20" rx="8" fill={selectedParts.includes('right_elbow') ? '#2563eb' : '#e2e8f0'} onPress={() => togglePart('right_elbow')} />
+
+              {/* Right Forearm */}
+              <Rect x="174" y="202" width="24" height="45" rx="12" fill={selectedParts.includes('right_forearm') ? '#2563eb' : '#e2e8f0'} onPress={() => togglePart('right_forearm')} />
+
+              {/* Right Hand */}
+              <Rect x="172" y="247" width="28" height="20" rx="6" fill={selectedParts.includes('right_hand') ? '#2563eb' : '#e2e8f0'} onPress={() => togglePart('right_hand')} />
+
+              {/* === 다리 분할 === */}
+              {/* Left Thigh (허벅지) */}
+              <Rect x="78" y="280" width="28" height="80" rx="10" fill={selectedParts.includes('left_thigh') ? '#2563eb' : '#e2e8f0'} onPress={() => togglePart('left_thigh')} />
+
+              {/* Right Thigh */}
+              <Rect x="134" y="280" width="28" height="80" rx="10" fill={selectedParts.includes('right_thigh') ? '#2563eb' : '#e2e8f0'} onPress={() => togglePart('right_thigh')} />
+
+              {/* Left Knee */}
+              <Rect x="78" y="360" width="28" height="25" rx="8" fill={selectedParts.includes('left_knee') ? '#2563eb' : '#e2e8f0'} onPress={() => togglePart('left_knee')} />
+
+              {/* Right Knee */}
+              <Rect x="134" y="360" width="28" height="25" rx="8" fill={selectedParts.includes('right_knee') ? '#2563eb' : '#e2e8f0'} onPress={() => togglePart('right_knee')} />
+
+              {/* Left Calf (종아리) */}
+              <Rect x="78" y="385" width="28" height="60" rx="10" fill={selectedParts.includes('left_calf') ? '#2563eb' : '#e2e8f0'} onPress={() => togglePart('left_calf')} />
+
+              {/* Right Calf */}
+              <Rect x="134" y="385" width="28" height="60" rx="10" fill={selectedParts.includes('right_calf') ? '#2563eb' : '#e2e8f0'} onPress={() => togglePart('right_calf')} />
+
+              {/* Left Foot */}
+              <Rect x="75" y="445" width="34" height="15" rx="5" fill={selectedParts.includes('left_foot') ? '#2563eb' : '#e2e8f0'} onPress={() => togglePart('left_foot')} />
+
+              {/* Right Foot */}
+              <Rect x="131" y="445" width="34" height="15" rx="5" fill={selectedParts.includes('right_foot') ? '#2563eb' : '#e2e8f0'} onPress={() => togglePart('right_foot')} />
             </Svg>
 
             <View className="absolute top-[8%] left-[70%] bg-white px-3 py-1.5 rounded-xl border border-slate-200 opacity-80">
@@ -90,44 +172,91 @@ export default function DiagnosisAnalysis() {
             </View>
           </View>
 
-          <View className="absolute bottom-6 bg-white/90 px-4 py-2 rounded-full border border-blue-100 shadow-sm flex-row items-center gap-2">
-            <View className="w-2.5 h-2.5 bg-blue-600 rounded-full opacity-60" />
-            <Text className="text-sm font-bold text-blue-600">가슴 영역 선택됨</Text>
+          <View pointerEvents="none" className="absolute bottom-6 bg-white/90 px-4 py-2 rounded-full border border-blue-100 shadow-sm flex-row items-center gap-2">
+            <View className={`w-2.5 h-2.5 rounded-full ${selectedParts.length > 0 ? 'bg-blue-600 opacity-60' : 'bg-slate-300'}`} />
+            <Text className={`text-sm font-bold ${selectedParts.length > 0 ? 'text-blue-600' : 'text-slate-400'}`}>
+              {selectedParts.length > 0
+                ? (selectedParts.length === 1 ? `${partNames[selectedParts[0]]} 영역 선택됨` : `${partNames[selectedParts[0]]} 외 ${selectedParts.length - 1}곳 선택됨`)
+                : '선택된 영역 없음'}
+            </Text>
           </View>
         </View>
 
         {/* Contextual Area Tabs */}
-        <View className="flex-col gap-4 mb-8">
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerClassName="gap-2">
-            <TouchableOpacity className="bg-blue-600 px-5 py-2.5 rounded-full" activeOpacity={0.8}>
-              <Text className="text-white text-sm font-bold">가슴</Text>
-            </TouchableOpacity>
-            <TouchableOpacity className="bg-white px-5 py-2.5 rounded-full border border-slate-200" activeOpacity={0.8}>
-              <Text className="text-slate-600 text-sm font-medium">머리</Text>
-            </TouchableOpacity>
-            <TouchableOpacity className="bg-white px-5 py-2.5 rounded-full border border-slate-200" activeOpacity={0.8}>
-              <Text className="text-slate-600 text-sm font-medium">팔/어깨</Text>
-            </TouchableOpacity>
-            <TouchableOpacity className="bg-slate-100 px-5 py-2.5 rounded-full border border-slate-200 items-center justify-center">
-              <MaterialIcons name="add" size={18} color="#94a3b8" />
-            </TouchableOpacity>
-          </ScrollView>
-          <View className="flex-row flex-wrap gap-2">
-            <TouchableOpacity className="bg-blue-50 px-4 py-2 rounded-xl border border-blue-100">
-              <Text className="text-blue-700 text-sm font-semibold">통증</Text>
-            </TouchableOpacity>
-            <TouchableOpacity className="bg-blue-50 px-4 py-2 rounded-xl border border-blue-100">
-              <Text className="text-blue-700 text-sm font-semibold">압박감</Text>
-            </TouchableOpacity>
-            <TouchableOpacity className="bg-white px-4 py-2 rounded-xl border border-slate-200">
-              <Text className="text-slate-800 text-sm font-medium">답답함</Text>
-            </TouchableOpacity>
-            <TouchableOpacity className="bg-white px-4 py-2 rounded-xl border border-slate-200">
-              <Text className="text-slate-800 text-sm font-medium">호흡곤란</Text>
-            </TouchableOpacity>
-            <TouchableOpacity className="bg-white px-4 py-2 rounded-xl border border-slate-200">
-              <Text className="text-slate-800 text-sm font-medium">저림</Text>
-            </TouchableOpacity>
+        <View className="flex-col gap-6 mb-8 mt-2">
+          {/* Selected Areas */}
+          <View className="flex-col gap-3">
+            <Text className="text-sm font-bold text-slate-500 uppercase tracking-widest pl-1">선택된 부위</Text>
+            <View className="flex-row flex-wrap gap-2.5">
+              {selectedParts.length === 0 ? (
+                <View className="rounded-full shadow-sm overflow-hidden" style={{ shadowColor: '#94a3b8', shadowOpacity: 0.15, shadowRadius: 3, shadowOffset: { width: 0, height: 1 } }}>
+                  <LinearGradient colors={['#ffffff', '#f1f5f9']} className="px-5 py-3 rounded-full border border-slate-200">
+                    <Text className="text-slate-400 text-sm font-medium">부위를 터치하여 선택해주세요</Text>
+                  </LinearGradient>
+                </View>
+              ) : (
+                selectedParts.map(part => (
+                  <TouchableOpacity
+                    key={part}
+                    activeOpacity={0.8}
+                    onPress={() => togglePart(part)}
+                    className="rounded-full shadow-sm"
+                    style={{ shadowColor: '#2563eb', shadowOpacity: 0.25, shadowRadius: 3, shadowOffset: { width: 0, height: 2 } }}
+                  >
+                    <LinearGradient
+                      colors={['#60a5fa', '#3b82f6', '#2563eb']}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 0, y: 1 }}
+                      className="px-5 py-3 rounded-full flex-row items-center gap-1.5 border border-blue-400"
+                    >
+                      <Text className="text-white text-sm font-bold">{partNames[part]}</Text>
+                      <MaterialIcons name="close" size={16} color="#dbeafe" />
+                    </LinearGradient>
+                  </TouchableOpacity>
+                ))
+              )}
+              <TouchableOpacity
+                activeOpacity={0.7}
+                className="rounded-full shadow-sm"
+                style={{ shadowColor: '#94a3b8', shadowOpacity: 0.15, shadowRadius: 3, shadowOffset: { width: 0, height: 2 } }}
+              >
+                <LinearGradient colors={['#ffffff', '#f8fafc']} className="px-5 py-3 rounded-full border border-slate-200 items-center justify-center">
+                  <MaterialIcons name="add" size={18} color="#64748b" />
+                </LinearGradient>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          {/* Symptoms */}
+          <View className="flex-col gap-3">
+            <Text className="text-sm font-bold text-slate-500 uppercase tracking-widest pl-1">주요 증상</Text>
+            <View className="flex-row flex-wrap gap-2.5">
+              {[
+                { label: '통증', color: 'blue' },
+                { label: '압박감', color: 'blue' },
+                { label: '답답함', color: 'slate' },
+                { label: '호흡곤란', color: 'slate' },
+                { label: '저림', color: 'slate' }
+              ].map(symptom => (
+                <TouchableOpacity
+                  key={symptom.label}
+                  activeOpacity={0.8}
+                  className="rounded-full shadow-sm"
+                  style={{ shadowColor: symptom.color === 'blue' ? '#3b82f6' : '#94a3b8', shadowOpacity: 0.15, shadowRadius: 3, shadowOffset: { width: 0, height: 2 } }}
+                >
+                  <LinearGradient
+                    colors={symptom.color === 'blue' ? ['#eff6ff', '#dbeafe', '#bfdbfe'] : ['#ffffff', '#f8fafc', '#f1f5f9']}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 0, y: 1 }}
+                    className={`px-5 py-3 rounded-full border ${symptom.color === 'blue' ? 'border-blue-200' : 'border-slate-200'}`}
+                  >
+                    <Text className={`text-sm font-bold ${symptom.color === 'blue' ? 'text-blue-700' : 'text-slate-700'}`}>
+                      {symptom.label}
+                    </Text>
+                  </LinearGradient>
+                </TouchableOpacity>
+              ))}
+            </View>
           </View>
         </View>
 
