@@ -56,7 +56,7 @@ export default function RootLayout() {
 
   return (
     <>
-      <Stack>
+      <Stack screenOptions={{ animation: 'fade', animationDuration: 250 }}>
         {/* 선우님이 설정해두신 스크린 목록 그대로 유지! */}
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="diagnosis-analysis" options={{ headerShown: false }} />

@@ -1,7 +1,8 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { BlurView } from 'expo-blur';
 import { useRouter } from 'expo-router';
-import { Image, Text, TouchableOpacity, View } from 'react-native'; // Image 임포트 추가
+import React from 'react';
+import { Animated, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type TopBarProps = {
@@ -9,7 +10,8 @@ type TopBarProps = {
   showBack?: boolean;
   showNotification?: boolean;
   rightIcon?: string;
-  userImageUrl?: string; // 프로필 이미지 URL 프롭 추가
+  userImageUrl?: string;
+  scrollY?: Animated.Value;
 };
 
 export default function TopBar({
@@ -17,18 +19,32 @@ export default function TopBar({
   showBack = false,
   showNotification = true,
   rightIcon,
-  userImageUrl = "https://i.pravatar.cc/150?img=11" // 시안 확인용 임시 프로필 이미지
+  userImageUrl = "https://i.pravatar.cc/150?img=11",
+  scrollY
 }: TopBarProps) {
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
+  const bgOpacity = scrollY ? scrollY.interpolate({
+    inputRange: [0, 40],
+    outputRange: [0, 1],
+    extrapolate: 'clamp'
+  }) : 0;
+
   return (
-    <BlurView
-      intensity={100}
-      tint="light"
-      className="absolute top-0 left-0 w-full z-50 px-5 flex-row justify-between items-center bg-white/90 border-b border-slate-100"
+    <View
+      className="absolute top-0 left-0 w-full z-50 px-5 flex-row justify-between items-center"
       style={{ paddingTop: insets.top + 12, paddingBottom: 12 }}
     >
+      {/* 부드럽게 나타나는 배경 Layer */}
+      <Animated.View style={[StyleSheet.absoluteFill, { opacity: bgOpacity }]}>
+        <BlurView
+          intensity={100}
+          tint="light"
+          style={StyleSheet.absoluteFill}
+          className="bg-white/70 border-b border-slate-100/50"
+        />
+      </Animated.View>
       {/* 1. 좌측 영역 (뒤로가기 버튼 또는 프로필 이미지) */}
       <View className="w-10 items-start justify-center z-10">
         {showBack ? (
@@ -65,6 +81,6 @@ export default function TopBar({
           </TouchableOpacity>
         ) : null}
       </View>
-    </BlurView>
+    </View>
   );
 }

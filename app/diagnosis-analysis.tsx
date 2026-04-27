@@ -1,8 +1,9 @@
 import { MaterialIcons } from '@expo/vector-icons';
+import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
-import { LayoutAnimation, Platform, ScrollView, Text, TextInput, TouchableOpacity, UIManager, View } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { Animated, LayoutAnimation, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, UIManager, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
 import TopBar from '../components/TopBar';
@@ -14,6 +15,7 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
 export default function DiagnosisAnalysis() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const scrollY = useRef(new Animated.Value(0)).current;
 
   const [selectedParts, setSelectedParts] = useState<string[]>(['chest']);
 
@@ -52,21 +54,25 @@ export default function DiagnosisAnalysis() {
   };
 
   return (
-    <View className="flex-1 bg-slate-50 overflow-hidden">
-      <TopBar showBack={true} showNotification={false} />
+    <View style={{ flex: 1, overflow: 'hidden' }}>
+      {/* 배경 그라디언트 */}
+      <LinearGradient
+        colors={['#fff0f5', '#efe5ff', '#e5f0ff', '#efe5ff']}
+        locations={[0, 0.3, 0.7, 1]}
+        start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
+        style={StyleSheet.absoluteFill} />
+      <TopBar showBack={true} showNotification={false} scrollY={scrollY} />
 
-      {/* 🔥 Background Glow */}
-      <View className="absolute -top-20 -left-10 w-72 h-72 bg-blue-200 opacity-20 rounded-full blur-3xl" />
-      <View className="absolute top-60 -right-10 w-72 h-72 bg-emerald-200 opacity-20 rounded-full blur-3xl" />
-
-      <ScrollView
+      <Animated.ScrollView
         className="flex-1"
         contentContainerStyle={{
-          paddingTop: insets.top + 70,
+          paddingTop: insets.top + 82,
           paddingBottom: insets.bottom + 160,
           paddingHorizontal: 20
         }}
         showsVerticalScrollIndicator={false}
+        onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], { useNativeDriver: true })}
+        scrollEventThrottle={16}
       >
         {/* Personalized Greeting */}
         <View className="mb-8">
@@ -86,8 +92,7 @@ export default function DiagnosisAnalysis() {
         </View>
 
         {/* Body Map Visualization */}
-        <View className="relative bg-white rounded-[32px] p-6 overflow-hidden flex-col items-center justify-center border border-slate-100 min-h-[400px] mb-8 shadow-md"
-          style={{ shadowColor: '#2563eb', shadowOpacity: 0.08, shadowRadius: 25 }}>
+        <View style={dStyles.bodyCard}>
           <View className="absolute top-4 right-4 flex-col gap-2 z-10">
             <TouchableOpacity className="bg-slate-100 p-3 rounded-2xl border border-slate-200" activeOpacity={0.8}>
               <MaterialIcons name="zoom-in" size={20} color="#2563eb" />
@@ -261,8 +266,7 @@ export default function DiagnosisAnalysis() {
         </View>
 
         {/* Pain Intensity */}
-        <View className="bg-white rounded-[32px] p-6 flex-col gap-6 shadow-md border border-slate-50 mb-8"
-          style={{ shadowColor: '#2563eb', shadowOpacity: 0.08, shadowRadius: 25 }}>
+        <View style={dStyles.sectionCard}>
           <View className="flex-row justify-between items-end">
             <Text className="text-sm font-bold text-slate-500 uppercase tracking-widest">통증 강도</Text>
             <View className="bg-blue-600 px-3 py-1 rounded-lg">
@@ -316,7 +320,7 @@ export default function DiagnosisAnalysis() {
             </Text>
           </View>
         </View>
-      </ScrollView>
+      </Animated.ScrollView>
 
       {/* Floating Action Button */}
       <View className="absolute right-6 z-40" style={{ bottom: insets.bottom + 120 }}>
@@ -332,8 +336,7 @@ export default function DiagnosisAnalysis() {
       </View>
 
       {/* Sticky Action Button */}
-      <View className="absolute bottom-0 w-full bg-white/95 px-6 pt-4 z-50 border-t border-slate-100"
-        style={{ paddingBottom: insets.bottom + 12 }}>
+      <View style={[dStyles.stickyBar, { paddingBottom: insets.bottom + 12 }]}>
         <TouchableOpacity
           className="w-full py-4 rounded-2xl items-center justify-center shadow-sm"
           activeOpacity={0.8}
@@ -349,3 +352,46 @@ export default function DiagnosisAnalysis() {
     </View>
   );
 }
+
+const dStyles = StyleSheet.create({
+  bodyCard: {
+    backgroundColor: 'rgba(255,255,255,0.62)',
+    borderRadius: 32,
+    padding: 24,
+    overflow: 'hidden',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: 400,
+    marginBottom: 32,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.45)',
+    shadowColor: '#2563eb',
+    shadowOpacity: 0.07,
+    shadowRadius: 24,
+    elevation: 4,
+  },
+  sectionCard: {
+    backgroundColor: 'rgba(255,255,255,0.62)',
+    borderRadius: 32,
+    padding: 24,
+    marginBottom: 32,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.45)',
+    shadowColor: '#2563eb',
+    shadowOpacity: 0.07,
+    shadowRadius: 24,
+    elevation: 4,
+    gap: 16,
+  },
+  stickyBar: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    backgroundColor: 'rgba(255,255,255,0.88)',
+    paddingHorizontal: 24,
+    paddingTop: 16,
+    zIndex: 50,
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(226,232,240,0.5)',
+  },
+});
