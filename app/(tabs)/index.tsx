@@ -74,18 +74,16 @@ const LiquidBar = ({ item }: { item: NutriItem }) => {
   return (
     <View style={s.nutriCol}>
       <Text style={s.nutriPct}>{item.value}%</Text>
-      {/* 튜브 컨테이너 */}
+      {/* 깔끔한 막대 컨테이너 */}
       <View style={[s.tubeOuter, { height: item.trackH }]}>
-        <View style={s.tubeInner}>
-          <Animated.View style={{ height: fillHeight, width: '100%', position: 'absolute', bottom: 0 }}>
-            <LinearGradient
-              colors={[item.fromColor, item.toColor]}
-              start={{ x: 0.5, y: 1 }}
-              end={{ x: 0.5, y: 0 }}
-              style={{ flex: 1, borderRadius: 999 }}
-            />
-          </Animated.View>
-        </View>
+        <Animated.View style={{ height: fillHeight, width: '100%', position: 'absolute', bottom: 0, borderRadius: 999, overflow: 'hidden' }}>
+          <LinearGradient
+            colors={[item.fromColor, item.toColor]}
+            start={{ x: 0, y: 1 }}
+            end={{ x: 0, y: 0 }}
+            style={{ flex: 1 }}
+          />
+        </Animated.View>
       </View>
       <Text style={s.nutriLbl}>{item.label}</Text>
     </View>
@@ -243,8 +241,9 @@ export default function Home() {
               </View>
               <View style={{ marginTop: 12 }}>
                 <Text style={s.quickTitle}>증상 체크</Text>
-                <View style={s.quickBadge}>
-                  <Text style={s.quickBadgeText}>최근 2일 전</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 3 }}>
+                  <Text style={[s.quickSub, { color: '#2563eb' }]}>체크하기</Text>
+                  <MaterialIcons name="arrow-forward" size={13} color="#2563eb" />
                 </View>
               </View>
             </GlassCard>
@@ -333,8 +332,6 @@ const s = StyleSheet.create({
   quickIconBox: { width: 54, height: 54, borderRadius: 16, alignItems: 'center', justifyContent: 'center' },
   quickTitle: { fontSize: 16, fontWeight: '800', color: '#1e293b' },
   quickSub: { fontSize: 12, fontWeight: '700' },
-  quickBadge: { marginTop: 4, backgroundColor: 'rgba(255,255,255,0.6)', alignSelf: 'flex-start', borderRadius: 999, paddingHorizontal: 8, paddingVertical: 2 },
-  quickBadgeText: { fontSize: 11, fontWeight: '600', color: '#64748b' },
 
   // INSIGHT
   insightCard: { marginBottom: 16, padding: 26 },
@@ -345,12 +342,11 @@ const s = StyleSheet.create({
   insightTagText: { fontSize: 13, fontWeight: '700', color: '#004ac6' },
   insightHeadline: { fontSize: 22, fontWeight: '900', color: '#1e293b', lineHeight: 32, marginBottom: 20, letterSpacing: -0.5 },
 
-  nutriRow: { flexDirection: 'row', justifyContent: 'space-around', alignItems: 'flex-end', paddingBottom: 16, marginBottom: 16, borderBottomWidth: 1, borderBottomColor: 'rgba(148,163,184,0.25)' },
-  nutriCol: { alignItems: 'center', gap: 6 },
-  nutriPct: { fontSize: 14, fontWeight: '900', color: '#1e293b' },
-  tubeOuter: { width: 32, borderRadius: 999, backgroundColor: 'rgba(255,255,255,0.6)', padding: 4, borderWidth: 1, borderColor: 'rgba(255,255,255,0.7)', shadowColor: '#000', shadowOpacity: 0.06, shadowRadius: 4, elevation: 2 },
-  tubeInner: { flex: 1, borderRadius: 999, overflow: 'hidden', position: 'relative' },
-  nutriLbl: { fontSize: 10, fontWeight: '500', color: '#94a3b8' },
+  nutriRow: { flexDirection: 'row', justifyContent: 'space-around', alignItems: 'flex-end', paddingBottom: 16, marginBottom: 16, borderBottomWidth: 1, borderBottomColor: 'rgba(148,163,184,0.15)' },
+  nutriCol: { alignItems: 'center', gap: 8 },
+  nutriPct: { fontSize: 14, fontWeight: '800', color: '#334155' },
+  tubeOuter: { width: 16, borderRadius: 999, backgroundColor: 'rgba(148,163,184,0.12)', overflow: 'hidden', position: 'relative' },
+  nutriLbl: { fontSize: 12, fontWeight: '600', color: '#64748b' },
 
   insightNoteBox: { borderRadius: 16, overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(255,255,255,0.6)', padding: 14 },
   insightNoteText: { fontSize: 13, fontWeight: '500', color: '#475569', lineHeight: 20 },
