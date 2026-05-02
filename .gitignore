@@ -63,3 +63,7 @@ app-example
 buck-out/
 build/
 
+# local test data
+food_images_local/
+sample_food.jpg
+
