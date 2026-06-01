@@ -22,7 +22,7 @@ export default function DiagnosisAnalysis() {
   const revealAnim = useRef(new Animated.Value(0)).current;
   const magXAnim = useRef(new Animated.Value(0)).current;
   const magYAnim = useRef(new Animated.Value(0)).current;
-  const randomInterval = useRef<NodeJS.Timeout | null>(null);
+  const randomInterval = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const startAnalysis = () => {
     if (isAnalyzing) return;
