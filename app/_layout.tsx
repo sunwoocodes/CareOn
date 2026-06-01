@@ -7,6 +7,16 @@ import { useFonts } from 'expo-font';
 // 기존 구글 폰트(Manrope, PlusJakartaSans) 임포트는 지웠습니다!
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
+import { Image } from 'react-native';
+
+const PREFETCH_IMAGES = [
+  'https://i.pravatar.cc/150?img=3',
+  'https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=400',
+  'https://i.pravatar.cc/150?img=5',
+  'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=200',
+  'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=200',
+  'https://images.unsplash.com/photo-1576602976047-174e57a47881?w=200'
+];
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync().catch(() => {
@@ -22,24 +32,30 @@ export default function RootLayout() {
   });
 
   const [isReady, setIsReady] = useState(false);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
 
   useEffect(() => {
-    if (error) {
-      console.error("폰트 로딩 중 에러 발생:", error);
-      // 에러가 발생해도 앱 진입은 가능하게 처리
+    async function preloadAssets() {
+      try {
+        await Promise.all(PREFETCH_IMAGES.map(url => Image.prefetch(url)));
+      } catch (e) {
+        console.log("이미지 로딩 에러 (무시):", e);
+      } finally {
+        setImagesLoaded(true);
+      }
+    }
+    preloadAssets();
+  }, []);
+
+  useEffect(() => {
+    if ((loaded || error) && imagesLoaded) {
       SplashScreen.hideAsync().catch(() => { });
       setIsReady(true);
     }
 
-    if (loaded) {
-      console.log("폰트 로딩 완료");
-      SplashScreen.hideAsync().catch(() => { });
-      setIsReady(true);
-    }
-
-    // 만약 어떤 이유로든 폰트 로딩이 5초 이상 걸리면 강제로 화면을 보여줌
+    // 만약 어떤 이유로든 에셋 로딩이 5초 이상 걸리면 강제로 화면을 보여줌
     const timeout = setTimeout(() => {
-      if (!isReady && !loaded) {
+      if (!isReady && (!loaded || !imagesLoaded)) {
         console.warn("로딩 타임아웃: 스플래시 화면을 강제로 숨깁니다.");
         SplashScreen.hideAsync().catch(() => { });
         setIsReady(true);
@@ -47,7 +63,7 @@ export default function RootLayout() {
     }, 5000);
 
     return () => clearTimeout(timeout);
-  }, [loaded, error, isReady]);
+  }, [loaded, error, imagesLoaded, isReady]);
 
   // isReady가 false이면 아무것도 렌더링하지 않아 스플래시 화면이 유지됨
   if (!isReady) {
@@ -57,7 +73,7 @@ export default function RootLayout() {
   return (
     <>
       <Stack screenOptions={{ animation: 'fade', animationDuration: 250 }}>
-        {/* 선우님이 설정해두신 스크린 목록 그대로 유지! */}
+        {/* 푸앙님이 설정해두신 스크린 목록 그대로 유지! */}
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="diagnosis-analysis" options={{ headerShown: false }} />
         <Stack.Screen name="diagnosis" options={{ headerShown: false }} />

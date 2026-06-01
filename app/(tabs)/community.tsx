@@ -136,15 +136,6 @@ export default function Community() {
           </GlassCard>
         </TouchableOpacity>
       </Animated.ScrollView>
-
-      {/* FAB */}
-      <View style={[s.fab, { bottom: insets.bottom + 90 }]}>
-        <TouchableOpacity activeOpacity={0.85}>
-          <LinearGradient colors={['#4f8ef7', '#2563eb']} style={s.fabGrad}>
-            <MaterialIcons name="add" size={26} color="white" />
-          </LinearGradient>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 }
@@ -172,6 +163,4 @@ const s = StyleSheet.create({
   postFooter: { flexDirection: 'row', gap: 20, paddingTop: 12, borderTopWidth: 1, borderTopColor: 'rgba(226,232,240,0.5)' },
   footerBtn: { flexDirection: 'row', alignItems: 'center', gap: 5 },
   footerBtnText: { fontSize: 13, fontWeight: '700', color: '#2563eb' },
-  fab: { position: 'absolute', right: 20 },
-  fabGrad: { width: 52, height: 52, borderRadius: 26, alignItems: 'center', justifyContent: 'center', shadowColor: '#2563eb', shadowOpacity: 0.45, shadowOffset: { width: 0, height: 6 }, shadowRadius: 14, elevation: 10 },
 });

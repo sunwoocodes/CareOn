@@ -6,7 +6,7 @@ import { useFocusEffect, useRouter } from 'expo-router';
 import React, { useCallback, useRef, useState } from 'react';
 import {
   Animated, Platform, ScrollView, StatusBar,
-  StyleSheet, Text, TouchableOpacity, View
+  StyleSheet, Text, TouchableOpacity, View, InteractionManager
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle, Defs, Stop, LinearGradient as SvgGradient, RadialGradient as SvgRadialGradient } from 'react-native-svg';
@@ -133,10 +133,18 @@ export default function Home() {
     scrollRef.current?.scrollTo({ y: 0, animated: false });
     setScore(0);
     progress.setValue(0);
-    let i = 0;
-    const t = setInterval(() => { i++; setScore(i); if (i >= 85) clearInterval(t); }, 12);
-    Animated.timing(progress, { toValue: 1, duration: 1200, useNativeDriver: false }).start();
-    return () => clearInterval(t);
+    
+    let t: NodeJS.Timeout;
+    const task = setTimeout(() => {
+      let i = 0;
+      t = setInterval(() => { i++; setScore(i); if (i >= 85) clearInterval(t); }, 12);
+      Animated.timing(progress, { toValue: 1, duration: 1200, useNativeDriver: false }).start();
+    }, 150); // Small delay to let the screen slide in
+
+    return () => {
+      clearTimeout(task);
+      if (t) clearInterval(t);
+    };
   }, [progress]));
 
   const strokeDashoffset = progress.interpolate({ inputRange: [0, 1], outputRange: [578.05, 86.7] });
@@ -180,14 +188,14 @@ export default function Home() {
         <GlassCard intensity={45} borderRadius={32} style={s.heroCard}>
           {/* 내부 광택 */}
           <LinearGradient colors={['rgba(255,255,255,0.5)', 'transparent']} style={StyleSheet.absoluteFill} />
-          <Text style={s.heroGreeting}>선우님, 오늘 컨디션은 최고예요!</Text>
+          <Text style={s.heroGreeting}>푸앙님, 오늘 컨디션은 최고예요!</Text>
 
           {/* 점수 링 */}
           <View style={s.ringWrapper}>
             {/* SVG 링 */}
             <Svg width={220} height={220} viewBox="0 0 224 224" style={{ transform: [{ rotate: '-90deg' }], position: 'absolute' }}>
               <Defs>
-                <SvgGradient id="gr" x1="0%" y1="0%" x2="100%" y2="100%">
+                <SvgGradient id="homeGraphGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                   <Stop offset="0%" stopColor="#34d399" />
                   <Stop offset="100%" stopColor="#059669" />
                 </SvgGradient>
@@ -197,7 +205,7 @@ export default function Home() {
               <Circle cx="112" cy="112" r="92" stroke="rgba(255,255,255,0.6)" strokeWidth="16" fill="none" />
 
               {/* 진행 바 */}
-              <AnimatedCircle cx="112" cy="112" r="92" stroke="url(#gr)" strokeWidth="16"
+              <AnimatedCircle cx="112" cy="112" r="92" stroke="#10b981" strokeWidth="16"
                 fill="none" strokeDasharray="578.05" strokeDashoffset={strokeDashoffset} strokeLinecap="round" />
             </Svg>
 
@@ -296,14 +304,6 @@ export default function Home() {
         </GlassCard>
       </Animated.ScrollView>
 
-      {/* FAB */}
-      <View style={[s.fab, { bottom: insets.bottom + 90 }]}>
-        <TouchableOpacity activeOpacity={0.88}>
-          <LinearGradient colors={['#60a5fa', '#2563eb']} style={s.fabGrad}>
-            <MaterialIcons name="add" size={28} color="#fff" />
-          </LinearGradient>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 }
@@ -368,8 +368,4 @@ const s = StyleSheet.create({
   actTimePill: { backgroundColor: '#ffffff', borderRadius: 999, paddingHorizontal: 8, paddingVertical: 2, shadowColor: '#000', shadowOpacity: 0.05, shadowRadius: 4, elevation: 2 },
   actTimeText: { fontSize: 10, fontWeight: '700', color: '#64748b' },
   actSub: { fontSize: 12, color: '#475569', fontWeight: '500' },
-
-  // FAB
-  fab: { position: 'absolute', right: 22 },
-  fabGrad: { width: 54, height: 54, borderRadius: 27, alignItems: 'center', justifyContent: 'center', shadowColor: '#2563eb', shadowOpacity: 0.55, shadowOffset: { width: 0, height: 8 }, shadowRadius: 20, elevation: 10, borderWidth: 1, borderColor: 'rgba(147,197,253,0.5)' },
 });

@@ -1,21 +1,55 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, Text, TouchableOpacity, View, Animated } from 'react-native';
 import Svg, { Path, Defs, LinearGradient as SvgLinearGradient, Stop, Circle } from 'react-native-svg';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useRouter } from 'expo-router';
 import TopBar from '../components/TopBar';
 
+import React, { useRef, useState, useEffect } from 'react';
+
+const AnimatedCircle = Animated.createAnimatedComponent(Circle);
+
 export default function Diagnosis() {
+  const router = useRouter();
   const insets = useSafeAreaInsets();
+  const scrollY = useRef(new Animated.Value(0)).current;
+  const progress = useRef(new Animated.Value(0)).current;
+  const [score, setScore] = useState(0);
+
+  useEffect(() => {
+    progress.setValue(0);
+    setScore(0);
+    
+    let i = 0;
+    const t = setInterval(() => { 
+      i++; 
+      setScore(i); 
+      if (i >= 85) clearInterval(t); 
+    }, 12);
+    
+    Animated.timing(progress, { 
+      toValue: 1, 
+      duration: 1200, 
+      useNativeDriver: false 
+    }).start();
+    
+    return () => clearInterval(t);
+  }, []);
+
+  const strokeDashoffset = progress.interpolate({ 
+    inputRange: [0, 1], 
+    outputRange: [439.8, 65.9] 
+  });
 
   return (
     <View className="flex-1 bg-slate-50 overflow-hidden">
-      <TopBar showBack={true} showNotification={false} />
+      <TopBar showBack={true} showNotification={false} scrollY={scrollY} onBackPress={() => router.navigate('/')} />
 
       {/* 🔥 Background Glow */}
       <View className="absolute -top-20 -right-10 w-72 h-72 bg-orange-200 opacity-20 rounded-full blur-3xl" />
       <View className="absolute top-60 -left-10 w-72 h-72 bg-blue-200 opacity-20 rounded-full blur-3xl" />
 
-      <ScrollView
+      <Animated.ScrollView
         className="flex-1"
         contentContainerStyle={{
           paddingTop: insets.top + 70,
@@ -23,6 +57,8 @@ export default function Diagnosis() {
           paddingHorizontal: 20
         }}
         showsVerticalScrollIndicator={false}
+        onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], { useNativeDriver: true })}
+        scrollEventThrottle={16}
       >
         {/* Hero Section: AI Diagnosis Result */}
         <View className="bg-white rounded-[32px] p-8 shadow-md border border-slate-50 mb-8 relative overflow-hidden"
@@ -42,12 +78,12 @@ export default function Diagnosis() {
             <View className="relative w-56 h-56 items-center justify-center z-10">
               <Svg className="w-full h-full -rotate-90" viewBox="0 0 160 160">
                 <Circle cx="80" cy="80" r="70" fill="transparent" stroke="#f1f5f9" strokeWidth="20" />
-                <Circle cx="80" cy="80" r="70" fill="transparent" stroke="#f97316" strokeWidth="20"
-                  strokeDasharray="439.8" strokeDashoffset="65.9" strokeLinecap="round" />
+                <AnimatedCircle cx="80" cy="80" r="70" fill="transparent" stroke="#f97316" strokeWidth="20"
+                  strokeDasharray="439.8" strokeDashoffset={strokeDashoffset} strokeLinecap="round" />
               </Svg>
               <View className="absolute inset-0 items-center justify-center">
                 <View className="flex-row items-baseline mb-1">
-                  <Text className="text-6xl font-extrabold text-slate-900 tracking-tighter">85</Text>
+                  <Text className="text-6xl font-extrabold text-slate-900 tracking-tighter">{score}</Text>
                   <Text className="text-2xl font-bold ml-1 text-slate-500">%</Text>
                 </View>
                 <Text className="text-orange-500 font-bold text-sm tracking-wide">높은 가능성</Text>
@@ -315,11 +351,18 @@ export default function Diagnosis() {
         </View>
 
         {/* Footer */}
-        <View className="items-center pb-8 pt-4">
-          <Text className="text-[10px] text-slate-400 font-medium mb-1">식품의약품안전처(KFDA) DUR 데이터를 기반으로 분석되었습니다</Text>
-          <Text className="text-[10px] text-slate-400 text-center px-6 leading-relaxed">본 서비스는 AI 모델의 분석 결과이며 의학적 판단을 대체할 수 없습니다. 증상이 지속될 경우 반드시 전문 의료진과 상담하십시오.</Text>
+        <View className="pb-8 pt-4 px-2">
+          <View className="px-4 py-4 bg-rose-50 rounded-2xl border border-rose-100 flex-row items-start gap-3">
+            <MaterialIcons name="error-outline" size={18} color="#e11d48" style={{ marginTop: 2 }} />
+            <View className="flex-1">
+              <Text className="text-xs leading-relaxed text-rose-800">
+                본 서비스는 증상에 대한 <Text className="font-bold text-rose-900">참고용 정보</Text>를 제공하며, 실제 의사의 진단을 대신할 수 없습니다. 위급 상황 발생 시 즉시 <Text className="font-bold text-rose-900">119</Text> 또는 가까운 <Text className="font-bold text-rose-900">응급실</Text>을 방문하시기 바랍니다.
+              </Text>
+            </View>
+          </View>
+          <Text className="text-[10px] text-slate-400 font-medium mt-4 text-center">식품의약품안전처(KFDA) DUR 데이터를 기반으로 분석되었습니다</Text>
         </View>
-      </ScrollView>
+      </Animated.ScrollView>
     </View>
   );
 }

@@ -3,9 +3,10 @@ import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React, { useState, useRef } from 'react';
-import { Animated, LayoutAnimation, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, UIManager, View } from 'react-native';
+import { Animated, LayoutAnimation, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, UIManager, View, Modal, Easing } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
+import Slider from '@react-native-community/slider';
 import TopBar from '../components/TopBar';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
@@ -17,7 +18,59 @@ export default function DiagnosisAnalysis() {
   const insets = useSafeAreaInsets();
   const scrollY = useRef(new Animated.Value(0)).current;
 
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const revealAnim = useRef(new Animated.Value(0)).current;
+  const magXAnim = useRef(new Animated.Value(0)).current;
+  const magYAnim = useRef(new Animated.Value(0)).current;
+  const randomInterval = useRef<NodeJS.Timeout | null>(null);
+
+  const startAnalysis = () => {
+    if (isAnalyzing) return;
+    setIsAnalyzing(true);
+    
+    revealAnim.setValue(0);
+    magXAnim.setValue(0);
+    magYAnim.setValue(0);
+
+    // Continuous fluid random motion using spring updates
+    randomInterval.current = setInterval(() => {
+      const randomX = (Math.random() - 0.5) * 140;
+      const randomY = (Math.random() - 0.5) * 140;
+      
+      Animated.spring(magXAnim, {
+        toValue: randomX,
+        friction: 40,
+        tension: 15,
+        useNativeDriver: true
+      }).start();
+      
+      Animated.spring(magYAnim, {
+        toValue: randomY,
+        friction: 40,
+        tension: 15,
+        useNativeDriver: true
+      }).start();
+    }, 800); // Redirect towards a new target every 800ms before it stops
+
+    Animated.timing(revealAnim, {
+      toValue: 1,
+      duration: 2500,
+      useNativeDriver: false,
+    }).start();
+
+    setTimeout(() => {
+      if (randomInterval.current) clearInterval(randomInterval.current);
+      setIsAnalyzing(false);
+      magXAnim.stopAnimation();
+      magYAnim.stopAnimation();
+      router.push('/diagnosis');
+    }, 3000);
+  };
+
   const [selectedParts, setSelectedParts] = useState<string[]>(['chest']);
+  const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([]);
+  const [painLevel, setPainLevel] = useState<number>(7);
+  const [selectedTime, setSelectedTime] = useState<string>('');
 
   const togglePart = (part: string) => {
     LayoutAnimation.configureNext({
@@ -77,7 +130,7 @@ export default function DiagnosisAnalysis() {
         {/* Personalized Greeting */}
         <View className="mb-8">
           <Text className="text-3xl font-extrabold tracking-tight text-slate-900 leading-snug mb-4">
-            선우님,{'\n'}어디가 불편하세요?
+            푸앙님,{'\n'}어디가 불편하세요?
           </Text>
           <View className="relative justify-center">
             <View className="absolute left-4 z-10 flex items-center justify-center">
@@ -242,25 +295,28 @@ export default function DiagnosisAnalysis() {
                 { label: '답답함', color: 'slate' },
                 { label: '호흡곤란', color: 'slate' },
                 { label: '저림', color: 'slate' }
-              ].map(symptom => (
+              ].map(symptom => {
+                const isSelected = selectedSymptoms.includes(symptom.label);
+                return (
                 <TouchableOpacity
                   key={symptom.label}
                   activeOpacity={0.8}
+                  onPress={() => setSelectedSymptoms(prev => prev.includes(symptom.label) ? prev.filter(s => s !== symptom.label) : [...prev, symptom.label])}
                   className="rounded-full shadow-sm"
-                  style={{ shadowColor: symptom.color === 'blue' ? '#3b82f6' : '#94a3b8', shadowOpacity: 0.15, shadowRadius: 3, shadowOffset: { width: 0, height: 2 } }}
+                  style={{ shadowColor: isSelected ? '#3b82f6' : '#94a3b8', shadowOpacity: 0.15, shadowRadius: 3, shadowOffset: { width: 0, height: 2 } }}
                 >
                   <LinearGradient
-                    colors={symptom.color === 'blue' ? ['#eff6ff', '#dbeafe', '#bfdbfe'] : ['#ffffff', '#f8fafc', '#f1f5f9']}
+                    colors={isSelected ? ['#eff6ff', '#dbeafe', '#bfdbfe'] : ['#ffffff', '#f8fafc', '#f1f5f9']}
                     start={{ x: 0, y: 0 }}
                     end={{ x: 0, y: 1 }}
-                    className={`px-5 py-3 rounded-full border ${symptom.color === 'blue' ? 'border-blue-200' : 'border-slate-200'}`}
+                    className={`px-5 py-3 rounded-full border ${isSelected ? 'border-blue-200' : 'border-slate-200'}`}
                   >
-                    <Text className={`text-sm font-bold ${symptom.color === 'blue' ? 'text-blue-700' : 'text-slate-700'}`}>
+                    <Text className={`text-sm font-bold ${isSelected ? 'text-blue-700' : 'text-slate-700'}`}>
                       {symptom.label}
                     </Text>
                   </LinearGradient>
                 </TouchableOpacity>
-              ))}
+              )})}
             </View>
           </View>
         </View>
@@ -269,17 +325,24 @@ export default function DiagnosisAnalysis() {
         <View style={dStyles.sectionCard}>
           <View className="flex-row justify-between items-end">
             <Text className="text-sm font-bold text-slate-500 uppercase tracking-widest">통증 강도</Text>
-            <View className="bg-blue-600 px-3 py-1 rounded-lg">
-              <Text className="text-white text-lg font-bold">7</Text>
+            <View className={`${painLevel <= 3 ? 'bg-emerald-500' : painLevel <= 7 ? 'bg-amber-500' : 'bg-red-500'} px-3 py-1 rounded-lg`}>
+              <Text className="text-white text-lg font-bold">{painLevel}</Text>
             </View>
           </View>
-          <View className="w-full h-3 rounded-full overflow-hidden flex-row">
-            <View className="flex-1 bg-emerald-500" />
-            <View className="flex-1 bg-amber-400" />
-            <View className="flex-[0.6] bg-red-500" />
-            <View className="flex-[0.4] bg-slate-200" />
+          <View className="w-full justify-center -mx-2 mt-2">
+            <Slider
+              style={{ width: '108%', height: 40 }}
+              minimumValue={0}
+              maximumValue={10}
+              step={1}
+              value={painLevel}
+              onValueChange={(val) => setPainLevel(val)}
+              minimumTrackTintColor={painLevel <= 3 ? '#10b981' : painLevel <= 7 ? '#f59e0b' : '#ef4444'}
+              maximumTrackTintColor="#e2e8f0"
+              thumbTintColor={painLevel <= 3 ? '#10b981' : painLevel <= 7 ? '#f59e0b' : '#ef4444'}
+            />
           </View>
-          <View className="flex-row justify-between pt-1">
+          <View className="flex-row justify-between -mt-1">
             <Text className="text-xs font-semibold text-slate-400">거의 없음</Text>
             <Text className="text-xs font-semibold text-slate-400">매우 심함</Text>
           </View>
@@ -289,35 +352,49 @@ export default function DiagnosisAnalysis() {
         <View className="flex-col gap-4 mb-8">
           <Text className="text-sm font-bold text-slate-500 uppercase tracking-widest">언제부터 시작되었나요?</Text>
           <View className="flex-row flex-wrap gap-3">
-            <TouchableOpacity className="w-[48%] p-4 rounded-2xl bg-white border border-slate-200 shadow-sm" activeOpacity={0.7}>
-              <Text className="text-sm font-bold text-slate-900 mb-1">방금 전</Text>
-              <Text className="text-xs text-slate-500">최근 1시간 이내</Text>
-            </TouchableOpacity>
-            <TouchableOpacity className="w-[48%] p-4 rounded-2xl bg-blue-600 shadow-md" activeOpacity={0.8}>
-              <Text className="text-sm font-bold text-white mb-1">1~2일 전</Text>
-              <Text className="text-xs text-blue-100">어제 또는 오늘 새벽</Text>
-            </TouchableOpacity>
-            <TouchableOpacity className="w-[48%] p-4 rounded-2xl bg-white border border-slate-200 shadow-sm" activeOpacity={0.7}>
-              <Text className="text-sm font-bold text-slate-900 mb-1">3~7일 전</Text>
-              <Text className="text-xs text-slate-500">일주일 이내</Text>
-            </TouchableOpacity>
-            <TouchableOpacity className="w-[48%] p-4 rounded-2xl bg-white border border-slate-200 shadow-sm" activeOpacity={0.7}>
-              <Text className="text-sm font-bold text-slate-900 mb-1">1주 이상</Text>
-              <Text className="text-xs text-slate-500">만성적인 불편함</Text>
-            </TouchableOpacity>
+            {[
+              { id: 'just_now', title: '방금 전', desc: '최근 1시간 이내' },
+              { id: '1_2_days', title: '1~2일 전', desc: '어제 또는 오늘 새벽' },
+              { id: '3_7_days', title: '3~7일 전', desc: '일주일 이내' },
+              { id: '1_week_plus', title: '1주 이상', desc: '만성적인 불편함' }
+            ].map(time => {
+              const isSelected = selectedTime === time.id;
+              return (
+              <TouchableOpacity 
+                key={time.id}
+                className={`w-[48%] p-4 rounded-2xl ${isSelected ? 'bg-blue-600 shadow-md' : 'bg-white border border-slate-200 shadow-sm'}`} 
+                activeOpacity={0.7}
+                onPress={() => setSelectedTime(time.id)}
+              >
+                <Text className={`text-sm font-bold mb-1 ${isSelected ? 'text-white' : 'text-slate-900'}`}>{time.title}</Text>
+                <Text className={`text-xs ${isSelected ? 'text-blue-100' : 'text-slate-500'}`}>{time.desc}</Text>
+              </TouchableOpacity>
+            )})}
           </View>
+          
+          {/* 상세 입력 (추가됨) */}
+          <TextInput
+            className="w-full bg-white rounded-2xl p-4 text-slate-800 text-sm border border-slate-200 shadow-sm mt-1 min-h-[100px]"
+            placeholder="상세한 증상 발생 시점이나 상황을 적어주세요.&#10;(예: 어제 저녁 식사 후부터 명치가 답답해요)"
+            placeholderTextColor="#94a3b8"
+            multiline={true}
+            textAlignVertical="top"
+          />
         </View>
 
         {/* Footer */}
         <View className="pt-8 pb-12 flex-col gap-6 border-t border-slate-100">
           <View className="flex-row items-center justify-center gap-2 bg-blue-50 py-3 rounded-2xl border border-blue-100">
             <MaterialIcons name="lock-outline" size={14} color="#2563eb" />
-            <Text className="text-xs font-medium text-slate-600">선우님의 건강 데이터는 <Text className="text-blue-600 font-bold">암호화</Text> 기술로 보호됩니다</Text>
+            <Text className="text-xs font-medium text-slate-600">푸앙님의 건강 데이터는 <Text className="text-blue-600 font-bold">암호화</Text> 기술로 보호됩니다</Text>
           </View>
-          <View className="px-2">
-            <Text className="text-[10px] leading-relaxed text-slate-400 text-center">
-              본 서비스는 증상에 대한 참고용 정보를 제공하며, 실제 의사의 진단을 대신할 수 없습니다.{'\n'}위급 상황 발생 시 즉시 <Text className="font-bold text-slate-500">119</Text> 또는 가까운 응급실을 방문하시기 바랍니다.
-            </Text>
+          <View className="px-4 py-4 bg-rose-50 rounded-2xl border border-rose-100 flex-row items-start gap-3">
+            <MaterialIcons name="error-outline" size={18} color="#e11d48" style={{ marginTop: 2 }} />
+            <View className="flex-1">
+              <Text className="text-xs leading-relaxed text-rose-800">
+                본 서비스는 증상에 대한 <Text className="font-bold text-rose-900">참고용 정보</Text>를 제공하며, 실제 의사의 진단을 대신할 수 없습니다. 위급 상황 발생 시 즉시 <Text className="font-bold text-rose-900">119</Text> 또는 가까운 <Text className="font-bold text-rose-900">응급실</Text>을 방문하시기 바랍니다.
+              </Text>
+            </View>
           </View>
         </View>
       </Animated.ScrollView>
@@ -340,7 +417,7 @@ export default function DiagnosisAnalysis() {
         <TouchableOpacity
           className="w-full py-4 rounded-2xl items-center justify-center shadow-sm"
           activeOpacity={0.8}
-          onPress={() => router.push('/diagnosis')}
+          onPress={startAnalysis}
         >
           <LinearGradient
             colors={['#2563eb', '#1d4ed8']}
@@ -349,6 +426,50 @@ export default function DiagnosisAnalysis() {
           <Text className="text-white font-bold text-lg">AI 분석 시작하기</Text>
         </TouchableOpacity>
       </View>
+
+      {/* AI Analysis Loading Modal */}
+      <Modal visible={isAnalyzing} transparent animationType="fade">
+        <View style={{ flex: 1, backgroundColor: 'rgba(255,255,255,0.95)', justifyContent: 'center', alignItems: 'center' }}>
+          <Text style={{ fontSize: 26, fontWeight: '900', color: '#1e293b', marginBottom: 60, letterSpacing: -0.5 }}>AI 분석 중...</Text>
+          
+          <View style={{ width: 160, height: 160, justifyContent: 'center', alignItems: 'center' }}>
+            {/* Base Logo (Faded outline) */}
+            <MaterialIcons name="health-and-safety" size={140} color="rgba(37,99,235,0.1)" style={{ position: 'absolute' }} />
+            
+            {/* Revealing Logo (Wipes from bottom to top, staying in place) */}
+            <Animated.View style={{ 
+              position: 'absolute', 
+              bottom: 0, 
+              width: '100%', 
+              height: revealAnim.interpolate({ inputRange: [0, 1], outputRange: ['0%', '100%'] }), 
+              overflow: 'hidden',
+            }}>
+               <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 160, alignItems: 'center', justifyContent: 'center' }}>
+                 <MaterialIcons name="health-and-safety" size={140} color="#2563eb" />
+               </View>
+            </Animated.View>
+
+            {/* Magnifying Glass */}
+            <Animated.View 
+              renderToHardwareTextureAndroid={true}
+              style={{
+                position: 'absolute',
+                transform: [
+                  { translateX: magXAnim },
+                  { translateY: magYAnim }
+                ]
+              }}>
+              <View style={{ padding: 10 }}>
+                <MaterialIcons name="search" size={56} color="#3b82f6" style={{ textShadowColor: 'rgba(59,130,246,0.6)', textShadowOffset: {width: 0, height: 6}, textShadowRadius: 10 }} />
+              </View>
+            </Animated.View>
+          </View>
+          
+          <Text style={{ fontSize: 16, color: '#64748b', marginTop: 60, fontWeight: '600', textAlign: 'center', lineHeight: 24 }}>
+            수집된 증상 데이터를 바탕으로{"\n"}가장 정확한 원인을 찾고 있어요
+          </Text>
+        </View>
+      </Modal>
     </View>
   );
 }

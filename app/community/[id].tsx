@@ -56,10 +56,10 @@ export default function CommunityDetail() {
           {/* Image Carousel */}
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerClassName="gap-4 pr-12" snapToInterval={310} decelerationRate="fast" className="-mx-5 px-5">
             <View className="w-[300px] aspect-[4/3] rounded-[32px] overflow-hidden bg-slate-200 shadow-sm">
-              <Image source={{ uri: "https://lh3.googleusercontent.com/aida-public/AB6AXuAAh3akC03pdQvDrXsUWQ6EWs0N-glmHZV1yMN2pz3U2lr-EVtqSyOeTDYCVUqyEVu1SjIDjfXnNhI_arlPCWvVH3Txjm08xcdIUvQE_sZgiu_OqIGBBSAQBUGjNFGE3OFsJzRRzEwRdqDh_4w5xvCNNlNUlnH5G7VkcvBGpqB2JDx2CNcgPJiyk6V7QmdjVL5MVUm6SQWgEUaLTweX7OOZeJTK94qTyIKrUZwoKIgPvPu--kZrqymiCqdGBVJUeiP-Btdph36zd6j" }} className="w-full h-full" resizeMode="cover" />
+              <Image source={{ uri: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800" }} className="w-full h-full" resizeMode="cover" />
             </View>
             <View className="w-[300px] aspect-[4/3] rounded-[32px] overflow-hidden bg-slate-200 shadow-sm">
-              <Image source={{ uri: "https://lh3.googleusercontent.com/aida-public/AB6AXuAaaYbW8aSBSIVocWKZSOEcwuwH-oe_ntQkpIC5Qu8_Jo485ODPi0w-hpu-Dv3MizwHxNaovfH0s0T26Eapr5N15wAmVUgI2Wyk2NWZ0C0ud6Lk8fzJzYhBcg54P78IMmSs8jBRguE55Viq-oc-Hrp_vvefCVzswTzMlePCHfnSIboOOlvqMIjxHts6zLfSwUaXjP2JygOh3ciG0lpJCR2Ia3XB4eBscapWRQlE3HORt5bUNLVWJqE1kYRwuwIFh6avKPMVEzDG_Fmm" }} className="w-full h-full" resizeMode="cover" />
+              <Image source={{ uri: "https://images.unsplash.com/photo-1551076805-e1869033e561?w=800" }} className="w-full h-full" resizeMode="cover" />
             </View>
           </ScrollView>
 

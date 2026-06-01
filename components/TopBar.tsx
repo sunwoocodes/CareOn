@@ -10,8 +10,9 @@ type TopBarProps = {
   showBack?: boolean;
   showNotification?: boolean;
   rightIcon?: string;
-  userImageUrl?: string;
+  userImageSource?: any;
   scrollY?: Animated.Value;
+  onBackPress?: () => void;
 };
 
 export default function TopBar({
@@ -19,8 +20,9 @@ export default function TopBar({
   showBack = false,
   showNotification = true,
   rightIcon,
-  userImageUrl = "https://i.pravatar.cc/150?img=11",
-  scrollY
+  userImageSource = require('../assets/images/puang.png'),
+  scrollY,
+  onBackPress
 }: TopBarProps) {
   const router = useRouter();
   const insets = useSafeAreaInsets();
@@ -48,14 +50,15 @@ export default function TopBar({
       {/* 1. 좌측 영역 (뒤로가기 버튼 또는 프로필 이미지) */}
       <View className="w-10 items-start justify-center z-10">
         {showBack ? (
-          <TouchableOpacity onPress={() => router.canGoBack() ? router.back() : router.replace('/')} className="p-1 -ml-1 rounded-full" activeOpacity={0.7}>
+          <TouchableOpacity onPress={() => onBackPress ? onBackPress() : (router.canGoBack() ? router.back() : router.replace('/'))} className="p-1 -ml-1 rounded-full" activeOpacity={0.7}>
             <MaterialIcons name="arrow-back" size={26} color="#334155" />
           </TouchableOpacity>
         ) : (
           <TouchableOpacity activeOpacity={0.7} onPress={() => router.push('/profile')}>
             <Image
-              source={{ uri: userImageUrl }}
-              className="w-9 h-9 rounded-full bg-slate-200 border border-slate-200"
+              source={userImageSource}
+              style={{ width: 36, height: 36, borderRadius: 18 }}
+              className="bg-slate-200 border border-slate-200"
             />
           </TouchableOpacity>
         )}
@@ -63,9 +66,15 @@ export default function TopBar({
 
       {/* 2. 중앙 영역 (로고) - absolute로 양옆 아이콘 크기에 상관없이 항상 정중앙 고정 */}
       <View className="absolute left-0 right-0 items-center justify-center pointer-events-none" style={{ top: insets.top + 12, bottom: 12 }}>
-        <Text className="font-headline font-extrabold text-[22px] tracking-tight" style={{ color: '#2563eb' }}>
-          {title}
-        </Text>
+        {title === "CareOn" ? (
+          <Text className="font-headline font-extrabold text-[22px] tracking-tight" style={{ color: '#2563eb' }}>
+            {title}
+          </Text>
+        ) : (
+          <Text className="font-bold text-[17px] text-slate-800 tracking-tight">
+            {title}
+          </Text>
+        )}
       </View>
 
       {/* 3. 우측 영역 (알림 또는 커스텀 아이콘) */}

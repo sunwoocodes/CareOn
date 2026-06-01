@@ -1,8 +1,8 @@
 // CareOn Profile – Glassmorphism UI
-import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useFocusEffect } from 'expo-router';
-import React, { useCallback, useRef, useState, useMemo, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Animated, Image, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import GlassCard from '../../components/GlassCard';
@@ -22,19 +22,22 @@ export default function Profile() {
   const focusShineAnim = useRef(new Animated.Value(-600)).current;
   const blurTimeoutRef = useRef<any>(null);
 
-  const [selectedMonth, setSelectedMonth] = useState(4);
-  const [selectedDay, setSelectedDay] = useState(25);
+  const today = new Date();
+  const [selectedMonth, setSelectedMonth] = useState(today.getMonth() + 1);
+  const [selectedDay, setSelectedDay] = useState(today.getDate());
   const [isMonthPickerOpen, setIsMonthPickerOpen] = useState(false);
   const dayScrollY = useRef(new Animated.Value(0)).current;
+  const scrollTimeoutRef = useRef<any>(null);
+  const isDraggingRef = useRef(false);
 
   const mockHistoryData = useMemo(() => {
     const data = {} as Record<number, Record<number, any[]>>;
     for (let m = 1; m <= 12; m++) {
       data[m] = {};
       for (let d = 1; d <= 31; d++) {
-        const count = Math.random() > 0.6 ? Math.floor(Math.random() * 3) + 1 : 0; 
+        const count = Math.floor(Math.random() * 3) + 1; // Always 1 to 3 activities
         data[m][d] = [];
-        if (m === 4 && d === 25) { 
+        if (m === 4 && d === 25) {
           data[m][d] = [
             { id: '1', text: '주간 미션 달성', points: '+1,000', time: '08:30' },
             { id: '2', text: '증상 상세 기록', points: '+50', time: '12:00' },
@@ -61,11 +64,11 @@ export default function Profile() {
     }, 100);
   }, []);
 
-  useFocusEffect(useCallback(() => { 
+  useFocusEffect(useCallback(() => {
     if (blurTimeoutRef.current) clearTimeout(blurTimeoutRef.current);
 
-    scrollViewRef.current?.scrollTo({ y: 0, animated: false }); 
-    
+    scrollViewRef.current?.scrollTo({ y: 0, animated: false });
+
     if (isFlippedRef.current) {
       currentAngle.current += 180;
       flipAnim.setValue(currentAngle.current);
@@ -89,13 +92,21 @@ export default function Profile() {
           setIsFlipped(false);
           isFlippedRef.current = false;
         }
+        setIsMonthPickerOpen(false);
       }, 500);
     };
   }, [flipAnim, focusShineAnim]));
 
   const handleFlip = () => {
     if (!isFlippedRef.current) {
+      const now = new Date();
+      const m = now.getMonth() + 1;
+      const d = now.getDate();
+      setSelectedMonth(m);
+      setSelectedDay(d);
+      
       historyScrollRef.current?.scrollTo({ y: 0, animated: false });
+      dayScrollRef.current?.scrollTo({ y: (d - 1) * 40, animated: false });
     }
     currentAngle.current += 180;
     Animated.spring(flipAnim, {
@@ -109,7 +120,7 @@ export default function Profile() {
   };
 
   const moduloAnim = Animated.modulo(flipAnim, 360);
-  
+
   const frontOpacity = moduloAnim.interpolate({ inputRange: [0, 89, 90, 269, 270, 360], outputRange: [1, 1, 0, 0, 1, 1], extrapolate: 'clamp' });
   const backOpacity = moduloAnim.interpolate({ inputRange: [0, 89, 90, 269, 270, 360], outputRange: [0, 0, 1, 1, 0, 0], extrapolate: 'clamp' });
 
@@ -166,10 +177,10 @@ export default function Profile() {
         {/* 인삿말 */}
         <View style={s.welcomeRow}>
           <View style={{ flex: 1 }}>
-            <Text style={s.welcomeText}>선우님,{'\n'}오늘도 건강한 하루를{'\n'}응원합니다.</Text>
+            <Text style={s.welcomeText}>푸앙님,{'\n'}오늘도 건강한 하루를{'\n'}응원합니다.</Text>
           </View>
           <View style={s.profileImg}>
-            <Image source={{ uri: 'https://i.pravatar.cc/150?img=7' }} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
+            <Image source={require('../../assets/images/puang.png')} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
           </View>
         </View>
 
@@ -199,7 +210,7 @@ export default function Profile() {
               {/* Bottom: Member Info & NFC */}
               <View style={s.cardBottom}>
                 <View>
-                  <Text style={s.cardMemberName}>선우</Text>
+                  <Text style={s.cardMemberName}>푸앙</Text>
                 </View>
                 <MaterialCommunityIcons name="wifi" size={28} color="rgba(148,163,184,0.4)" style={{ transform: [{ rotate: '90deg' }] }} />
               </View>
@@ -215,10 +226,10 @@ export default function Profile() {
                 transform: [{ translateX: shineTranslateX }, { skewX: '-25deg' }],
                 zIndex: 20, pointerEvents: 'none'
               }}>
-                <LinearGradient 
-                  colors={['rgba(255,255,255,0)', 'rgba(255,255,255,0.7)', 'rgba(255,255,255,0)']} 
-                  start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} 
-                  style={{ flex: 1 }} 
+                <LinearGradient
+                  colors={['rgba(255,255,255,0)', 'rgba(255,255,255,0.7)', 'rgba(255,255,255,0)']}
+                  start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
+                  style={{ flex: 1 }}
                 />
               </Animated.View>
 
@@ -228,10 +239,10 @@ export default function Profile() {
                 transform: [{ translateX: focusShineAnim }, { skewX: '-25deg' }],
                 zIndex: 20, pointerEvents: 'none'
               }}>
-                <LinearGradient 
-                  colors={['rgba(255,255,255,0)', 'rgba(255,255,255,0.7)', 'rgba(255,255,255,0)']} 
-                  start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} 
-                  style={{ flex: 1 }} 
+                <LinearGradient
+                  colors={['rgba(255,255,255,0)', 'rgba(255,255,255,0.7)', 'rgba(255,255,255,0)']}
+                  start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
+                  style={{ flex: 1 }}
                 />
               </Animated.View>
             </LinearGradient>
@@ -253,9 +264,9 @@ export default function Profile() {
 
               {/* Month Picker View */}
               <View style={{ flex: 1, marginTop: 16, justifyContent: 'center', display: isMonthPickerOpen ? 'flex' : 'none' }}>
-                <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-evenly', rowGap: 10 }}>
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-evenly', rowGap: 14 }}>
                   {Array.from({ length: 12 }, (_, i) => i + 1).map((m) => (
-                    <View key={m} style={{ width: '33.3%', alignItems: 'center' }}>
+                    <View key={m} style={{ width: '25%', alignItems: 'center' }}>
                       <TouchableOpacity activeOpacity={0.7} onPress={() => { setSelectedMonth(m); setIsMonthPickerOpen(false); }}
                         style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: selectedMonth === m ? '#2563eb' : 'rgba(203,213,225,0.3)', alignItems: 'center', justifyContent: 'center' }}>
                         <Text style={{ fontSize: 16, fontWeight: '800', color: selectedMonth === m ? '#ffffff' : '#475569' }}>{m}</Text>
@@ -267,76 +278,94 @@ export default function Profile() {
 
               {/* Day Picker & Content View */}
               <View style={{ flex: 1, flexDirection: 'row', marginTop: 16, display: isMonthPickerOpen ? 'none' : 'flex' }}>
-                  {/* Left: Day Wheel Picker */}
-                  <View style={{ width: 60, height: '100%', borderRightWidth: 1, borderRightColor: 'rgba(203,213,225,0.4)', alignItems: 'center', justifyContent: 'center' }}>
-                    <View style={{ height: 200, width: '100%', alignItems: 'center' }}>
-                      {/* Fixed Center Highlight Circle */}
-                      <View style={{ position: 'absolute', top: 83, left: 13, width: 34, height: 34, borderRadius: 17, backgroundColor: '#2563eb' }} pointerEvents="none" />
-                      
-                      <Animated.ScrollView
-                        ref={dayScrollRef}
-                        style={{ height: 200, width: '100%' }}
-                        contentContainerStyle={{ alignItems: 'center' }}
-                        showsVerticalScrollIndicator={false}
-                        snapToInterval={40}
-                        snapToAlignment="start"
-                        decelerationRate="fast"
-                        onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: dayScrollY } } }], { useNativeDriver: false })}
-                        scrollEventThrottle={16}
-                        onMomentumScrollEnd={(e) => {
-                          const y = e.nativeEvent.contentOffset.y;
+                {/* Left: Day Wheel Picker */}
+                <View style={{ width: 60, height: '100%', borderRightWidth: 1, borderRightColor: 'rgba(203,213,225,0.4)', alignItems: 'center', justifyContent: 'center' }}>
+                  <View style={{ height: 200, width: '100%', alignItems: 'center' }}>
+                    {/* Fixed Center Highlight Circle */}
+                    <View style={{ position: 'absolute', top: 83, left: 13, width: 34, height: 34, borderRadius: 17, backgroundColor: '#2563eb' }} pointerEvents="none" />
+
+                    <Animated.ScrollView
+                      ref={dayScrollRef}
+                      style={{ height: 200, width: '100%' }}
+                      contentContainerStyle={{ alignItems: 'center' }}
+                      showsVerticalScrollIndicator={false}
+                      snapToInterval={40}
+                      snapToAlignment="start"
+                      decelerationRate="normal"
+                      onScrollBeginDrag={() => { isDraggingRef.current = true; }}
+                      onScrollEndDrag={(e) => { 
+                        isDraggingRef.current = false;
+                        const y = e.nativeEvent.contentOffset.y;
+                        if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+                        scrollTimeoutRef.current = setTimeout(() => {
                           const idx = Math.round(y / 40);
                           setSelectedDay(idx + 1);
                           dayScrollRef.current?.scrollTo({ y: idx * 40, animated: true });
-                        }}
-                        onScrollEndDrag={(e) => {
-                          const velocity = e.nativeEvent.velocity?.y || 0;
-                          if (Math.abs(velocity) < 0.1) {
+                        }, 80);
+                      }}
+                      onMomentumScrollEnd={(e) => {
+                        const y = e.nativeEvent.contentOffset.y;
+                        const idx = Math.round(y / 40);
+                        setSelectedDay(idx + 1);
+                        dayScrollRef.current?.scrollTo({ y: idx * 40, animated: true });
+                      }}
+                      onScroll={Animated.event(
+                        [{ nativeEvent: { contentOffset: { y: dayScrollY } } }],
+                        { 
+                          useNativeDriver: false,
+                          listener: (e: any) => {
                             const y = e.nativeEvent.contentOffset.y;
-                            const idx = Math.round(y / 40);
-                            setSelectedDay(idx + 1);
-                            dayScrollRef.current?.scrollTo({ y: idx * 40, animated: true });
+                            if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+                            scrollTimeoutRef.current = setTimeout(() => {
+                              if (!isDraggingRef.current) {
+                                const idx = Math.round(y / 40);
+                                setSelectedDay(idx + 1);
+                                dayScrollRef.current?.scrollTo({ y: idx * 40, animated: true });
+                              }
+                            }, 80);
                           }
-                        }}
-                      >
-                        {[null, null, ...Array.from({ length: 31 }, (_, i) => i + 1), null, null].map((d, i) => {
-                          if (d === null) return <View key={`dummy-${i}`} style={{ height: 40 }} />;
-                          
-                          const index = d - 1;
-                          const inputRange = [(index - 2) * 40, (index - 1) * 40, index * 40, (index + 1) * 40, (index + 2) * 40];
-                          const scale = dayScrollY.interpolate({ inputRange, outputRange: [0.6, 0.8, 1.25, 0.8, 0.6], extrapolate: 'clamp' });
-                          const opacity = dayScrollY.interpolate({ inputRange, outputRange: [0.2, 0.5, 1, 0.5, 0.2], extrapolate: 'clamp' });
-                          const color = dayScrollY.interpolate({ inputRange, outputRange: ['#94a3b8', '#64748b', '#ffffff', '#64748b', '#94a3b8'], extrapolate: 'clamp' });
-                          
-                          return (
-                            <Animated.View key={d} style={{ height: 40, width: 40, justifyContent: 'center', alignItems: 'center', transform: [{ scale }], opacity }}>
-                              <Animated.Text style={{ fontSize: 14, fontWeight: '800', color }}>{d}</Animated.Text>
-                            </Animated.View>
-                          );
-                        })}
-                      </Animated.ScrollView>
-                    </View>
-                  </View>
+                        }
+                      )}
+                      scrollEventThrottle={16}
+                    >
+                      {[null, null, ...Array.from({ length: 31 }, (_, i) => i + 1), null, null].map((d, i) => {
+                        if (d === null) return <View key={`dummy-${i}`} style={{ height: 40 }} />;
 
-                  {/* Right: History List */}
-                  <ScrollView ref={historyScrollRef} style={{ flex: 1, paddingLeft: 14 }} showsVerticalScrollIndicator={true} indicatorStyle="black" contentContainerStyle={{ paddingBottom: 20 }}>
-                    {mockHistoryData[selectedMonth]?.[selectedDay]?.length > 0 ? (
-                      mockHistoryData[selectedMonth][selectedDay].map((item) => (
-                        <View key={item.id} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12, paddingBottom: 12, borderBottomWidth: 1, borderBottomColor: 'rgba(203,213,225,0.4)', paddingRight: 10 }}>
-                          <View>
-                            <Text style={{ fontSize: 13, fontWeight: '700', color: '#334155', marginBottom: 2 }}>{item.text}</Text>
-                            <Text style={{ fontSize: 10, color: '#94a3b8' }}>{item.time}</Text>
-                          </View>
-                          <Text style={{ fontSize: 14, fontWeight: '800', color: '#2563eb' }}>{item.points}</Text>
-                        </View>
-                      ))
-                    ) : (
-                      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 40 }}>
-                        <Text style={{ fontSize: 13, color: '#94a3b8', fontWeight: '600' }}>이 날의 내역이 없습니다.</Text>
-                      </View>
-                    )}
-                  </ScrollView>
+                        const index = d - 1;
+                        const inputRange = [(index - 2) * 40, (index - 1) * 40, index * 40, (index + 1) * 40, (index + 2) * 40];
+                        const scale = dayScrollY.interpolate({ inputRange, outputRange: [0.6, 0.8, 1.25, 0.8, 0.6], extrapolate: 'clamp' });
+                        const opacity = dayScrollY.interpolate({ inputRange, outputRange: [0.2, 0.5, 1, 0.5, 0.2], extrapolate: 'clamp' });
+                        const color = dayScrollY.interpolate({ inputRange, outputRange: ['#94a3b8', '#64748b', '#ffffff', '#64748b', '#94a3b8'], extrapolate: 'clamp' });
+
+                        return (
+                          <Animated.View key={d} style={{ height: 40, width: 40, justifyContent: 'center', alignItems: 'center', transform: [{ scale }], opacity }}>
+                            <Animated.Text style={{ fontSize: 14, fontWeight: '800', color }}>{d}</Animated.Text>
+                          </Animated.View>
+                        );
+                      })}
+                    </Animated.ScrollView>
+                  </View>
                 </View>
+
+                {/* Right: History List */}
+                <ScrollView ref={historyScrollRef} style={{ flex: 1, paddingLeft: 14 }} showsVerticalScrollIndicator={true} indicatorStyle="black" contentContainerStyle={{ paddingBottom: 20 }}>
+                  {mockHistoryData[selectedMonth]?.[selectedDay]?.length > 0 ? (
+                    mockHistoryData[selectedMonth][selectedDay].map((item) => (
+                      <View key={item.id} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12, paddingBottom: 12, borderBottomWidth: 1, borderBottomColor: 'rgba(203,213,225,0.4)', paddingRight: 10 }}>
+                        <View>
+                          <Text style={{ fontSize: 13, fontWeight: '700', color: '#334155', marginBottom: 2 }}>{item.text}</Text>
+                          <Text style={{ fontSize: 10, color: '#94a3b8' }}>{item.time}</Text>
+                        </View>
+                        <Text style={{ fontSize: 14, fontWeight: '800', color: '#2563eb' }}>{item.points}</Text>
+                      </View>
+                    ))
+                  ) : (
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 40 }}>
+                      <Text style={{ fontSize: 13, color: '#94a3b8', fontWeight: '600' }}>이 날의 내역이 없습니다.</Text>
+                    </View>
+                  )}
+                </ScrollView>
+              </View>
             </LinearGradient>
           </Animated.View>
         </View>

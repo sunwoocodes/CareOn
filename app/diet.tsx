@@ -1,28 +1,35 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import React, { useRef } from 'react';
+import { Animated, Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle } from 'react-native-svg';
 import TopBar from '../components/TopBar';
 
 export default function DietLog() {
   const insets = useSafeAreaInsets();
+  const scrollY = useRef(new Animated.Value(0)).current;
 
   return (
     <View className="flex-1 bg-slate-50 overflow-hidden">
-      <TopBar title="식단 상세 기록" showBack={true} showNotification={false} />
+      <TopBar title="식단 상세 기록" showBack={true} showNotification={false} scrollY={scrollY} />
 
       {/* 🔥 Background Glow */}
       <View className="absolute -top-20 -left-10 w-72 h-72 bg-emerald-200 opacity-20 rounded-full blur-3xl" />
       <View className="absolute top-40 -right-10 w-72 h-72 bg-blue-200 opacity-20 rounded-full blur-3xl" />
 
-      <ScrollView
+      <Animated.ScrollView
         className="flex-1"
-        contentContainerClassName="px-6 mx-auto w-full max-w-md"
         contentContainerStyle={{
           paddingTop: insets.top + 70,
-          paddingBottom: insets.bottom + 100
+          paddingBottom: insets.bottom + 100,
+          paddingHorizontal: 24,
+          alignSelf: 'center',
+          width: '100%',
+          maxWidth: 448
         }}
         showsVerticalScrollIndicator={false}
+        onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], { useNativeDriver: true })}
+        scrollEventThrottle={16}
       >
         {/* Weekly Calendar Section */}
         <View className="mb-8">
@@ -87,7 +94,7 @@ export default function DietLog() {
         {/* Greeting Section */}
         <View className="mb-8">
           <Text className="text-slate-900 font-extrabold text-2xl leading-snug tracking-tight">
-            안녕하세요, 선우님!{'\n'}
+            안녕하세요, 푸앙님!{'\n'}
             <Text className="text-slate-500 text-lg font-medium tracking-normal">오늘의 영양 상태를 한눈에 확인해보세요.</Text>
           </Text>
         </View>
@@ -323,7 +330,7 @@ export default function DietLog() {
           </View>
         </View>
 
-      </ScrollView>
+      </Animated.ScrollView>
     </View>
   );
 }
