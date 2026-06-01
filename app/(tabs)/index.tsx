@@ -134,7 +134,7 @@ export default function Home() {
     setScore(0);
     progress.setValue(0);
     
-    let t: NodeJS.Timeout;
+    let t: ReturnType<typeof setInterval>;
     const task = setTimeout(() => {
       let i = 0;
       t = setInterval(() => { i++; setScore(i); if (i >= 85) clearInterval(t); }, 12);
