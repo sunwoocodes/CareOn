@@ -1,25 +1,27 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { useLocalSearchParams } from 'expo-router';
-import { Image, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import React, { useRef } from 'react';
+import { Animated, Image, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import TopBar from '../../components/TopBar';
 
 export default function CommunityDetail() {
   const { id } = useLocalSearchParams();
   const insets = useSafeAreaInsets();
+  const scrollY = useRef(new Animated.Value(0)).current;
 
   return (
     <KeyboardAvoidingView
       className="flex-1 bg-slate-50 overflow-hidden"
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
-      <TopBar showBack={true} showNotification={false} />
+      <TopBar title="게시글" showBack={true} showNotification={false} scrollY={scrollY} />
 
       {/* 🔥 Background Glow */}
       <View className="absolute -top-20 -left-10 w-72 h-72 bg-blue-200 opacity-20 rounded-full blur-3xl" />
       <View className="absolute top-60 -right-10 w-72 h-72 bg-emerald-200 opacity-20 rounded-full blur-3xl" />
 
-      <ScrollView
+      <Animated.ScrollView
         className="flex-1"
         contentContainerStyle={{
           paddingTop: insets.top + 70,
@@ -27,6 +29,8 @@ export default function CommunityDetail() {
           paddingHorizontal: 20
         }}
         showsVerticalScrollIndicator={false}
+        onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], { useNativeDriver: true })}
+        scrollEventThrottle={16}
       >
         {/* Post Header */}
         <View className="flex-row items-center justify-between mb-6">
@@ -182,7 +186,7 @@ export default function CommunityDetail() {
             </View>
           </View>
         </View>
-      </ScrollView>
+      </Animated.ScrollView>
 
       {/* Input Box (Floating) */}
       <View className="absolute bottom-0 left-0 right-0 px-4 w-full justify-center bg-white/95 border-t border-slate-100"

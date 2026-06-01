@@ -67,10 +67,17 @@ export default function DiagnosisAnalysis() {
     }, 3000);
   };
 
-  const [selectedParts, setSelectedParts] = useState<string[]>(['chest']);
+  const [selectedParts, setSelectedParts] = useState<string[]>([]);
   const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([]);
   const [painLevel, setPainLevel] = useState<number>(7);
   const [selectedTime, setSelectedTime] = useState<string>('');
+  const [details, setDetails] = useState<string>('');
+  const [searchText, setSearchText] = useState<string>('');
+
+  const isFormValid = selectedParts.length > 0 && 
+                      selectedSymptoms.length > 0 && 
+                      selectedTime !== '' && 
+                      details.trim().length > 0;
 
   const togglePart = (part: string) => {
     LayoutAnimation.configureNext({
@@ -106,6 +113,63 @@ export default function DiagnosisAnalysis() {
     right_foot: '오른쪽 발'
   };
 
+  const symptomToPartMap: { [key: string]: string[] } = {
+    '두통': ['head'], '어지러움': ['head'], '발열': ['head'], '이명': ['head'], '시야 흐림': ['head'],
+    '가슴 통증': ['chest'], '답답함': ['chest'], '호흡곤란': ['chest'], '두근거림': ['chest'], '기침': ['chest'],
+    '복통': ['abdomen'], '소화불량': ['abdomen'], '메스꺼움': ['abdomen'], '속쓰림': ['abdomen'], '설사': ['abdomen'],
+    '어깨/팔 통증': ['left_upper_arm', 'right_upper_arm'], '어깨 통증': ['left_upper_arm', 'right_upper_arm'], 
+    '팔 저림': ['left_forearm', 'right_forearm'], '근육통': ['left_upper_arm', 'right_upper_arm', 'left_thigh', 'right_thigh'], 
+    '손 떨림': ['left_hand', 'right_hand'], '관절 뻣뻣함': ['left_elbow', 'right_elbow'],
+    '다리/무릎 통증': ['left_knee', 'right_knee'], '무릎 통증': ['left_knee', 'right_knee'], 
+    '다리 붓기': ['left_calf', 'right_calf'], '근육 경련': ['left_calf', 'right_calf'], 
+    '발저림': ['left_foot', 'right_foot'], '보행 불편': ['left_foot', 'right_foot']
+  };
+
+  const handleSearch = () => {
+    if (!searchText.trim()) return;
+    const query = searchText.trim();
+    
+    let foundParts: string[] = [];
+    let foundSymptom: string | null = null;
+    
+    Object.entries(symptomToPartMap).forEach(([symptom, parts]) => {
+      if (symptom.includes(query) || query.includes(symptom)) {
+        foundParts = [...foundParts, ...parts];
+        foundSymptom = symptom;
+      }
+    });
+
+    if (foundParts.length > 0 && foundSymptom) {
+      setSelectedParts(prev => Array.from(new Set([...prev, ...foundParts])));
+      setSelectedSymptoms(prev => Array.from(new Set([...prev, foundSymptom!])));
+      setSearchText('');
+    }
+  };
+
+  const getRelatedSymptoms = (parts: string[]) => {
+    if (parts.length === 0) {
+      return ['통증', '저림', '부종', '발열', '피로감'];
+    }
+
+    const symptoms = new Set<string>();
+    
+    parts.forEach(part => {
+      if (part === 'head') {
+        ['두통', '어지러움', '발열', '이명', '시야 흐림'].forEach(s => symptoms.add(s));
+      } else if (part === 'chest') {
+        ['가슴 통증', '답답함', '호흡곤란', '두근거림', '기침'].forEach(s => symptoms.add(s));
+      } else if (part === 'abdomen') {
+        ['복통', '소화불량', '메스꺼움', '속쓰림', '설사'].forEach(s => symptoms.add(s));
+      } else if (part.includes('arm') || part.includes('elbow') || part.includes('hand') || part.includes('forearm') || part.includes('shoulder')) {
+        ['어깨/팔 통증', '팔 저림', '근육통', '손 떨림', '관절 뻣뻣함'].forEach(s => symptoms.add(s));
+      } else if (part.includes('thigh') || part.includes('knee') || part.includes('calf') || part.includes('foot')) {
+        ['다리/무릎 통증', '다리 붓기', '근육 경련', '발저림', '보행 불편'].forEach(s => symptoms.add(s));
+      }
+    });
+
+    return Array.from(symptoms);
+  };
+
   return (
     <View style={{ flex: 1, overflow: 'hidden' }}>
       {/* 배경 그라디언트 */}
@@ -133,14 +197,22 @@ export default function DiagnosisAnalysis() {
             푸앙님,{'\n'}어디가 불편하세요?
           </Text>
           <View className="relative justify-center">
-            <View className="absolute left-4 z-10 flex items-center justify-center">
-              <MaterialIcons name="search" size={20} color="#94a3b8" />
-            </View>
             <TextInput
-              className="w-full bg-white rounded-2xl py-4 pl-12 pr-4 text-slate-800 text-base border border-slate-200"
+              className="w-full bg-white rounded-2xl py-4 pl-5 pr-16 text-slate-800 text-base border border-slate-200 shadow-sm"
               placeholder="증상을 검색해보세요 (예: 두통, 속쓰림)"
               placeholderTextColor="#94a3b8"
+              value={searchText}
+              onChangeText={setSearchText}
+              onSubmitEditing={handleSearch}
+              returnKeyType="search"
             />
+            <TouchableOpacity 
+              className="absolute right-2 top-2 bottom-2 w-12 bg-blue-50 rounded-xl items-center justify-center border border-blue-100"
+              activeOpacity={0.8}
+              onPress={handleSearch}
+            >
+              <MaterialIcons name="search" size={24} color="#2563eb" />
+            </TouchableOpacity>
           </View>
         </View>
 
@@ -217,17 +289,6 @@ export default function DiagnosisAnalysis() {
               {/* Right Foot */}
               <Rect x="131" y="445" width="34" height="15" rx="5" fill={selectedParts.includes('right_foot') ? '#2563eb' : '#e2e8f0'} onPress={() => togglePart('right_foot')} />
             </Svg>
-
-            <View className="absolute top-[8%] left-[70%] bg-white px-3 py-1.5 rounded-xl border border-slate-200 opacity-80">
-              <Text className="text-xs font-bold text-slate-900">머리</Text>
-            </View>
-            <View className="absolute top-[28%] left-[5%] bg-white px-4 py-2 rounded-2xl shadow-sm flex-row items-center gap-1.5 border border-blue-100 z-20">
-              <MaterialIcons name="check-circle" size={14} color="#2563eb" />
-              <Text className="text-sm font-bold text-slate-900">가슴/심장</Text>
-            </View>
-            <View className="absolute top-[48%] right-[2%] bg-white px-3 py-1.5 rounded-xl border border-slate-200 opacity-90">
-              <Text className="text-xs font-bold text-slate-900">팔/어깨</Text>
-            </View>
           </View>
 
           <View pointerEvents="none" className="absolute bottom-6 bg-white/90 px-4 py-2 rounded-full border border-blue-100 shadow-sm flex-row items-center gap-2">
@@ -289,34 +350,36 @@ export default function DiagnosisAnalysis() {
           <View className="flex-col gap-3">
             <Text className="text-sm font-bold text-slate-500 uppercase tracking-widest pl-1">주요 증상</Text>
             <View className="flex-row flex-wrap gap-2.5">
-              {[
-                { label: '통증', color: 'blue' },
-                { label: '압박감', color: 'blue' },
-                { label: '답답함', color: 'slate' },
-                { label: '호흡곤란', color: 'slate' },
-                { label: '저림', color: 'slate' }
-              ].map(symptom => {
-                const isSelected = selectedSymptoms.includes(symptom.label);
-                return (
-                <TouchableOpacity
-                  key={symptom.label}
-                  activeOpacity={0.8}
-                  onPress={() => setSelectedSymptoms(prev => prev.includes(symptom.label) ? prev.filter(s => s !== symptom.label) : [...prev, symptom.label])}
-                  className="rounded-full shadow-sm"
-                  style={{ shadowColor: isSelected ? '#3b82f6' : '#94a3b8', shadowOpacity: 0.15, shadowRadius: 3, shadowOffset: { width: 0, height: 2 } }}
-                >
-                  <LinearGradient
-                    colors={isSelected ? ['#eff6ff', '#dbeafe', '#bfdbfe'] : ['#ffffff', '#f8fafc', '#f1f5f9']}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 0, y: 1 }}
-                    className={`px-5 py-3 rounded-full border ${isSelected ? 'border-blue-200' : 'border-slate-200'}`}
-                  >
-                    <Text className={`text-sm font-bold ${isSelected ? 'text-blue-700' : 'text-slate-700'}`}>
-                      {symptom.label}
-                    </Text>
+              {selectedParts.length === 0 ? (
+                <View className="rounded-full shadow-sm overflow-hidden" style={{ shadowColor: '#94a3b8', shadowOpacity: 0.15, shadowRadius: 3, shadowOffset: { width: 0, height: 1 } }}>
+                  <LinearGradient colors={['#ffffff', '#f1f5f9']} className="px-5 py-3 rounded-full border border-slate-200">
+                    <Text className="text-slate-400 text-sm font-medium">부위를 터치하여 선택해주세요</Text>
                   </LinearGradient>
-                </TouchableOpacity>
-              )})}
+                </View>
+              ) : (
+                getRelatedSymptoms(selectedParts).map(symptom => {
+                  const isSelected = selectedSymptoms.includes(symptom);
+                  return (
+                  <TouchableOpacity
+                    key={symptom}
+                    activeOpacity={0.8}
+                    onPress={() => setSelectedSymptoms(prev => prev.includes(symptom) ? prev.filter(s => s !== symptom) : [...prev, symptom])}
+                    className="rounded-full shadow-sm"
+                    style={{ shadowColor: isSelected ? '#3b82f6' : '#94a3b8', shadowOpacity: 0.15, shadowRadius: 3, shadowOffset: { width: 0, height: 2 } }}
+                  >
+                    <LinearGradient
+                      colors={isSelected ? ['#eff6ff', '#dbeafe', '#bfdbfe'] : ['#ffffff', '#f8fafc', '#f1f5f9']}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 0, y: 1 }}
+                      className={`px-5 py-3 rounded-full border ${isSelected ? 'border-blue-200' : 'border-slate-200'}`}
+                    >
+                      <Text className={`text-sm font-bold ${isSelected ? 'text-blue-700' : 'text-slate-700'}`}>
+                        {symptom}
+                      </Text>
+                    </LinearGradient>
+                  </TouchableOpacity>
+                )})
+              )}
             </View>
           </View>
         </View>
@@ -379,6 +442,8 @@ export default function DiagnosisAnalysis() {
             placeholderTextColor="#94a3b8"
             multiline={true}
             textAlignVertical="top"
+            value={details}
+            onChangeText={setDetails}
           />
         </View>
 
@@ -415,15 +480,17 @@ export default function DiagnosisAnalysis() {
       {/* Sticky Action Button */}
       <View style={[dStyles.stickyBar, { paddingBottom: insets.bottom + 12 }]}>
         <TouchableOpacity
-          className="w-full py-4 rounded-2xl items-center justify-center shadow-sm"
-          activeOpacity={0.8}
-          onPress={startAnalysis}
+          className={`w-full py-4 rounded-2xl items-center justify-center shadow-sm ${!isFormValid ? 'opacity-50' : ''}`}
+          activeOpacity={isFormValid ? 0.8 : 1}
+          onPress={isFormValid ? startAnalysis : undefined}
         >
           <LinearGradient
-            colors={['#2563eb', '#1d4ed8']}
+            colors={isFormValid ? ['#2563eb', '#1d4ed8'] : ['#94a3b8', '#64748b']}
             className="absolute inset-0 rounded-2xl"
           />
-          <Text className="text-white font-bold text-lg">AI 분석 시작하기</Text>
+          <Text className="text-white font-bold text-lg">
+            {isFormValid ? 'AI 분석 시작하기' : '모든 항목을 입력해주세요'}
+          </Text>
         </TouchableOpacity>
       </View>
 
