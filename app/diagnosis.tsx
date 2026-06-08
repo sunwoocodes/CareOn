@@ -1,11 +1,11 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
+import { useRouter, useFocusEffect } from 'expo-router';
 import { Animated, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle, Defs, Path, Stop, LinearGradient as SvgLinearGradient } from 'react-native-svg';
 import TopBar from '../components/TopBar';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
@@ -16,25 +16,30 @@ export default function Diagnosis() {
   const progress = useRef(new Animated.Value(0)).current;
   const [score, setScore] = useState(0);
 
-  useEffect(() => {
-    progress.setValue(0);
-    setScore(0);
+  useFocusEffect(
+    useCallback(() => {
+      progress.setValue(0);
+      setScore(0);
 
-    let i = 0;
-    const t = setInterval(() => {
-      i++;
-      setScore(i);
-      if (i >= 85) clearInterval(t);
-    }, 12);
+      let i = 0;
+      const t = setInterval(() => {
+        i++;
+        setScore(i);
+        if (i >= 85) clearInterval(t);
+      }, 12);
 
-    Animated.timing(progress, {
-      toValue: 1,
-      duration: 1200,
-      useNativeDriver: false
-    }).start();
+      Animated.timing(progress, {
+        toValue: 1,
+        duration: 1200,
+        useNativeDriver: false
+      }).start();
 
-    return () => clearInterval(t);
-  }, []);
+      return () => {
+        clearInterval(t);
+        progress.stopAnimation();
+      };
+    }, [])
+  );
 
   const strokeDashoffset = progress.interpolate({
     inputRange: [0, 1],
@@ -123,15 +128,8 @@ export default function Diagnosis() {
 
             <View className="absolute inset-0 px-2 h-36">
               <Svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ width: '100%', height: '100%' }}>
-                <Defs>
-                  <SvgLinearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <Stop offset="0%" stopColor="#cbd5e1" />
-                    <Stop offset="50%" stopColor="#3b82f6" />
-                    <Stop offset="100%" stopColor="#1d4ed8" />
-                  </SvgLinearGradient>
-                </Defs>
                 <Path d="M 0,85 C 15,85 25,80 30,75 C 40,65 50,55 55,45 C 65,30 75,10 80,5 C 90,-2 95,12 100,18"
-                  fill="none" stroke="url(#lineGrad)" strokeWidth="4" strokeLinecap="round" />
+                  fill="none" stroke="#3b82f6" strokeWidth="4" strokeLinecap="round" />
               </Svg>
             </View>
 
