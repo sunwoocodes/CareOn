@@ -4,12 +4,14 @@ import { useRouter } from 'expo-router';
 import React from 'react';
 import { Animated, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Svg, { Defs, Stop, LinearGradient as SvgGradient, Text as SvgText } from 'react-native-svg';
 
 type TopBarProps = {
   title?: string;
   showBack?: boolean;
   showNotification?: boolean;
   rightIcon?: string;
+  rightElement?: React.ReactNode;
   userImageSource?: any;
   scrollY?: Animated.Value;
   onBackPress?: () => void;
@@ -20,6 +22,7 @@ export default function TopBar({
   showBack = false,
   showNotification = true,
   rightIcon,
+  rightElement,
   userImageSource = require('../assets/images/puang.png'),
   scrollY,
   onBackPress
@@ -32,6 +35,8 @@ export default function TopBar({
     outputRange: [0, 1],
     extrapolate: 'clamp'
   }) : 0;
+
+    const gradId = React.useId ? React.useId() : `textGrad-${Math.random().toString(36).substr(2, 9)}`;
 
   return (
     <View
@@ -65,11 +70,33 @@ export default function TopBar({
       </View>
 
       {/* 2. 중앙 영역 (로고) - absolute로 양옆 아이콘 크기에 상관없이 항상 정중앙 고정 */}
-      <View className="absolute left-0 right-0 items-center justify-center pointer-events-none" style={{ top: insets.top + 12, bottom: 12 }}>
+      <View style={[StyleSheet.absoluteFill, { alignItems: 'center', justifyContent: 'center', pointerEvents: 'none', paddingTop: insets.top }]}>
         {title === "CareOn" ? (
-          <Text className="font-headline font-extrabold text-[22px] tracking-tight" style={{ color: '#2563eb' }}>
-            {title}
-          </Text>
+          <View className="flex-row items-center justify-center gap-2" style={{ transform: [{ translateX: 40 }] }}>
+            <Image
+              source={require('../assets/images/logo.png')}
+              style={{ height: 30, width: 45 }}
+              resizeMode="contain"
+            />
+            <Svg height="40" width="130" style={{ transform: [{ translateY: 2 }] }}>
+              <Defs>
+                <SvgGradient id={gradId} x1="0" y1="0" x2="1" y2="0">
+                  <Stop offset="0" stopColor="#0ea5e9" stopOpacity="1" />
+                  <Stop offset="1" stopColor="#10b981" stopOpacity="1" />
+                </SvgGradient>
+              </Defs>
+              <SvgText
+                fill={`url(#${gradId})`}
+                fontSize="36"
+                fontFamily="Pretendard-ExtraBold"
+                x="0"
+                y="24"
+                letterSpacing="-0.5"
+              >
+                CareOn
+              </SvgText>
+            </Svg>
+          </View>
         ) : (
           <Text className="font-bold text-[17px] text-slate-800 tracking-tight">
             {title}
@@ -77,15 +104,16 @@ export default function TopBar({
         )}
       </View>
 
-      {/* 3. 우측 영역 (알림 또는 커스텀 아이콘) */}
-      <View className="w-10 items-end justify-center z-10">
-        {rightIcon ? (
+      {/* 3. 우측 영역 (알림 또는 커스텀 컴포넌트/아이콘) */}
+      <View className="w-auto min-w-[40px] items-end justify-center z-10">
+        {rightElement ? (
+          rightElement
+        ) : rightIcon ? (
           <TouchableOpacity className="p-1 -mr-1 rounded-full" activeOpacity={0.7}>
             <MaterialIcons name={rightIcon as any} size={26} color="#475569" />
           </TouchableOpacity>
         ) : showNotification ? (
           <TouchableOpacity className="p-1 -mr-1 rounded-full" activeOpacity={0.7}>
-            {/* 시안처럼 꽉 찬 종 모양(notifications)으로 변경, 빨간 점 제거 */}
             <MaterialIcons name="notifications" size={26} color="#475569" />
           </TouchableOpacity>
         ) : null}

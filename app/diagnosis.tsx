@@ -1,11 +1,11 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import { ScrollView, Text, TouchableOpacity, View, Animated } from 'react-native';
-import Svg, { Path, Defs, LinearGradient as SvgLinearGradient, Stop, Circle } from 'react-native-svg';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
+import { Animated, Text, TouchableOpacity, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Svg, { Circle, Defs, Path, Stop, LinearGradient as SvgLinearGradient } from 'react-native-svg';
 import TopBar from '../components/TopBar';
 
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
@@ -19,31 +19,31 @@ export default function Diagnosis() {
   useEffect(() => {
     progress.setValue(0);
     setScore(0);
-    
+
     let i = 0;
-    const t = setInterval(() => { 
-      i++; 
-      setScore(i); 
-      if (i >= 85) clearInterval(t); 
+    const t = setInterval(() => {
+      i++;
+      setScore(i);
+      if (i >= 85) clearInterval(t);
     }, 12);
-    
-    Animated.timing(progress, { 
-      toValue: 1, 
-      duration: 1200, 
-      useNativeDriver: false 
+
+    Animated.timing(progress, {
+      toValue: 1,
+      duration: 1200,
+      useNativeDriver: false
     }).start();
-    
+
     return () => clearInterval(t);
   }, []);
 
-  const strokeDashoffset = progress.interpolate({ 
-    inputRange: [0, 1], 
-    outputRange: [439.8, 65.9] 
+  const strokeDashoffset = progress.interpolate({
+    inputRange: [0, 1],
+    outputRange: [439.8, 65.9]
   });
 
   return (
     <View className="flex-1 bg-slate-50 overflow-hidden">
-      <TopBar showBack={true} showNotification={false} scrollY={scrollY} onBackPress={() => router.navigate('/')} />
+      <TopBar title="CareOn" showBack={true} showNotification={false} scrollY={scrollY} onBackPress={() => router.navigate('/')} />
 
       {/* 🔥 Background Glow */}
       <View className="absolute -top-20 -right-10 w-72 h-72 bg-orange-200 opacity-20 rounded-full blur-3xl" />

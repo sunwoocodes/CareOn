@@ -104,7 +104,7 @@ export default function Profile() {
       const d = now.getDate();
       setSelectedMonth(m);
       setSelectedDay(d);
-      
+
       historyScrollRef.current?.scrollTo({ y: 0, animated: false });
       dayScrollRef.current?.scrollTo({ y: (d - 1) * 40, animated: false });
     }
@@ -293,7 +293,7 @@ export default function Profile() {
                       snapToAlignment="start"
                       decelerationRate="normal"
                       onScrollBeginDrag={() => { isDraggingRef.current = true; }}
-                      onScrollEndDrag={(e) => { 
+                      onScrollEndDrag={(e) => {
                         isDraggingRef.current = false;
                         const y = e.nativeEvent.contentOffset.y;
                         if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
@@ -311,7 +311,7 @@ export default function Profile() {
                       }}
                       onScroll={Animated.event(
                         [{ nativeEvent: { contentOffset: { y: dayScrollY } } }],
-                        { 
+                        {
                           useNativeDriver: false,
                           listener: (e: any) => {
                             const y = e.nativeEvent.contentOffset.y;
