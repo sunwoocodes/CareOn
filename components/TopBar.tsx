@@ -4,7 +4,7 @@ import { useRouter } from 'expo-router';
 import React from 'react';
 import { Animated, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Svg, { Defs, Stop, LinearGradient as SvgGradient, Text as SvgText } from 'react-native-svg';
+
 
 type TopBarProps = {
   title?: string;
@@ -36,7 +36,6 @@ export default function TopBar({
     extrapolate: 'clamp'
   }) : 0;
 
-    const gradId = React.useId ? React.useId() : `textGrad-${Math.random().toString(36).substr(2, 9)}`;
 
   return (
     <View
@@ -72,30 +71,12 @@ export default function TopBar({
       {/* 2. 중앙 영역 (로고) - absolute로 양옆 아이콘 크기에 상관없이 항상 정중앙 고정 */}
       <View style={[StyleSheet.absoluteFill, { alignItems: 'center', justifyContent: 'center', pointerEvents: 'none', paddingTop: insets.top }]}>
         {title === "CareOn" ? (
-          <View className="flex-row items-center justify-center gap-2" style={{ transform: [{ translateX: 40 }] }}>
+          <View className="flex-row items-center justify-center">
             <Image
-              source={require('../assets/images/logo.png')}
-              style={{ height: 30, width: 45 }}
+              source={require('../assets/images/LogoCreOn.png')}
+              style={{ height: 30, width: 120, transform: [{ translateY: 2 }] }}
               resizeMode="contain"
             />
-            <Svg height="40" width="130" style={{ transform: [{ translateY: 2 }] }}>
-              <Defs>
-                <SvgGradient id={gradId} x1="0" y1="0" x2="1" y2="0">
-                  <Stop offset="0" stopColor="#0ea5e9" stopOpacity="1" />
-                  <Stop offset="1" stopColor="#10b981" stopOpacity="1" />
-                </SvgGradient>
-              </Defs>
-              <SvgText
-                fill={`url(#${gradId})`}
-                fontSize="36"
-                fontFamily="Pretendard-ExtraBold"
-                x="0"
-                y="24"
-                letterSpacing="-0.5"
-              >
-                CareOn
-              </SvgText>
-            </Svg>
           </View>
         ) : (
           <Text className="font-bold text-[17px] text-slate-800 tracking-tight">
