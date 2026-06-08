@@ -76,7 +76,7 @@ export default function Diagnosis() {
           {/* Score Gauge */}
           <View className="items-center justify-center relative">
             <View className="relative w-56 h-56 items-center justify-center z-10">
-              <Svg className="w-full h-full -rotate-90" viewBox="0 0 160 160">
+              <Svg width="100%" height="100%" viewBox="0 0 160 160" style={{ width: '100%', height: '100%', transform: [{ rotate: '-90deg' }] }}>
                 <Circle cx="80" cy="80" r="70" fill="transparent" stroke="#f1f5f9" strokeWidth="20" />
                 <AnimatedCircle cx="80" cy="80" r="70" fill="transparent" stroke="#f97316" strokeWidth="20"
                   strokeDasharray="439.8" strokeDashoffset={strokeDashoffset} strokeLinecap="round" />
@@ -122,7 +122,7 @@ export default function Diagnosis() {
             </View>
 
             <View className="absolute inset-0 px-2 h-36">
-              <Svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+              <Svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ width: '100%', height: '100%' }}>
                 <Defs>
                   <SvgLinearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
                     <Stop offset="0%" stopColor="#cbd5e1" />
@@ -291,10 +291,6 @@ export default function Diagnosis() {
                     </Text>
                   </View>
                 </View>
-                <TouchableOpacity className="bg-white border border-red-200 py-3 rounded-xl flex-row items-center justify-center gap-2" activeOpacity={0.7}>
-                  <MaterialIcons name="chat-bubble-outline" size={16} color="#dc2626" />
-                  <Text className="text-red-600 font-bold text-sm">약사에게 대체약 문의하기</Text>
-                </TouchableOpacity>
               </View>
             </View>
           </View>
